@@ -1,0 +1,69 @@
+{
+  "product": "IPMG Referral Hub",
+  "version": "v68 Cloudflare Static Release",
+  "entrypoint": "index.html",
+  "deployment_target": "Cloudflare Pages Direct Upload",
+  "build_command": null,
+  "framework": null,
+  "server_required": false,
+  "runtime_dependencies": [],
+  "storage": "Browser localStorage only",
+  "generated_utc": "2026-07-20T22:25:56.036181+00:00",
+  "qa": {
+    "passed": 44,
+    "failed": 0,
+    "total": 44
+  },
+  "cloudflare": {
+    "entrypoint_at_zip_root": true,
+    "spa_fallback": "/* /index.html 200",
+    "functions": false,
+    "build_command": null
+  },
+  "files": [
+    {
+      "path": "CHANGELOG_v68.md",
+      "bytes": 974
+    },
+    {
+      "path": "README_CLOUDFLARE_DEPLOY.md",
+      "bytes": 945
+    },
+    {
+      "path": "RELEASE_QA_REPORT_v68.md",
+      "bytes": 1102
+    },
+    {
+      "path": "_headers",
+      "bytes": 785
+    },
+    {
+      "path": "_redirects",
+      "bytes": 19
+    },
+    {
+      "path": "favicon.svg",
+      "bytes": 362
+    },
+    {
+      "path": "index.html",
+      "bytes": 1308899
+    },
+    {
+      "path": "manifest.webmanifest",
+      "bytes": 459
+    },
+    {
+      "path": "package_manifest.json",
+      "bytes": 370
+    },
+    {
+      "path": "qa_results_v68.json",
+      "bytes": 19929
+    },
+    {
+      "path": "robots.txt",
+      "bytes": 26
+    }
+  ]
+}

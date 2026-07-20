@@ -1,0 +1,11 @@
+# v68 Cloudflare Static Release
+
+- Packaged the app as a true Cloudflare Pages static deployment with `index.html` at the ZIP root.
+- Added SPA routing, deployment security headers, no-index controls, favicon, and installable web-app metadata.
+- Removed remaining overlay compositing and hover movement that could make drawers feel fuzzy or jittery.
+- Standardized input, select, textarea, button, focus, checkbox, and dialog geometry.
+- Added correct native autofill, capitalization, and mobile keyboards for patient, provider, staff, DOB, phone, fax, date, and page fields.
+- Made the output rail and preview independently stable on large screens while preserving safe stacking on smaller screens.
+- Fixed truncated output-builder badges and low-contrast selected-output text.
+- Rechecked all 124 resource drawers and all seven generated outputs.
+- Replaced residual internal payer terminology in drawer instructions and generated documents with clear insurance language.

@@ -1,0 +1,325 @@
+{
+  "summary": {
+    "passed": 44,
+    "total": 44,
+    "failed": []
+  },
+  "checks": [
+    {
+      "name": "Cloudflare package files are present",
+      "passed": true,
+      "info": ""
+    },
+    {
+      "name": "Cloudflare entrypoint is at ZIP root",
+      "passed": true,
+      "info": ""
+    },
+    {
+      "name": "SPA fallback routes to index.html",
+      "passed": true,
+      "info": "/* /index.html 200"
+    },
+    {
+      "name": "Security headers include CSP and anti-framing",
+      "passed": true,
+      "info": ""
+    },
+    {
+      "name": "Search indexing is disabled",
+      "passed": true,
+      "info": ""
+    },
+    {
+      "name": "No runtime CDN/font/script dependencies",
+      "passed": true,
+      "info": ""
+    },
+    {
+      "name": "Manifest and favicon are linked",
+      "passed": true,
+      "info": ""
+    },
+    {
+      "name": "Release title is v68 Cloudflare",
+      "passed": true,
+      "info": "IPMG Referral Hub · v68 Cloudflare Release"
+    },
+    {
+      "name": "Release marker is v68 Cloudflare",
+      "passed": true,
+      "info": "v68-cloudflare-static"
+    },
+    {
+      "name": "Deployment target marker is present",
+      "passed": true,
+      "info": ""
+    },
+    {
+      "name": "Resource catalog loads 124 entries",
+      "passed": true,
+      "info": "124"
+    },
+    {
+      "name": "No startup runtime errors",
+      "passed": true,
+      "info": ""
+    },
+    {
+      "name": "Home has no horizontal overflow",
+      "passed": true,
+      "info": ""
+    },
+    {
+      "name": "All resources have complete drawer guidance",
+      "passed": true,
+      "info": "[]"
+    },
+    {
+      "name": "Resource guidance has no broken tokens",
+      "passed": true,
+      "info": "[]"
+    },
+    {
+      "name": "Patient guidance uses patient-safe insurance language",
+      "passed": true,
+      "info": "[]"
+    },
+    {
+      "name": "Staff first-move text avoids unexplained payer jargon",
+      "passed": true,
+      "info": "[]"
+    },
+    {
+      "name": "Routine resources do not inherit crisis instructions",
+      "passed": true,
+      "info": "[]"
+    },
+    {
+      "name": "Resource drawer is pixel-stable",
+      "passed": true,
+      "info": "[{'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}, {'x': 899, 'y': 88, 'width': 520, 'height': 896}]"
+    },
+    {
+      "name": "Drawer has no transform/filter/blur jitter triggers",
+      "passed": true,
+      "info": "{'animation': 'none', 'transition': 'none', 'transform': 'none', 'filter': 'none', 'backdrop': 'none', 'display': 'grid'}"
+    },
+    {
+      "name": "Drawer is exposed as an accessible modal dialog",
+      "passed": true,
+      "info": ""
+    },
+    {
+      "name": "LLU drawer patient text is patient-safe",
+      "passed": true,
+      "info": "Call intake and ask about adult outpatient IOP/PHP options."
+    },
+    {
+      "name": "LLU staff first move is operationally clear",
+      "passed": true,
+      "info": "Confirm program track, insurance or authorization requirements, and availability."
+    },
+    {
+      "name": "Output workspace has no horizontal overflow",
+      "passed": true,
+      "info": ""
+    },
+    {
+      "name": "Patient name uses word capitalization",
+      "passed": true,
+      "info": "{'patientName': 'words', 'dob': 'numeric', 'phone': 'tel', 'provider': 'name', 'fax': 'tel', 'pages': 'numeric'}"
+    },
+    {
+      "name": "DOB, phone, fax, and page fields use correct mobile keyboards",
+      "passed": true,
+      "info": "{'patientName': 'words', 'dob': 'numeric', 'phone': 'tel', 'provider': 'name', 'fax': 'tel', 'pages': 'numeric'}"
+    },
+    {
+      "name": "Provider name supports native name autofill",
+      "passed": true,
+      "info": "{'patientName': 'words', 'dob': 'numeric', 'phone': 'tel', 'provider': 'name', 'fax': 'tel', 'pages': 'numeric'}"
+    },
+    {
+      "name": "Selected output label keeps high-contrast dark text",
+      "passed": true,
+      "info": "rgb(36, 74, 54)"
+    },
+    {
+      "name": "All seven outputs render",
+      "passed": true,
+      "info": "[{'output': 'Patient handout', 'pages': 2, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Patient options sheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral packet', 'pages': 4, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral letter', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Fax cover', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Staff worksheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Tebra note', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}]"
+    },
+    {
+      "name": "All outputs contain the selected referral resource",
+      "passed": true,
+      "info": "[{'output': 'Patient handout', 'pages': 2, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Patient options sheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral packet', 'pages': 4, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral letter', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Fax cover', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Staff worksheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Tebra note', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}]"
+    },
+    {
+      "name": "No output contains broken or null tokens",
+      "passed": true,
+      "info": "[{'output': 'Patient handout', 'pages': 2, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Patient options sheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral packet', 'pages': 4, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral letter', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Fax cover', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Staff worksheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Tebra note', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}]"
+    },
+    {
+      "name": "All outputs use clear insurance terminology",
+      "passed": true,
+      "info": "[{'output': 'Patient handout', 'pages': 2, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Patient options sheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral packet', 'pages': 4, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral letter', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Fax cover', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Staff worksheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Tebra note', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}]"
+    },
+    {
+      "name": "Patient identity propagates to formal/internal outputs",
+      "passed": true,
+      "info": "[{'output': 'Patient handout', 'pages': 2, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Patient options sheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral packet', 'pages': 4, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral letter', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Fax cover', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Staff worksheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Tebra note', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}]"
+    },
+    {
+      "name": "Provider identity propagates to formal outputs",
+      "passed": true,
+      "info": "[{'output': 'Patient handout', 'pages': 2, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Patient options sheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral packet', 'pages': 4, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral letter', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Fax cover', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Staff worksheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Tebra note', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}]"
+    },
+    {
+      "name": "Prepared-by staff identity propagates to applicable outputs",
+      "passed": true,
+      "info": "[{'output': 'Patient handout', 'pages': 2, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Patient options sheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral packet', 'pages': 4, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral letter', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Fax cover', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Staff worksheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Tebra note', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}]"
+    },
+    {
+      "name": "Output text has no double punctuation",
+      "passed": true,
+      "info": "[{'output': 'Patient handout', 'pages': 2, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Patient options sheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral packet', 'pages': 4, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Referral letter', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Fax cover', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Staff worksheet', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}, {'output': 'Tebra note', 'pages': 1, 'bad_tokens': False, 'has_lluh': True, 'patient_safe': True, 'has_patient': True, 'has_provider': True, 'has_staff': True, 'double_period': False}]"
+    },
+    {
+      "name": "Referral packet honors enabled component pages",
+      "passed": true,
+      "info": "4"
+    },
+    {
+      "name": "Referral packet removes disabled optional pages",
+      "passed": true,
+      "info": "1"
+    },
+    {
+      "name": "All primary mobile views avoid horizontal overflow",
+      "passed": true,
+      "info": "[('home', False), ('search', False), ('plan', False), ('print', False), ('database', False)]"
+    },
+    {
+      "name": "Mobile drawer fits the viewport",
+      "passed": true,
+      "info": "{'x': 8, 'y': 8, 'width': 374, 'height': 828}"
+    },
+    {
+      "name": "Print media hides application drawers",
+      "passed": true,
+      "info": "none"
+    },
+    {
+      "name": "Print media keeps the output document visible",
+      "passed": true,
+      "info": ""
+    },
+    {
+      "name": "No unexpected console warnings/errors",
+      "passed": true,
+      "info": "[]"
+    },
+    {
+      "name": "No runtime errors after end-to-end QA",
+      "passed": true,
+      "info": "[]"
+    }
+  ],
+  "details": {
+    "outputs": [
+      {
+        "output": "Patient handout",
+        "pages": 2,
+        "bad_tokens": false,
+        "has_lluh": true,
+        "patient_safe": true,
+        "has_patient": true,
+        "has_provider": true,
+        "has_staff": true,
+        "double_period": false
+      },
+      {
+        "output": "Patient options sheet",
+        "pages": 1,
+        "bad_tokens": false,
+        "has_lluh": true,
+        "patient_safe": true,
+        "has_patient": true,
+        "has_provider": true,
+        "has_staff": true,
+        "double_period": false
+      },
+      {
+        "output": "Referral packet",
+        "pages": 4,
+        "bad_tokens": false,
+        "has_lluh": true,
+        "patient_safe": true,
+        "has_patient": true,
+        "has_provider": true,
+        "has_staff": true,
+        "double_period": false
+      },
+      {
+        "output": "Referral letter",
+        "pages": 1,
+        "bad_tokens": false,
+        "has_lluh": true,
+        "patient_safe": true,
+        "has_patient": true,
+        "has_provider": true,
+        "has_staff": true,
+        "double_period": false
+      },
+      {
+        "output": "Fax cover",
+        "pages": 1,
+        "bad_tokens": false,
+        "has_lluh": true,
+        "patient_safe": true,
+        "has_patient": true,
+        "has_provider": true,
+        "has_staff": true,
+        "double_period": false
+      },
+      {
+        "output": "Staff worksheet",
+        "pages": 1,
+        "bad_tokens": false,
+        "has_lluh": true,
+        "patient_safe": true,
+        "has_patient": true,
+        "has_provider": true,
+        "has_staff": true,
+        "double_period": false
+      },
+      {
+        "output": "Tebra note",
+        "pages": 1,
+        "bad_tokens": false,
+        "has_lluh": true,
+        "patient_safe": true,
+        "has_patient": true,
+        "has_provider": true,
+        "has_staff": true,
+        "double_period": false
+      }
+    ]
+  },
+  "runtime_errors": [],
+  "console": [
+    {
+      "type": "warning",
+      "text": "Saved state was reset: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at <anonymous>:6410:13"
+    },
+    {
+      "type": "warning",
+      "text": "Could not save Referral Hub state: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at <anonymous>:7028:1"
+    },
+    {
+      "type": "warning",
+      "text": "Could not save Referral Hub state: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at <anonymous>:28:3\n    at <anonymous>:170:3"
+    }
+  ]
+}

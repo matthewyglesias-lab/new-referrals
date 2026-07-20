@@ -1,0 +1,22 @@
+# Operating system
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local tooling and logs
+node_modules/
+*.log
+.env
+.env.*
+!.env.example
+
+# Temporary exports
+*.tmp
+*.bak
+*.zip
