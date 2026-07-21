@@ -7641,7 +7641,11 @@ body{background:var(--v60-bg); color:var(--v60-text);}
 .v60-filter-row .field-search input{font-size:14px;}
 .v60-filter-pills{display:flex; gap:8px; overflow:auto; padding-bottom:2px;}
 .v60-filter-pills button,.v60-quick-chip{white-space:nowrap; border-radius:999px; border:1px solid var(--v60-line); background:#fff; color:#536058; padding:9px 12px; font-size:12px;}
-.v60-filter-pills button.active{background:var(--v60-sage); color:#fff; border-color:var(--v60-sage);} 
+.v60-filter-pills button.active{background:var(--v60-sage); color:#fff; border-color:var(--v60-sage);}
+.specialty-pills{align-items:center; flex-wrap:wrap; overflow:visible;}
+.specialty-pills-label{color:var(--v60-muted,#879188); font-size:12px; font-weight:700; white-space:nowrap; margin-right:2px;}
+.specialty-pills button{display:inline-flex; align-items:center; gap:6px;}
+.specialty-pills button b{font-weight:800; font-size:11px; color:inherit; opacity:.7;}
 .v60-quick-row{display:flex; align-items:center; gap:8px; flex-wrap:wrap; color:var(--v60-muted); font-size:12px;}
 .v60-quick-row b{color:#879188; font-weight:700;}
 .v60-result-bar{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 4px 14px; color:var(--v60-muted); border-top:1px solid rgba(231,225,215,.65);} 
@@ -12560,6 +12564,7 @@ const resources = [
     "notIdeal": "Severe medical instability, immediate suicide risk, or county-only payer route without coverage check.",
     "patient": "Call to ask about the appropriate program, insurance verification, and current availability.",
     "staff": "Confirm level of care, medical/safety exclusions, eating disorder criteria, and payer.",
+    "specialtyTags": ["Eating disorder"],
     "categories": [
       "Youth family",
       "IOP PHP"
@@ -13356,6 +13361,7 @@ const resources = [
     "notIdeal": "Adult ADHD-only testing or urgent mental health crisis.",
     "patient": "Guardian should call and ask about autism/developmental assessment intake.",
     "staff": "Confirm age, referral requirements, payer, documents, and wait time.",
+    "specialtyTags": ["Autism / developmental"],
     "categories": [
       "Youth family",
       "Testing DD"
@@ -13409,6 +13415,7 @@ const resources = [
     "notIdeal": "Emergency mental health support or guaranteed appointment availability.",
     "patient": "Use guide to identify evaluation routes, then call providers directly.",
     "staff": "Tell staff to verify payer, age range, waitlist, and whether the provider does formal diagnosis.",
+    "specialtyTags": ["Autism / developmental"],
     "categories": [
       "Testing DD"
     ],
@@ -16225,6 +16232,7 @@ const resources = [
     "notIdeal": "Non-Medi-Cal/commercial-only patients, or patients who are medically unstable and need inpatient medical stabilization before outpatient-level care (route to ER or a medical-stabilization unit instead).",
     "patient": "Call the CARES Line and ask for the Mindful Body and Recovery Program eating disorder IOP at Perris Valley Community Health Center.",
     "staff": "Confirm Medi-Cal enrollment, age, current medical stability/weight trend, and whether the patient needs IOP or a higher level of care first.",
+    "specialtyTags": ["Eating disorder"],
     "categories": [
       "County access",
       "IOP PHP"
@@ -16277,6 +16285,7 @@ const resources = [
     "notIdeal": "Patients outside San Bernardino County, or immediate medical emergencies (send to ER instead of routing through EDC first).",
     "patient": "Call the Eating Disorder Collaborative directly and ask for a screening/assessment appointment.",
     "staff": "Confirm county residence, MCP/insurance plan, age, current safety/medical status, and whether EDC or a direct residential/PHP/IOP referral is the right first step.",
+    "specialtyTags": ["Eating disorder"],
     "categories": [
       "County access",
       "Youth family"
@@ -16332,6 +16341,7 @@ const resources = [
     "notIdeal": "Adolescents under 18 (confirm current age policy directly), or patients who are medically unstable and need inpatient medical stabilization first.",
     "patient": "Call Bright Road Recovery directly and ask about level-of-care assessment, insurance verification, and admission timing.",
     "staff": "Confirm age policy, in-network status for the patient's specific plan, medical stability for RTC/PHP admission, and current bed/schedule availability.",
+    "specialtyTags": ["Eating disorder"],
     "categories": [
       "IOP PHP"
     ],
@@ -16382,6 +16392,7 @@ const resources = [
     "notIdeal": "Patients unable to travel to Irvine for daily programming, or patients who are medically unstable and need inpatient medical stabilization first.",
     "patient": "Call the admissions line and ask about PHP/IOP assessment, insurance verification, and current availability.",
     "staff": "Confirm age track, in-network/authorization status, travel feasibility, and medical clearance for PHP/IOP-level (not inpatient) care.",
+    "specialtyTags": ["Eating disorder"],
     "categories": [
       "IOP PHP",
       "Youth family"
@@ -16435,6 +16446,7 @@ const resources = [
     "notIdeal": "Patients who are medically stable enough for routine outpatient, IOP, PHP, or residential eating disorder care — use a local/regional program instead. Immediate life-threatening emergencies should go to the nearest ER by 911 first.",
     "patient": "This is an out-of-area medical transfer route; staff/physician will coordinate directly with ACUTE rather than the patient self-referring.",
     "staff": "This is the medical-stability exclusion route: use when a patient screened for local ED PHP/IOP/residential care is flagged as too medically unstable. Confirm insurance, get physician-to-physician contact, and arrange transfer.",
+    "specialtyTags": ["Eating disorder"],
     "categories": [
       "IOP PHP",
       "Crisis urgent"
@@ -16486,6 +16498,7 @@ const resources = [
     "notIdeal": "Patients who need in-person medical monitoring, are medically unstable, or lack a family/support system able to participate in FBT.",
     "patient": "Call Equip admissions and ask about family-based treatment fit, insurance/Medicaid verification, and getting started.",
     "staff": "Confirm age, insurance/Medicaid acceptance in California, family capacity to participate in FBT, and medical stability for a virtual-only program.",
+    "specialtyTags": ["Eating disorder"],
     "categories": [
       "Online CA",
       "Youth family"
@@ -16538,6 +16551,7 @@ const resources = [
     "notIdeal": "Patients who are medically unstable and need in-person monitoring or inpatient stabilization, or who lack a private/safe space for virtual sessions.",
     "patient": "Call Within Health and ask about virtual PHP/IOP fit, insurance verification, and getting started.",
     "staff": "Confirm insurance coverage, age, medical stability for a virtual-only program, and home safety/privacy for telehealth sessions.",
+    "specialtyTags": ["Eating disorder"],
     "categories": [
       "Online CA",
       "IOP PHP"
@@ -16591,6 +16605,7 @@ const resources = [
     "notIdeal": "Patients who are medically unstable or need IOP/PHP/residential-level structure; route to a program (e.g. RUHS ED-IOP, SB County EDC, Bright Road Recovery) instead.",
     "patient": "Call or email IEBG and ask about eating disorder outpatient therapy intake, insurance, and current availability.",
     "staff": "Confirm insurance/payer, age, current level-of-care need (this is outpatient, not IOP/PHP), and which Riverside or Colton office fits.",
+    "specialtyTags": ["Eating disorder"],
     "categories": [
       "Local therapy"
     ],
@@ -16642,6 +16657,7 @@ const resources = [
     "notIdeal": "Patients who need therapy or medical monitoring, not just nutrition counseling, or who need IOP/PHP/residential-level care.",
     "patient": "Contact Nourished with Kindness and ask about eating disorder nutrition therapy, insurance verification, and getting matched with a dietitian.",
     "staff": "Confirm PPO panel/insurance, whether the patient also has a therapist/medical provider (dietitian-only care should not stand alone for higher-acuity cases), and current availability.",
+    "specialtyTags": ["Eating disorder"],
     "categories": [
       "Online CA"
     ],
@@ -16690,6 +16706,7 @@ const resources = [
     "notIdeal": "Adult-only ADHD testing (confirm current age range directly) or urgent mental health crisis.",
     "patient": "Guardian should call and ask about psychoeducational/ADHD evaluation intake, insurance, and wait time.",
     "staff": "Confirm age range served, referral reason (school vs. clinical), payer, and in-person vs. virtual fit.",
+    "specialtyTags": ["ADHD / neuropsych testing"],
     "categories": [
       "Testing DD",
       "Youth family"
@@ -16743,6 +16760,7 @@ const resources = [
     "notIdeal": "Patients needing same-day crisis care or an autism-specific/neuropsychological (non-ADHD) battery -- confirm scope directly.",
     "patient": "Call and ask about ADHD testing intake, insurance/pre-authorization, and current appointment availability.",
     "staff": "Confirm age, insurance/pre-authorization requirements, and whether the Riverside office (vs. LA/Valencia/Anaheim) is the right fit.",
+    "specialtyTags": ["ADHD / neuropsych testing", "LGBTQ+ affirming"],
     "categories": [
       "Testing DD"
     ],
@@ -16792,6 +16810,7 @@ const resources = [
     "notIdeal": "Urgent mental health crisis or patients needing IOP/PHP-level care.",
     "patient": "Call and ask about the free consultation, testing intake, and insurance verification.",
     "staff": "Confirm age, current insurance panel, referral reason, and wait time.",
+    "specialtyTags": ["ADHD / neuropsych testing"],
     "categories": [
       "Testing DD"
     ],
@@ -16817,6 +16836,760 @@ const resources = [
       "Psychological testing and evaluation (ADHD, learning, cognitive, autism)",
       "Confirm age, insurance, and current availability"
     ]
+  },
+  {
+    "id": "psi-helpline-perinatal",
+    "name": "Postpartum Support International (PSI) HelpLine",
+    "type": "County access",
+    "color": "gold",
+    "icon": "PP",
+    "route": "Perinatal mental health warmline and local referral",
+    "fit": "Pregnant/postpartum patients or families needing support, information, and local perinatal referrals",
+    "action": "Call or text; confirm this is a warmline (not a crisis line) and route true emergencies to 988 or 911",
+    "contact": "1-800-944-4773 (option 1 Spanish, 2 English) · text \"Help\" to 800-944-4773",
+    "readiness": 82,
+    "review": "Web checked Jul 2026",
+    "records": "Contact info, pregnancy/postpartum status, concern, risk screen",
+    "city": "National / California",
+    "scope": "National (routes to CA-specific coordinators)",
+    "modality": "Warmline: live support, information, and referral to local perinatal mental health resources",
+    "payer": "Free; not billed",
+    "source": "Postpartum Support International",
+    "sourceUrl": "https://postpartum.net/get-help/psi-helpline/",
+    "best": "Pregnant or postpartum patients (or their family) needing emotional support, information about perinatal mood and anxiety disorders (PMADs), or a warm handoff to a local specialist -- not an emergency.",
+    "notIdeal": "Suicidal crisis or medical emergency -- use 988 or 911 instead. Not a same-day clinical appointment line.",
+    "patient": "Call or text the PSI HelpLine; a real person will call back if no one answers live, usually same day.",
+    "staff": "Confirm this is a warmline, not crisis line; use for support/information/referral, and pair with 988 or the National Maternal Mental Health Hotline (833-852-6262) for true emergencies.",
+    "specialtyTags": ["Perinatal / postpartum"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Warmline",
+      "Support/referral"
+    ],
+    "deliveryModes": [
+      "Phone",
+      "Text"
+    ],
+    "serviceAreas": [
+      "California virtual",
+      "National"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "Perinatal mental health warmline and local referral",
+      "Call or text; confirm this is a warmline (not a crisis line) and route true emergencies to 988 or 911"
+    ]
+  },
+  {
+    "id": "ruhs-maternal-mental-health",
+    "name": "RUHS Maternal Mental Health / MOMS Perinatal Program",
+    "type": "County access",
+    "color": "mint",
+    "icon": "PP",
+    "route": "Riverside County perinatal mental health and substance-use program",
+    "fit": "Pregnant or parenting patients (postpartum, children under 5 accommodated) needing integrated mental health/SUD perinatal care",
+    "action": "Call the CARES Line or HeRCARe line to confirm program fit, Medi-Cal enrollment, and intake",
+    "contact": "CARES Line 800-499-3008 · HeRCARe (high-risk pregnancy linkage) 951-600-6667",
+    "readiness": 78,
+    "review": "Web checked Jul 2026",
+    "records": "Medi-Cal/insurance, pregnancy/postpartum status, substance use history if relevant, risk screen",
+    "city": "Riverside County",
+    "scope": "Riverside County",
+    "modality": "16-week intensive day treatment (MOMS Program) combining SUD treatment with mental health integration, case management, parenting groups; also maintains a maternal mental health resource directory (PMAD psychiatrists, PSI groups, peer support)",
+    "payer": "Medi-Cal/Medicaid; sliding scale for uninsured",
+    "source": "Riverside University Health System Behavioral Health",
+    "sourceUrl": "https://www.ruhealth.org/maternal-mental-health-resources",
+    "best": "Riverside County Medi-Cal patients who are pregnant or parenting and need perinatal mental health support, especially where substance use is also a factor.",
+    "notIdeal": "Patients outside Riverside County, or those needing only a brief warmline call (use PSI HelpLine first).",
+    "patient": "Call the CARES Line and ask about the MOMS Perinatal Program or maternal mental health resources.",
+    "staff": "Confirm Medi-Cal enrollment, pregnancy/postpartum status, and whether the full MOMS day-treatment program or a lighter-touch referral from the resource directory is the right fit.",
+    "specialtyTags": ["Perinatal / postpartum"],
+    "categories": [
+      "County access",
+      "SUD recovery"
+    ],
+    "alsoUnder": [
+      "SUD recovery"
+    ],
+    "serviceTypes": [
+      "County access",
+      "SUD recovery"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Medi-Cal"
+    ],
+    "routeTags": [
+      "Riverside County perinatal mental health and substance-use program",
+      "Call the CARES Line or HeRCARe line to confirm program fit, Medi-Cal enrollment, and intake"
+    ]
+  },
+  {
+    "id": "hodde-perinatal-psychiatry-montclair",
+    "name": "Dr. Ildiko Hodde, MD — Perinatal Psychiatry (Montclair)",
+    "type": "Local therapy",
+    "color": "gold",
+    "icon": "PP",
+    "route": "Individual outpatient perinatal/postpartum psychiatry",
+    "fit": "Pregnant or postpartum patients needing individual psychiatric medication management from a PMAD-specialized psychiatrist",
+    "action": "Call to confirm current insurance panel, telehealth availability, and current availability",
+    "contact": "(909) 621-2050",
+    "readiness": 66,
+    "review": "Web checked Jul 2026",
+    "records": "Insurance card, pregnancy/postpartum status, medication history, risk screen",
+    "city": "Montclair",
+    "scope": "West Valley / Inland Empire",
+    "modality": "Individual outpatient perinatal/postpartum psychiatry (medication management)",
+    "payer": "Not publicly confirmed -- verify by phone (affiliated with Kaiser Permanente Fontana per public listings)",
+    "source": "Independent psychiatry practice (cross-referenced via RUHS maternal mental health directory, Doximity, and Healthgrades)",
+    "sourceUrl": "https://www.ruhealth.org/maternal-mental-health-resources",
+    "best": "Pregnant or postpartum patients who need individual psychiatric medication management from a specialist in perinatal mood and anxiety disorders, close to the Inland Empire.",
+    "notIdeal": "Patients needing therapy/nutrition/case-management support rather than psychiatry, or urgent/crisis-level needs.",
+    "patient": "Call the office directly and ask about perinatal psychiatry intake and insurance verification.",
+    "staff": "This individual-provider listing has weaker source corroboration than program-level entries (address/phone cross-referenced across 3 public directories, not an official practice website) -- confirm current insurance panel and availability by phone before referring.",
+    "specialtyTags": ["Perinatal / postpartum"],
+    "categories": [
+      "Local therapy"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Psychiatry/med support"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "West Valley"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Verify payer"
+    ],
+    "routeTags": [
+      "Individual outpatient perinatal/postpartum psychiatry",
+      "Call to confirm current insurance panel, telehealth availability, and current availability"
+    ]
+  },
+  {
+    "id": "trevor-project-lgbtq-crisis",
+    "name": "The Trevor Project — LGBTQ+ Youth Crisis Line",
+    "type": "Crisis urgent",
+    "color": "rose",
+    "icon": "!",
+    "route": "LGBTQ+ youth crisis support (call/text/chat)",
+    "fit": "LGBTQ+ young people in crisis or emotional distress",
+    "action": "Offer as the specialized LGBTQ+ youth crisis line; use 988/911 for immediate danger regardless",
+    "contact": "1-866-488-7386 · text START to 678-678 · chat at thetrevorproject.org/get-help",
+    "readiness": 84,
+    "review": "Web checked Jul 2026",
+    "records": "None required for crisis contact",
+    "city": "National",
+    "scope": "National (available to CA callers)",
+    "modality": "24/7 crisis call, text, and chat specialized for LGBTQ+ young people",
+    "payer": "Free; not billed",
+    "source": "The Trevor Project",
+    "sourceUrl": "https://www.thetrevorproject.org/get-help/",
+    "best": "LGBTQ+ youth in crisis or distress who want support from counselors trained specifically in LGBTQ+ youth issues; this line operates independently of 988.",
+    "notIdeal": "Adults needing an LGBTQ+ affirming line (Trevor Project is youth-focused) -- use 988 or a local affirming provider instead.",
+    "patient": "Call, text, or chat any time; free and confidential.",
+    "staff": "988's dedicated LGBTQ+ \"press 3\" routing was discontinued in July 2025 and a federal relaunch is in progress as of mid-2026 with the Trevor Project's inclusion uncertain -- do not tell patients to press 3 on 988 without confirming current status. Trevor Project's own line above is independently operational regardless.",
+    "specialtyTags": ["LGBTQ+ affirming"],
+    "categories": [
+      "Crisis urgent",
+      "Youth family"
+    ],
+    "alsoUnder": [
+      "Youth family"
+    ],
+    "serviceTypes": [
+      "Crisis/safety",
+      "Youth/family"
+    ],
+    "deliveryModes": [
+      "Phone",
+      "Text",
+      "Virtual CA"
+    ],
+    "serviceAreas": [
+      "California virtual",
+      "National"
+    ],
+    "populations": [
+      "Youth/teen"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "LGBTQ+ youth crisis support (call/text/chat)",
+      "Offer as the specialized LGBTQ+ youth crisis line; use 988/911 for immediate danger regardless"
+    ]
+  },
+  {
+    "id": "truevolution-ie-lgbtq-center",
+    "name": "Inland Empire LGBTQ+ Center (TruEvolution) — Riverside",
+    "type": "Local therapy",
+    "color": "gold",
+    "icon": "Q",
+    "route": "LGBTQ+-affirming behavioral health and support groups",
+    "fit": "LGBTQ+ patients needing affirming groups, HIV support, or SUD recovery groups; individual therapy/psychiatry expanding",
+    "action": "Confirm which behavioral health services are currently live vs. still expanding before referring",
+    "contact": "(951) 888-1346 · toll-free (877) 890-1169 · text \"TruHealthClub\" to 51555",
+    "readiness": 70,
+    "review": "Web checked Jul 2026",
+    "records": "Contact info, concern, insurance if applicable",
+    "city": "Riverside",
+    "scope": "Inland Empire",
+    "modality": "\"Mind\" behavioral health program: HIV support groups (English/Spanish), substance-use/recovery groups, crisis stabilization; individual therapy, case management, psychiatry, and addiction medicine listed as expanding in 2026",
+    "payer": "Not publicly published -- call to verify",
+    "source": "TruEvolution",
+    "sourceUrl": "https://www.truevolution.org/support/mind",
+    "best": "LGBTQ+ patients in the Inland Empire who want an LGBTQ+-specific community center for groups and peer support, with clinical services expanding.",
+    "notIdeal": "Patients needing individual therapy or psychiatry right now -- call first to confirm those specific services are live, not just planned.",
+    "patient": "Call, text \"TruHealthClub\" to 51555, or use the TruHealth & Wellness Club intake and select \"Mind.\"",
+    "staff": "As of this review, individual therapy/case management/psychiatry/addiction medicine were listed as expanding in 2026 but not confirmed live -- verify current service scope by phone before referring for anything beyond groups.",
+    "specialtyTags": ["LGBTQ+ affirming"],
+    "categories": [
+      "Local therapy",
+      "SUD recovery"
+    ],
+    "alsoUnder": [
+      "SUD recovery"
+    ],
+    "serviceTypes": [
+      "Therapy/counseling",
+      "SUD recovery"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Verify payer"
+    ],
+    "routeTags": [
+      "LGBTQ+-affirming behavioral health and support groups",
+      "Confirm which behavioral health services are currently live vs. still expanding before referring"
+    ]
+  },
+  {
+    "id": "sbc-age-wise-older-adult",
+    "name": "San Bernardino County DBH — Age Wise Program",
+    "type": "County access",
+    "color": "mint",
+    "icon": "OA",
+    "route": "County older-adult behavioral health and wellness program",
+    "fit": "SB County adults 59+ (or with disabilities) needing therapy, case management, or basic-needs linkage",
+    "action": "Confirm county residence, age/disability status, and preferred delivery (in-home, telehealth, in-office)",
+    "contact": "(800) 451-5633",
+    "readiness": 80,
+    "review": "Web checked Jul 2026",
+    "records": "Demographics, insurance/Medi-Cal, concern, risk screen",
+    "city": "San Bernardino County",
+    "scope": "San Bernardino County",
+    "modality": "Non-traditional behavioral health/wellness program: therapy/counseling, case management, connection to basic-needs resources (food, utilities, housing); delivered in-home, via telehealth, or in-office",
+    "payer": "Medi-Cal/uninsured (county Mental Health Plan); Medicare acceptance not confirmed -- verify",
+    "source": "San Bernardino County Department of Behavioral Health",
+    "sourceUrl": "https://main.sbcounty.gov/2025/10/30/age-wise-program-supports-behavioral-health-and-wellness-for-older-adults-and-individuals-with-disabilities/",
+    "best": "San Bernardino County residents 59+ (or with disabilities) needing behavioral health support integrated with basic-needs case management.",
+    "notIdeal": "Patients outside San Bernardino County, or Medicare-only patients until payer is confirmed by phone.",
+    "patient": "Call and ask for the Age Wise Program for older adults.",
+    "staff": "Confirm county residence, age/disability eligibility, and Medicare vs. Medi-Cal payer status before referring.",
+    "specialtyTags": ["Older adult"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "County access"
+    ],
+    "deliveryModes": [
+      "In-person",
+      "Telehealth"
+    ],
+    "serviceAreas": [
+      "San Bernardino",
+      "Countywide"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Medi-Cal",
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "County older-adult behavioral health and wellness program",
+      "Confirm county residence, age/disability status, and preferred delivery (in-home, telehealth, in-office)"
+    ]
+  },
+  {
+    "id": "ruhs-older-adult-services",
+    "name": "RUHS Behavioral Health — Older Adult Services",
+    "type": "County access",
+    "color": "mint",
+    "icon": "OA",
+    "route": "Riverside County older-adult behavioral health program",
+    "fit": "Riverside County adults 60+ needing evaluation, medication management, therapy, or home-based care",
+    "action": "Confirm county residence, age, and Medi-Cal vs. Medicare payer status",
+    "contact": "CARES Line (800) 499-3008",
+    "readiness": 78,
+    "review": "Web checked Jul 2026",
+    "records": "Demographics, insurance/Medi-Cal, concern, risk screen",
+    "city": "Riverside County",
+    "scope": "Riverside County",
+    "modality": "Mental health evaluation, medication management, individual therapy, intensive case management, peer/group support, family/caregiver support, home-based care (S.M.A.R.T. teams), transportation assistance",
+    "payer": "Medi-Cal/Drug Medi-Cal ODS; Medicare not explicitly confirmed -- verify",
+    "source": "Riverside University Health System Behavioral Health",
+    "sourceUrl": "https://www.ruhealth.org/behavioral-health/older-adult-services",
+    "best": "Riverside County adults 60+ needing behavioral health care, especially where home-based outreach or caregiver support is needed.",
+    "notIdeal": "Patients outside Riverside County, or Medicare-only patients until payer is confirmed by phone.",
+    "patient": "Call the CARES Line and ask for Older Adult Services.",
+    "staff": "Confirm county residence, age 60+, and Medi-Cal vs. Medicare payer status before referring.",
+    "specialtyTags": ["Older adult"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "County access"
+    ],
+    "deliveryModes": [
+      "In-person",
+      "Telehealth"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Medi-Cal"
+    ],
+    "routeTags": [
+      "Riverside County older-adult behavioral health program",
+      "Confirm county residence, age, and Medi-Cal vs. Medicare payer status"
+    ]
+  },
+  {
+    "id": "alzheimers-assoc-socal-helpline",
+    "name": "Alzheimer's Association — Southern California Helpline",
+    "type": "County access",
+    "color": "mint",
+    "icon": "OA",
+    "route": "Dementia/caregiver crisis support and resource referral",
+    "fit": "Patients with Alzheimer's/dementia and their caregivers needing support or local resource referral",
+    "action": "Use for caregiver support and resource navigation, not direct treatment",
+    "contact": "(800) 272-3900",
+    "readiness": 76,
+    "review": "Web checked Jul 2026",
+    "records": "Contact info, relationship to patient, concern",
+    "city": "Rancho Cucamonga (chapter office; helpline is phone-based)",
+    "scope": "Southern California (LA, Riverside, San Bernardino, Kern, Tulare, Kings, Inyo counties)",
+    "modality": "24/7 helpline: crisis support, care consultation, and referral to local resources/support groups; informational, not a treatment provider",
+    "payer": "Free; not billed",
+    "source": "Alzheimer's Association Southland Chapter",
+    "sourceUrl": "https://www.alz.org/socal",
+    "best": "Patients with Alzheimer's/dementia or their caregivers who need crisis support, care planning guidance, or a warm handoff to local support groups.",
+    "notIdeal": "Direct psychiatric or medical treatment -- this is a support/referral line, not a clinical provider.",
+    "patient": "Call any time, 24/7, free and confidential, available in 200+ languages.",
+    "staff": "Use as a caregiver-support and resource-navigation adjunct alongside the patient's own behavioral health/medical care, not as a substitute for it.",
+    "specialtyTags": ["Older adult"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Support/referral"
+    ],
+    "deliveryModes": [
+      "Phone"
+    ],
+    "serviceAreas": [
+      "San Bernardino",
+      "Riverside"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "Dementia/caregiver crisis support and resource referral",
+      "Use for caregiver support and resource navigation, not direct treatment"
+    ]
+  },
+  {
+    "id": "veterans-crisis-line",
+    "name": "Veterans Crisis Line",
+    "type": "Crisis urgent",
+    "color": "rose",
+    "icon": "!",
+    "route": "Veteran/service-member/family crisis support",
+    "fit": "Veterans, service members, or their family/friends in crisis",
+    "action": "Offer immediately for any veteran in crisis; no VA enrollment required",
+    "contact": "Dial 988, then press 1 · text 838255 · chat at VeteransCrisisLine.net",
+    "readiness": 86,
+    "review": "Web checked Jul 2026",
+    "records": "None required for crisis contact",
+    "city": "National",
+    "scope": "National (available to CA callers)",
+    "modality": "24/7/365 confidential crisis call, text, and chat for veterans and their families",
+    "payer": "Free; not billed",
+    "source": "Veterans Crisis Line / VA",
+    "sourceUrl": "https://www.veteranscrisisline.net/",
+    "best": "Any veteran, service member, or their family/friend in crisis -- enrollment in VA health care is explicitly not required.",
+    "notIdeal": "Non-crisis routine mental health scheduling -- route to VA Loma Linda or a county veteran service office instead.",
+    "patient": "Dial 988 and press 1, text 838255, or use the online chat -- available any time.",
+    "staff": "No VA enrollment or eligibility check needed for crisis contact; confirm this before assuming a non-enrolled veteran can't get help.",
+    "specialtyTags": ["Veteran"],
+    "categories": [
+      "Crisis urgent"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Crisis/safety"
+    ],
+    "deliveryModes": [
+      "Phone",
+      "Text",
+      "Virtual CA"
+    ],
+    "serviceAreas": [
+      "California virtual",
+      "National"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "Veteran/service-member/family crisis support",
+      "Offer immediately for any veteran in crisis; no VA enrollment required"
+    ]
+  },
+  {
+    "id": "va-loma-linda-mental-health",
+    "name": "VA Loma Linda Healthcare System — Mental Health",
+    "type": "County access",
+    "color": "mint",
+    "icon": "V",
+    "route": "VA mental health / behavioral health care",
+    "fit": "VA-enrolled veterans needing psychiatry, psychology, SUD treatment, or same-day mental health access",
+    "action": "Call the main line to confirm current enrollment status and intake process; do not assume a specific extension",
+    "contact": "(909) 825-7084 · toll-free (800) 741-8387",
+    "readiness": 74,
+    "review": "Web checked Jul 2026",
+    "records": "VA enrollment status/eligibility, DD-214 if not yet enrolled, insurance if applicable, risk screen",
+    "city": "Loma Linda",
+    "scope": "Inland Empire",
+    "modality": "Psychiatry, psychology, SUD/addiction treatment (including residential rehab), homeless veteran support, military sexual trauma care; Mental Health Access Clinic offers same-day crisis intervention and med consults Mon-Fri 8am-4:30pm",
+    "payer": "VA health care (enrollment generally required for routine outpatient care; some services available without enrollment)",
+    "source": "U.S. Department of Veterans Affairs",
+    "sourceUrl": "https://www.va.gov/loma-linda-health-care/health-services/mental-health-care/",
+    "best": "Veterans who are VA-enrolled (or eligible and willing to enroll) needing psychiatry, psychology, or SUD treatment through VA Loma Linda.",
+    "notIdeal": "Veterans in immediate crisis (use the Veterans Crisis Line) or those needing help determining eligibility first (route to a county Veteran Service Office).",
+    "patient": "Call the main line and ask for mental health services; if not yet enrolled, ask about the enrollment process or use the Mental Health Access Clinic for same-day help.",
+    "staff": "Do not quote a specific mental-health extension without confirming by phone -- secondary directories list inconsistent numbers. Confirm current enrollment status and whether the patient needs the Mental Health Access Clinic (same-day) or standard outpatient intake.",
+    "specialtyTags": ["Veteran"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "County access",
+      "Psychiatry/med support",
+      "SUD recovery"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "East Valley"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Verify payer"
+    ],
+    "routeTags": [
+      "VA mental health / behavioral health care",
+      "Call the main line to confirm current enrollment status and intake process; do not assume a specific extension"
+    ]
+  },
+  {
+    "id": "sbc-veterans-affairs-office",
+    "name": "San Bernardino County Veterans Affairs (Veteran Service Office)",
+    "type": "County access",
+    "color": "mint",
+    "icon": "V",
+    "route": "VA claims and healthcare-eligibility navigation",
+    "fit": "SB County veterans who need help establishing VA health care eligibility/enrollment before accessing VA mental health care",
+    "action": "Use this as an eligibility/enrollment navigation step, not a direct clinical referral",
+    "contact": "(909) 382-3290",
+    "readiness": 70,
+    "review": "Web checked Jul 2026",
+    "records": "DD-214/discharge paperwork, VA claim history if any",
+    "city": "San Bernardino",
+    "scope": "San Bernardino County",
+    "modality": "Free, CDVA-certified Veteran Service Officer assistance with VA disability/pension claims, health care enrollment navigation, education/vocational, home loan, survivor/burial benefits",
+    "payer": "Free county service",
+    "source": "San Bernardino County Veterans Affairs",
+    "sourceUrl": "https://va.sbcounty.gov/contact-us/",
+    "best": "SB County veterans who are not yet VA-enrolled and need help establishing eligibility so they can then access VA Loma Linda mental health care.",
+    "notIdeal": "Direct clinical mental health treatment -- this office does not itemize behavioral health referral services; route clinical needs to VA Loma Linda or a county DBH route.",
+    "patient": "Call and ask about VA health care enrollment help; additional offices in Hesperia and Rancho Cucamonga.",
+    "staff": "Treat as a benefits/enrollment step, not a direct behavioral health referral -- pair with VA Loma Linda or DBH routing for actual clinical care.",
+    "specialtyTags": ["Veteran"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "County access"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "San Bernardino",
+      "Countywide"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "VA claims and healthcare-eligibility navigation",
+      "Use this as an eligibility/enrollment navigation step, not a direct clinical referral"
+    ]
+  },
+  {
+    "id": "riverside-county-veterans-services",
+    "name": "Riverside County Department of Veterans' Services",
+    "type": "County access",
+    "color": "mint",
+    "icon": "V",
+    "route": "VA claims and healthcare-eligibility navigation",
+    "fit": "Riverside County veterans who need help establishing VA health care eligibility/enrollment before accessing VA mental health care",
+    "action": "Use this as an eligibility/enrollment navigation step, not a direct clinical referral",
+    "contact": "(951) 955-3060",
+    "readiness": 68,
+    "review": "Web checked Jul 2026",
+    "records": "DD-214/discharge paperwork, VA claim history if any",
+    "city": "Riverside",
+    "scope": "Riverside County",
+    "modality": "Free, CDVA-certified claims/counseling assistance for VA benefits, including health care eligibility navigation",
+    "payer": "Free county service",
+    "source": "Riverside County Department of Veterans' Services",
+    "sourceUrl": "https://rivco.gov/community/veterans-services",
+    "best": "Riverside County veterans who are not yet VA-enrolled and need help establishing eligibility so they can access VA Loma Linda mental health care.",
+    "notIdeal": "Direct clinical mental health treatment, or an urgent need -- route clinical needs to VA Loma Linda, RUHS, or the Veterans Crisis Line.",
+    "patient": "Call and ask about VA health care enrollment help; additional offices in Hemet and Temecula.",
+    "staff": "Treat as a benefits/enrollment step, not a direct behavioral health referral. Contact number corroborated via secondary sources, not a direct site fetch -- confirm by phone if in doubt.",
+    "specialtyTags": ["Veteran"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "County access"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "VA claims and healthcare-eligibility navigation",
+      "Use this as an eligibility/enrollment navigation step, not a direct clinical referral"
+    ]
+  },
+  {
+    "id": "national-dv-hotline",
+    "name": "National Domestic Violence Hotline",
+    "type": "Crisis urgent",
+    "color": "rose",
+    "icon": "DV",
+    "route": "Domestic violence crisis support and safety planning",
+    "fit": "Patients experiencing domestic violence needing crisis support, safety planning, or local resource referral",
+    "action": "Offer as a confidential, free, 24/7 first contact for any DV concern",
+    "contact": "1-800-799-7233 (SAFE) · text START to 88788 · chat at thehotline.org",
+    "readiness": 84,
+    "review": "Web checked Jul 2026",
+    "records": "None required for crisis contact",
+    "city": "National",
+    "scope": "National (available to CA callers)",
+    "modality": "24/7/365 crisis intervention, safety planning, and referrals to local resources (shelters, legal aid, counseling) in 200+ languages",
+    "payer": "Free; not billed",
+    "source": "National Domestic Violence Hotline",
+    "sourceUrl": "https://www.thehotline.org/",
+    "best": "Anyone experiencing domestic violence needing confidential crisis support, safety planning, or a warm handoff to local DV resources.",
+    "notIdeal": "Immediate physical danger -- call 911 first, then use this line for follow-up support.",
+    "patient": "Call, text, or chat any time; free and confidential.",
+    "staff": "Use as a national first-contact line; pair with a local county DV/SA advocacy organization (e.g. Partners Against Violence for SB County, Alternatives to Domestic Violence for Riverside County) for ongoing local support.",
+    "specialtyTags": ["Domestic violence / sexual assault"],
+    "categories": [
+      "Crisis urgent"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Crisis/safety"
+    ],
+    "deliveryModes": [
+      "Phone",
+      "Text",
+      "Virtual CA"
+    ],
+    "serviceAreas": [
+      "California virtual",
+      "National"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "Domestic violence crisis support and safety planning",
+      "Offer as a confidential, free, 24/7 first contact for any DV concern"
+    ]
+  },
+  {
+    "id": "alternatives-to-dv-riverside",
+    "name": "Alternatives to Domestic Violence — Riverside County",
+    "type": "Crisis urgent",
+    "color": "rose",
+    "icon": "DV",
+    "route": "Riverside County domestic violence crisis line and advocacy",
+    "fit": "Riverside County patients experiencing domestic violence needing crisis support, shelter, or advocacy",
+    "action": "Confirm which crisis line applies (Riverside city area vs. rest of county) and current safety needs",
+    "contact": "Riverside city area: 951-683-0829 · rest of Riverside County: 800-339-7233 · admin: 951-425-8900",
+    "readiness": 76,
+    "review": "Web checked Jul 2026",
+    "records": "None required for crisis contact",
+    "city": "Riverside County",
+    "scope": "Riverside County",
+    "modality": "24-hour crisis line, safety assessment/planning, case management, individual/group counseling, emergency shelter access for eligible clients, restraining order assistance, court accompaniment, housing/relocation assistance",
+    "payer": "Free to DV victims",
+    "source": "Alternatives to Domestic Violence",
+    "sourceUrl": "https://www.alternativestodomesticviolence.org/contact",
+    "best": "Riverside County patients experiencing domestic violence needing crisis support, safety planning, shelter access, or court/legal advocacy -- the Riverside County counterpart to San Bernardino County's Partners Against Violence.",
+    "notIdeal": "San Bernardino County patients (use Partners Against Violence instead), or immediate physical danger (call 911 first).",
+    "patient": "Call the appropriate crisis line for your area; office address is not published for client safety -- call for directions to an appointment.",
+    "staff": "Confirm Riverside County residence and which of the two crisis-line numbers applies based on location.",
+    "specialtyTags": ["Domestic violence / sexual assault"],
+    "categories": [
+      "Crisis urgent"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Crisis/safety"
+    ],
+    "deliveryModes": [
+      "Phone",
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "Riverside County domestic violence crisis line and advocacy",
+      "Confirm which crisis line applies (Riverside city area vs. rest of county) and current safety needs"
+    ]
+  },
+  {
+    "id": "riverside-homeconnect-ces",
+    "name": "Riverside County HomeConnect / Coordinated Entry System",
+    "type": "County access",
+    "color": "gold",
+    "icon": "H",
+    "route": "Riverside County homeless housing navigation and coordinated entry",
+    "fit": "Riverside County patients experiencing homelessness needing shelter, housing navigation, or supportive housing",
+    "action": "Confirm current housing status and connect to a housing navigator for assessment",
+    "contact": "1-800-498-8847 · after-hours 951-955-8278",
+    "readiness": 74,
+    "review": "Web checked Jul 2026",
+    "records": "Housing status, household composition, contact info",
+    "city": "Riverside County",
+    "scope": "Riverside County",
+    "modality": "County-wide coordinated entry access point for homeless housing programs; housing navigator/field worker assessment connecting to shelter, housing navigation, rapid re-housing, and permanent supportive housing (HHOPE Program enrollment pathway)",
+    "payer": "Free; no cost",
+    "source": "Riverside University Health System Behavioral Health (Riverside County Office of Homeless Services)",
+    "sourceUrl": "https://www.ruhealth.org/behavioral-health/housing",
+    "best": "Riverside County patients experiencing homelessness who need the single county-wide entry point into shelter, housing navigation, and supportive housing programs -- the Riverside County counterpart to San Bernardino's DBH InnROADs/HOST route.",
+    "notIdeal": "San Bernardino County patients (use the existing DBH InnROADs/HOST/Housing Support route instead) or immediate safety emergencies.",
+    "patient": "Call the HomeConnect line; a housing navigator will complete an assessment and connect you to available resources.",
+    "staff": "Confirm Riverside County residence; this is the coordinated-entry system, not a direct shelter line -- expect an intake assessment before placement.",
+    "specialtyTags": ["Homelessness / housing"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "County access"
+    ],
+    "deliveryModes": [
+      "Phone",
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "Riverside County homeless housing navigation and coordinated entry",
+      "Confirm current housing status and connect to a housing navigator for assessment"
+    ]
   }
 ];
 
@@ -16829,6 +17602,18 @@ const categoryTiles = [
   {type:'SUD recovery', color:'peach', icon:'SUD', help:'County SUD, recovery, residential/outpatient'},
   {type:'Testing DD', color:'lavender', icon:'DD', help:'Testing, developmental disability, specialty routes'},
   {type:'Online CA', color:'blue', icon:'CA', help:'California-only online/self-schedule options'}
+];
+
+const specialtyTiles = [
+  {type:'Eating disorder', color:'peach', icon:'ED', help:'Anorexia, bulimia, binge-eating, ARFID -- programs, specialists, dietitians'},
+  {type:'ADHD / neuropsych testing', color:'lavender', icon:'DD', help:'ADHD, learning-disability, and neuropsychological evaluation'},
+  {type:'Autism / developmental', color:'lavender', icon:'AU', help:'Autism and developmental-disability assessment and services'},
+  {type:'Perinatal / postpartum', color:'gold', icon:'PP', help:'Pregnancy and postpartum mood, anxiety, and related conditions'},
+  {type:'LGBTQ+ affirming', color:'blue', icon:'Q', help:'LGBTQ+-affirming therapy and crisis alternatives'},
+  {type:'Older adult', color:'mint', icon:'OA', help:'Senior/geriatric behavioral health and Medicare-specific routes'},
+  {type:'Veteran', color:'mint', icon:'V', help:'VA and veteran-specific eligibility routes'},
+  {type:'Domestic violence / sexual assault', color:'rose', icon:'DV', help:'DV/SA hotlines, advocacy, and confidential support'},
+  {type:'Homelessness / housing', color:'gold', icon:'H', help:'Housing navigation and coordinated entry'}
 ];
 
 const screens = [
@@ -16844,6 +17629,7 @@ const APP_STORAGE_KEY = 'ipmg-referral-hub-v33-release-state';
 const DEFAULT_STATE = {
   view:'dashboard',
   filter:'All',
+  specialty:'All',
   query:'',
   plan:[],
   drawer:null,
@@ -16934,6 +17720,7 @@ function svg(name){
 
 function setView(view){ state.view=view; state.planOpen=false; state.assistOpen=false; state.drawer=null; commit(); scrollAppToTop(); }
 function setFilter(filter){ state.filter=filter; commit(); }
+function setSpecialty(specialty){ state.specialty=(state.specialty===specialty?'All':specialty); commit(); }
 function setSearch(value){ state.query=value; commit({persist:false}); }
 function openDrawer(id){ state.drawer=id; state.planOpen=false; state.assistOpen=false; commit({persist:false}); }
 function closeDrawer(){ state.drawer=null; commit({persist:false}); }
@@ -17484,6 +18271,9 @@ function asList(value){ return Array.isArray(value) ? value.filter(Boolean) : (v
 function resourceCategories(r){ return asList(r.categories && r.categories.length ? r.categories : r.type); }
 function categoryMatch(r, category){ return category === 'All' || resourceCategories(r).includes(category); }
 function categoryCount(category){ return resources.filter(r=>categoryMatch(r, category)).length; }
+function resourceSpecialties(r){ return asList(r.specialtyTags); }
+function specialtyMatch(r, specialty){ return !specialty || specialty === 'All' || resourceSpecialties(r).includes(specialty); }
+function specialtyCount(specialty){ return resources.filter(r=>specialtyMatch(r, specialty)).length; }
 function chipList(items, kind='category', max=4){const clean=asList(items).filter(Boolean); if(!clean.length) return ''; return `<div class="facet-chip-row">${clean.slice(0,max).map(x=>`<span class="facet-chip ${kind}">${html(x)}</span>`).join('')}${clean.length>max?`<span class="facet-chip">+${clean.length-max}</span>`:''}</div>`;}
 function alsoUnder(r){const also=resourceCategories(r).filter(c=>c!==r.type); return also.length?`<div class="also-under-note"><b>Also shows under</b>${also.map(c=>`<span class="facet-chip category">${html(c)}</span>`).join('')}</div>`:'';}
 function routeTile(c){const count=categoryCount(c.type); return `<button class="route-tile ${c.color}" onclick="quickStart('${c.type}')"><span class="route-top"><span class="tile-icon">${c.icon}</span><em class="tile-stat">${count} options</em></span><span class="route-copy"><b>${c.type}</b><small>${c.help}</small></span></button>`;}
@@ -19661,14 +20451,7 @@ exportCSV = function exportCSV(){
 const V57_REVIEW_DATE = 'Jun 28, 2026';
 const V59_ED_REVIEW_DATE = 'Jul 21, 2026';
 const V57_SCHEMA_VERSION = 'v57.verified-data';
-const V57_GAPS = [
-  'Perinatal / postpartum mental health: add verified PSI and local maternal mental health pathways before release.',
-  'LGBTQ+ affirming care: add verified local/California programs and crisis alternatives, with current 988 LGBTQ-routing caveat.',
-  'Older adult behavioral health: add county older adult routes and Medicare-specific outpatient options.',
-  'Veterans: add VA Loma Linda / Veterans Crisis Line / county veteran service routes with eligibility language.',
-  'Domestic violence / sexual assault: keep separate from routine therapy and verify hotline/confidentiality rules.',
-  'Homelessness/housing: keep housing navigation separate from mental health treatment and verify eligibility windows.'
-];
+const V57_GAPS = [];
 const V57_SOURCE_ANCHORS = {
   'sbc-dbh-access': {lastWebReviewedDate: V57_REVIEW_DATE, sourceEvidence:'Official SB County DBH page lists Access Unit (888) 743-1478 and county outpatient/service routing.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Use Access Unit as first route for SB County safety-net behavioral health linkage; confirm county/eligibility and urgency.'},
   'sbc-ccrt': {lastWebReviewedDate: V57_REVIEW_DATE, sourceEvidence:'Official SB County DBH page lists CCRT 24/7 call/text route for psychiatric emergency response.', verificationStatus:{label:'Official crisis route', tone:'p1'}, preferredFirstMove:'For psychiatric crisis that is not immediate 911/ER danger, use CCRT call/text route and confirm current location/callback.'},
@@ -19697,7 +20480,22 @@ const V57_SOURCE_ANCHORS = {
   'nixon-psychological-institute-chino': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Independently corroborated (Yelp/Psychology Today/practice listings) address 12530 10th St Ste C, Chino, and phone (909) 248-3434; official site reviewed for services offered.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Use for ADHD/cognitive/learning/autism testing in the Chino/West Valley area; confirm current insurance panel by phone.'},
   'octave-ca': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Octave provider-referral page (findoctave.com/referral-form) confirmed as a live external clinician referral form; also reachable at referrals@findoctave.com or fax 628-234-3048.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'For commercially insured CA patients, staff can submit a referral directly online instead of calling.'},
   'talkiatry-ca': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Talkiatry referral page (talkiatry.com/refer-a-patient) confirmed as a live clinician referral portal; most patients scheduled within a week; ages 5-18 and adult psychiatry; in-network with major insurers.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Staff can submit a referral directly online for insurance-covered psychiatry/medication management instead of the patient self-scheduling.'},
-  'brightside-ca': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Brightside provider-referral portal (brightside.com/referral/, redirects to externalprovider.brightside.com) confirmed as a live clinician referral form, distinct from the consumer "refer a friend" page.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Staff can submit a referral directly online for anxiety/depression therapy or psychiatry instead of the patient self-scheduling.'}
+  'brightside-ca': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Brightside provider-referral portal (brightside.com/referral/, redirects to externalprovider.brightside.com) confirmed as a live clinician referral form, distinct from the consumer "refer a friend" page.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Staff can submit a referral directly online for anxiety/depression therapy or psychiatry instead of the patient self-scheduling.'},
+  'psi-helpline-perinatal': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Postpartum Support International HelpLine page confirms 1-800-944-4773, text option, and explicitly states it is a warmline, not a crisis line.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Offer as first-line support/information for any perinatal mood or anxiety concern; pair with 988 or the National Maternal Mental Health Hotline for true emergencies.'},
+  'ruhs-maternal-mental-health': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official RUHS maternal mental health and perinatal SUD program pages confirm the MOMS Program, CARES Line, and HeRCARe linkage number.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'For Riverside County Medi-Cal patients who are pregnant or parenting, call the CARES Line and ask about the MOMS Perinatal Program or maternal mental health resource directory.'},
+  'hodde-perinatal-psychiatry-montclair': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Address/phone cross-referenced across the RUHS maternal mental health directory, Doximity, and Healthgrades; no official practice website was independently fetched, and payer info is unconfirmed.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Call directly to confirm current insurance panel and availability before referring -- weaker source corroboration than program-level entries.'},
+  'trevor-project-lgbtq-crisis': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Trevor Project page confirms 1-866-488-7386, text START to 678-678, and 24/7 chat, operating independently of 988.', verificationStatus:{label:'Official crisis route', tone:'p1'}, preferredFirstMove:'Offer directly for any LGBTQ+ youth in crisis; do not rely on 988 press-3 routing, whose status has changed and is unconfirmed as of this review.'},
+  'truevolution-ie-lgbtq-center': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official TruEvolution "Mind" program page confirms HIV support groups, SUD recovery groups, and crisis stabilization are live; individual therapy, case management, psychiatry, and addiction medicine are listed as expanding in 2026, not confirmed live.', verificationStatus:{label:'Staff verify', tone:'verify'}, preferredFirstMove:'Call to confirm which specific behavioral health services are currently operating before referring for anything beyond groups.'},
+  'sbc-age-wise-older-adult': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official San Bernardino County page confirms the Age Wise Program, (800) 451-5633, serving adults 59+ and individuals with disabilities.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Use for SB County older-adult behavioral health/wellness needs; confirm Medicare vs. Medi-Cal payer status by phone.'},
+  'ruhs-older-adult-services': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official RUHS Behavioral Health Older Adult Services page confirms CARES Line access and program scope for Riverside County adults 60+.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Use for Riverside County older-adult behavioral health needs; confirm Medicare vs. Medi-Cal payer status by phone.'},
+  'alzheimers-assoc-socal-helpline': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Alzheimer\'s Association Southland Chapter page confirms the 24/7 (800) 272-3900 helpline covering San Bernardino and Riverside counties.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Use as a caregiver-support and resource-navigation adjunct for dementia-related concerns, alongside the patient\'s own clinical care.'},
+  'veterans-crisis-line': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Veterans Crisis Line page and VA news release confirm the current "dial 988, then press 1" routing plus text 838255, explicitly stating VA enrollment is not required.', verificationStatus:{label:'Official crisis route', tone:'p1'}, preferredFirstMove:'Offer immediately for any veteran in crisis regardless of VA enrollment status.'},
+  'va-loma-linda-mental-health': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official va.gov Loma Linda mental health page confirms services offered and the Mental Health Access Clinic; a specific mental-health phone extension could not be confirmed on the official page and varies across secondary directories.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Call the main line to confirm current enrollment status and intake path; do not quote a specific extension without verifying by phone.'},
+  'sbc-veterans-affairs-office': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official San Bernardino County Veterans Affairs contact page confirms the main office address and (909) 382-3290, plus satellite offices.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Use for VA benefits/health-care-eligibility navigation, not as a direct clinical referral.'},
+  'riverside-county-veterans-services': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Riverside County\'s own veterans services page was reviewed, but the department\'s dedicated contact page (rivcoveterans.org) blocked automated fetching; phone number corroborated via independent secondary directories rather than a direct fetch.', verificationStatus:{label:'Staff verify', tone:'verify'}, preferredFirstMove:'Confirm the current phone number and office hours by phone before relying on it, since it was not independently confirmed on the primary site.'},
+  'national-dv-hotline': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official National Domestic Violence Hotline page confirms 1-800-799-7233, text START to 88788, and 24/7/365 confidential availability.', verificationStatus:{label:'Official crisis route', tone:'p1'}, preferredFirstMove:'Offer as a confidential national first-contact line for any domestic violence concern; pair with a local county DV/SA advocacy organization for ongoing support.'},
+  'alternatives-to-dv-riverside': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Alternatives to Domestic Violence contact and programs pages confirm two area-specific 24-hour crisis lines and service scope for Riverside County.', verificationStatus:{label:'Official crisis route', tone:'p1'}, preferredFirstMove:'Use as the Riverside County counterpart to San Bernardino County\'s Partners Against Violence; confirm which of the two crisis-line numbers applies by patient location.'},
+  'riverside-homeconnect-ces': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official RUHS Behavioral Health housing page confirms the HomeConnect/Coordinated Entry System phone numbers; the county\'s own CES page blocked automated fetching but the same number is independently corroborated by multiple secondary sources.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Use as the single Riverside County entry point for homeless housing navigation, the counterpart to San Bernardino\'s DBH InnROADs/HOST route.'}
 };
 function v57Lower(x){ return String(x||'').toLowerCase(); }
 function v57UrlHost(url){ try{return new URL(url).hostname.replace(/^www\./,'');}catch(e){return '';} }
@@ -20049,7 +20847,7 @@ function easyOnlineReferralPanel(){
 }
 database = function(){
   const audit=auditResources(); const list=filtered(); const stats=v57Stats();
-  return `<div class="database-view" data-ui="database-view"><main><div class="section-head"><div><h2>Verified resource database</h2><p>Search source status, payer, service type, city, queue priority, and staff confirmation needs.</p></div><div class="action-row"><button class="secondary-action" onclick="exportCSV()">Export master CSV</button><button class="secondary-action" onclick="exportVerificationQueue()">Export queue</button><button class="primary-action" onclick="showToast('Custom resource form is planned for the SQLite build')">Add resource</button></div></div><section class="db-tools panel">${filters()}<div class="v57-data-note"><b>Verification model</b><span>Official/public web review is not the same as human confirmation. Staff should mark phone-confirmed rows with date, initials, and notes before treating a route as operationally verified.</span></div><div class="v57-db-stats"><div class="v57-db-stat"><b>${stats.total}</b><span>resources</span></div><div class="v57-db-stat"><b>${stats.official}</b><span>official/crisis pages reviewed</span></div><div class="v57-db-stat"><b>${stats.staff}</b><span>staff-verify rows</span></div><div class="v57-db-stat"><b>${stats.p1}</b><span>P1 verification priorities</span></div></div><div class="coverage-strip">${categoryTiles.map(c=>`<span class="coverage-chip ${c.color}">${c.type}<b>${categoryCount(c.type)}</b></span>`).join('')}</div></section><section class="db-table panel"><div class="db-header v38"><span>Resource / source</span><span>First move</span><span>Delivery</span><span>Payer</span><span>Status</span><span></span></div>${list.length?list.map(dbRow).join(''):`<div class="empty-results"><h3>No database rows match</h3><p>Try status terms like “P1,” “staff verify,” “official,” or clinical terms like “teen IOP,” “Kaiser,” “SUD,” or “ADHD testing.”</p><div class="smart-empty-suggestions"><button onclick="smartSearchQuick('P1 verify')">P1 verify</button><button onclick="smartSearchQuick('official')">official</button><button onclick="smartSearchQuick('staff verify')">staff verify</button><button onclick="state.query=''; state.filter='All'; commit();">Clear all</button></div></div>`}</section></main><aside class="db-side">${easyOnlineReferralPanel()}${v57QueueHtml(14)}<div class="panel v57-queue-panel"><h3>Known coverage gaps</h3><p>These should be researched and verified before being added as routine staff options.</p><div class="v57-gap-list">${V57_GAPS.map(g=>`<span>${html(g)}</span>`).join('')}</div></div></aside></div>`;
+  return `<div class="database-view" data-ui="database-view"><main><div class="section-head"><div><h2>Verified resource database</h2><p>Search source status, payer, service type, city, queue priority, and staff confirmation needs.</p></div><div class="action-row"><button class="secondary-action" onclick="exportCSV()">Export master CSV</button><button class="secondary-action" onclick="exportVerificationQueue()">Export queue</button><button class="primary-action" onclick="showToast('Custom resource form is planned for the SQLite build')">Add resource</button></div></div><section class="db-tools panel">${filters()}<div class="v57-data-note"><b>Verification model</b><span>Official/public web review is not the same as human confirmation. Staff should mark phone-confirmed rows with date, initials, and notes before treating a route as operationally verified.</span></div><div class="v57-db-stats"><div class="v57-db-stat"><b>${stats.total}</b><span>resources</span></div><div class="v57-db-stat"><b>${stats.official}</b><span>official/crisis pages reviewed</span></div><div class="v57-db-stat"><b>${stats.staff}</b><span>staff-verify rows</span></div><div class="v57-db-stat"><b>${stats.p1}</b><span>P1 verification priorities</span></div></div><div class="coverage-strip">${categoryTiles.map(c=>`<span class="coverage-chip ${c.color}">${c.type}<b>${categoryCount(c.type)}</b></span>`).join('')}</div></section><section class="db-table panel"><div class="db-header v38"><span>Resource / source</span><span>First move</span><span>Delivery</span><span>Payer</span><span>Status</span><span></span></div>${list.length?list.map(dbRow).join(''):`<div class="empty-results"><h3>No database rows match</h3><p>Try status terms like “P1,” “staff verify,” “official,” or clinical terms like “teen IOP,” “Kaiser,” “SUD,” or “ADHD testing.”</p><div class="smart-empty-suggestions"><button onclick="smartSearchQuick('P1 verify')">P1 verify</button><button onclick="smartSearchQuick('official')">official</button><button onclick="smartSearchQuick('staff verify')">staff verify</button><button onclick="state.query=''; state.filter='All'; commit();">Clear all</button></div></div>`}</section></main><aside class="db-side">${easyOnlineReferralPanel()}${v57QueueHtml(14)}<div class="panel v57-queue-panel"><h3>Known coverage gaps</h3><p>These should be researched and verified before being added as routine staff options.</p><div class="v57-gap-list">${V57_GAPS.length?V57_GAPS.map(g=>`<span>${html(g)}</span>`).join(''):'<span>No open coverage gaps flagged -- all previously identified specialty areas now have at least one resource.</span>'}</div></div></aside></div>`;
 };
 
 function v58RiskForSearch(r){
@@ -20210,6 +21008,7 @@ scrollAppToTop();
     return `<div class="v60-filter-shell">
       <div class="v60-filter-row"><div class="field-search">${svg('search')}<input value="${escapeAttr(state.query)}" oninput="setSearch(this.value)" placeholder="Search need, payer, city, level of care, or staff shorthand" /></div></div>
       <div class="v60-filter-pills">${cats.map(c=>`<button class="${state.filter===c?'active':''}" onclick="setFilter('${c}')">${html(c)}</button>`).join('')}</div>
+      <div class="v60-filter-pills specialty-pills"><span class="specialty-pills-label">Specialty</span>${specialtyTiles.map(c=>`<button class="${state.specialty===c.type?'active':''}" onclick="setSpecialty('${c.type}')" title="${escapeAttr(c.help)}">${html(c.type)}<b>${specialtyCount(c.type)}</b></button>`).join('')}</div>
       <div class="v60-quick-row"><b>Quick search</b>${v60Quick.map(q=>`<button class="v60-quick-chip" onclick="smartSearchQuick(${JSON.stringify(q).replace(/"/g,'&quot;')})">${html(q)}</button>`).join('')}</div>
       ${typeof v58SearchSummary === 'function' ? v58SearchSummary() : ''}
     </div>`;
@@ -20584,8 +21383,9 @@ body.v64-panel-open{overflow:hidden!important}
     const population=v64Join(r.populations);
     const delivery=v64Join(r.deliveryModes,r.modality,r.accessRoutes);
     const status=v64Join(r.verificationRisk?.level,r.verificationRisk?.label,r.verificationStatus?.label,r.verificationStatus?.tone,r.review,r.dataConfidence?.label,r.clinicalSource?.label);
-    const general=v64Join(name,category,service,payer,area,population,delivery,status,r.best,r.fit,r.firstMove,r.patientInstruction,r.route,r.action,r.contact,r.patient,r.staff,r.notIdeal,r.records,r.source);
-    return {name,category,service,payer,area,population,delivery,status,general};
+    const specialty=v64Join(r.specialtyTags);
+    const general=v64Join(name,category,service,payer,area,population,delivery,status,specialty,r.best,r.fit,r.firstMove,r.patientInstruction,r.route,r.action,r.contact,r.patient,r.staff,r.notIdeal,r.records,r.source);
+    return {name,category,service,payer,area,population,delivery,status,specialty,general};
   }
 
   function v64Query(raw){
@@ -20608,7 +21408,14 @@ body.v64-panel-open{overflow:hidden!important}
       autism:/\b(autism|developmental|regional center|dd)\b/.test(q),
       youth:/\b(teen|youth|child|adolescent|tay|young adult)\b/.test(q),
       virtual:/\b(virtual|online|telehealth|teletherapy)\b/.test(q),
-      county:/\b(county|dbh|access line)\b/.test(q)
+      county:/\b(county|dbh|access line)\b/.test(q),
+      eating:/\b(eating disorder\w*|anorexia|bulimia|binge eating|arfid)\b/.test(q),
+      perinatal:/\b(perinatal|postpartum|prenatal|pregnan\w*|pmad|maternal mental)\b/.test(q),
+      lgbtq:/\b(lgbtq\w*|lgbt|gay|lesbian|transgender|trans|queer|gender affirming|gender identity)\b/.test(q),
+      olderAdult:/\b(older adult\w*|senior|elderly|geriatric|aging|dementia|alzheimer\w*)\b/.test(q),
+      veteran:/\b(veteran\w*|military|va medical|armed forces)\b/.test(q),
+      dv:/\b(domestic violence|intimate partner|sexual assault|abuse survivor|ipv)\b/.test(q),
+      homeless:/\b(homeless\w*|unhoused|shelter|housing navigation|coordinated entry)\b/.test(q)
     };
     let free=q;
     const removals=[
@@ -20621,7 +21428,14 @@ body.v64-panel-open{overflow:hidden!important}
       /\b(testing|evaluation|neuropsych\w*|psychological assessment|diagnostic clarification)\b/g,
       /\b(adhd|autism|developmental|regional center|dd)\b/g,
       /\b(teen|youth|child|adolescent|tay|young adult)\b/g,
-      /\b(virtual|online|telehealth|teletherapy|county|dbh|access line|verify|official|staff)\b/g
+      /\b(virtual|online|telehealth|teletherapy|county|dbh|access line|verify|official|staff)\b/g,
+      /\b(eating disorder\w*|anorexia|bulimia|binge eating|arfid)\b/g,
+      /\b(perinatal|postpartum|prenatal|pregnan\w*|pmad|maternal mental)\b/g,
+      /\b(lgbtq\w*|lgbt|gay|lesbian|transgender|trans|queer|gender affirming|gender identity)\b/g,
+      /\b(older adult\w*|senior|elderly|geriatric|aging|dementia|alzheimer\w*)\b/g,
+      /\b(veteran\w*|military|va medical|armed forces)\b/g,
+      /\b(domestic violence|intimate partner|sexual assault|abuse survivor|ipv)\b/g,
+      /\b(homeless\w*|unhoused|shelter|housing navigation|coordinated entry)\b/g
     ];
     removals.forEach(rx=>{free=free.replace(rx,' ')});
     const freeTokens=v64Norm(free).split(' ').filter(t=>t.length>1);
@@ -20640,9 +21454,17 @@ body.v64-panel-open{overflow:hidden!important}
     const virtual = /\b(virtual|online|telehealth|teletherapy)\b/.test(`${f.delivery} ${name}`);
     const county = primary==='county access' || /\b(county|dbh|access line)\b/.test(`${name} ${f.service}`);
     const adhdPositive=v64Join(r.name,r.best,r.fit,r.programName,r.serviceTypes);
-    const adhd = /\badhd\b/.test(adhdPositive) && !(/adhd only/.test(v64Norm(r.notIdeal)) && !/\badhd\b/.test(v64Join(r.name,r.best,r.fit))); 
+    const adhd = /\badhd\b/.test(adhdPositive) && !(/adhd only/.test(v64Norm(r.notIdeal)) && !/\badhd\b/.test(v64Join(r.name,r.best,r.fit)));
     const autism = /\b(autism|developmental|regional center)\b/.test(f.general) || f.service.includes('testing dd');
-    return {crisis,therapy,higher,sud,testing,youth,virtual,county,adhd,autism};
+    const specialty = v64Join(r.specialtyTags);
+    const eating = specialty.includes('eating disorder') || /\b(eating disorder\w*|anorexia|bulimia|binge eating|arfid)\b/.test(f.general);
+    const perinatal = specialty.includes('perinatal') || /\b(perinatal|postpartum|prenatal|pmad|maternal mental)\b/.test(f.general);
+    const lgbtq = specialty.includes('lgbtq') || /\b(lgbtq\w*|lgbt affirming|transgender|gender affirming|gender identity)\b/.test(f.general);
+    const olderAdult = specialty.includes('older adult') || /\b(older adult\w*|senior behavioral|geriatric|age wise|dementia|alzheimer\w*)\b/.test(f.general);
+    const veteran = specialty.includes('veteran') || /\bveteran\w*\b/.test(f.general);
+    const dv = specialty.includes('domestic violence') || /\b(domestic violence|sexual assault|intimate partner)\b/.test(f.general);
+    const homeless = specialty.includes('homelessness') || /\b(homeless\w*|coordinated entry|supportive housing)\b/.test(f.general);
+    return {crisis,therapy,higher,sud,testing,youth,virtual,county,adhd,autism,eating,perinatal,lgbtq,olderAdult,veteran,dv,homeless};
   }
 
   function v64LocationMatch(f,loc){
@@ -20657,19 +21479,36 @@ body.v64-panel-open{overflow:hidden!important}
   }
   function v64StatusMatch(f,status){ return !status || new RegExp(`\\b${status}\\b`).test(f.status); }
 
-  function v64MatchScore(r,s){
+  function v64MatchScore(r,s,mode){
     const f=v64Fields(r); const e=v64Evidence(r,f,s); const i=s.intents;
     if(!v64LocationMatch(f,s.location) || !v64PayerMatch(f,s.payer) || !v64StatusMatch(f,s.status)) return null;
-    if(i.crisis && !e.crisis) return null;
-    if(i.therapy && !e.therapy && !(s.payer && f.name.includes(s.payer) && /\b(behavioral health|mental health)\b/.test(f.name))) return null;
-    if(i.higher && !e.higher) return null;
-    if(i.sud && !e.sud) return null;
-    if(i.testing && !e.testing) return null;
-    if(i.adhd && !e.adhd) return null;
-    if(i.autism && !e.autism) return null;
-    if(i.youth && !e.youth) return null;
-    if(i.virtual && !e.virtual) return null;
-    if(i.county && !e.county) return null;
+    const intentKeys=Object.keys(i).filter(k=>i[k]);
+    if(mode==='or' && intentKeys.length){
+      // Relaxed fallback: strict AND-of-intents found nothing (common with compound
+      // queries like "eating disorder testing" or "crisis eating disorder", where no
+      // single resource satisfies every detected intent). Require at least one
+      // detected intent to actually match instead of all of them, so a reasonable
+      // compound query surfaces the closest resources instead of dead-ending.
+      if(!intentKeys.some(k=>e[k])) return null;
+    } else {
+      if(i.crisis && !e.crisis) return null;
+      if(i.therapy && !e.therapy && !(s.payer && f.name.includes(s.payer) && /\b(behavioral health|mental health)\b/.test(f.name))) return null;
+      if(i.higher && !e.higher) return null;
+      if(i.sud && !e.sud) return null;
+      if(i.testing && !e.testing) return null;
+      if(i.adhd && !e.adhd) return null;
+      if(i.autism && !e.autism) return null;
+      if(i.youth && !e.youth) return null;
+      if(i.virtual && !e.virtual) return null;
+      if(i.county && !e.county) return null;
+      if(i.eating && !e.eating) return null;
+      if(i.perinatal && !e.perinatal) return null;
+      if(i.lgbtq && !e.lgbtq) return null;
+      if(i.olderAdult && !e.olderAdult) return null;
+      if(i.veteran && !e.veteran) return null;
+      if(i.dv && !e.dv) return null;
+      if(i.homeless && !e.homeless) return null;
+    }
     if(s.freeTokens.some(t=>!f.general.includes(t))) return null;
 
     let score=0;
@@ -20692,15 +21531,26 @@ body.v64-panel-open{overflow:hidden!important}
     return score;
   }
 
-  filtered = function(){
-    const base = state.filter==='All' ? resources : resources.filter(r=>categoryMatch(r,state.filter));
-    const raw=String(state.query||'').trim();
-    if(!raw) return base;
-    const spec=v64Query(raw);
-    return base.map((r,index)=>({r,index,score:v64MatchScore(r,spec)}))
+  function v64Rank(list,spec,mode){
+    return list.map((r,index)=>({r,index,score:v64MatchScore(r,spec,mode)}))
       .filter(x=>x.score!==null)
       .sort((a,b)=>b.score-a.score || a.index-b.index)
       .map(x=>x.r);
+  }
+  filtered = function(){
+    let base = state.filter==='All' ? resources : resources.filter(r=>categoryMatch(r,state.filter));
+    if(state.specialty && state.specialty!=='All') base = base.filter(r=>specialtyMatch(r,state.specialty));
+    const raw=String(state.query||'').trim();
+    if(!raw) return base;
+    const spec=v64Query(raw);
+    const strictResults = v64Rank(base,spec,'and');
+    if(strictResults.length) return strictResults;
+    // Strict intent-AND matching found nothing (common with compound queries like
+    // "eating disorder testing" where no single resource satisfies every detected
+    // intent) -- fall back to requiring at least one detected intent to match
+    // (still bound by free-token/location/payer/status) so a reasonable compound
+    // query never dead-ends at zero results, without matching everything.
+    return v64Rank(base,spec,'or');
   };
   window.filtered=filtered;
 
