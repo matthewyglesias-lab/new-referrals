@@ -97,6 +97,38 @@ jobs:
           console.log('No data-integrity problems found.');
           "
 
+      - name: Validate staff directory data integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -e "
+          const fs = require('fs');
+          const html = fs.readFileSync('public/index.html', 'utf8');
+          const catStart = html.indexOf('const staffDirectoryCategories = [');
+          const catEnd = html.indexOf('\n' + 'const staffDirectory = [');
+          const start = html.indexOf('const staffDirectory = [');
+          const end = html.indexOf('\n' + 'function directoryFiltered');
+          if (catStart === -1 || catEnd === -1 || start === -1 || end === -1) { console.error('Could not locate staffDirectory/staffDirectoryCategories in public/index.html.'); process.exit(1); }
+          const categories = eval(html.slice(catStart, catEnd).replace('const staffDirectoryCategories = ', ''));
+          const directory = eval(html.slice(start, end).replace('const staffDirectory = ', ''));
+          const validCategories = new Set(categories.map((c) => c.type));
+          const required = ['id','name','category','contact'];
+          const problems = [];
+          const seenIds = new Set();
+          directory.forEach((d) => {
+            required.forEach((k) => { if (d[k] === undefined || d[k] === null || d[k] === '') problems.push(d.id + ': missing/empty \"' + k + '\"'); });
+            if (d.category && !validCategories.has(d.category)) problems.push(d.id + ': category \"' + d.category + '\" not in staffDirectoryCategories');
+            if (seenIds.has(d.id)) problems.push(d.id + ': duplicate id');
+            seenIds.add(d.id);
+          });
+          console.log(directory.length + ' staff directory entries checked.');
+          if (problems.length) {
+            problems.forEach((p) => console.error(' - ' + p));
+            process.exit(1);
+          }
+          console.log('No staff directory data-integrity problems found.');
+          "
+
       - name: Reject common accidental secrets
         shell: bash
         run: |

@@ -5255,6 +5255,31 @@ body{background:var(--mature-bg);color:var(--mature-text);}
 .v57-queue-item small{color:var(--muted);font-size:12px;line-height:1.35}
 .easy-referral-panel .v57-queue-actions{display:flex;gap:8px;flex-wrap:wrap}
 .easy-referral-panel a.secondary-action{text-decoration:none;font-size:12.5px}
+.directory-card{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow-soft);display:flex}
+.directory-card .dc-accent{width:8px;flex:0 0 auto;background:var(--tile-bg)}
+.directory-card .dc-body{padding:16px 18px;flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:12px}
+.directory-card .dc-head{display:flex;gap:13px;align-items:flex-start}
+.directory-card .dc-badge{width:44px;height:44px;flex:0 0 auto;border-radius:16px;background:var(--tile-bg);border:1px solid var(--tile-border);color:var(--tile-ink);display:grid;place-items:center;font-weight:950;font-size:12px}
+.directory-card .dc-headtext{min-width:0;flex:1 1 auto}
+.directory-card h4{margin:0;font-size:16px}
+.directory-card .dc-notes{margin:4px 0 0;color:var(--muted);font-size:13.5px}
+.directory-card .dc-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.directory-card .dc-meta div{background:#f9fcff;border:1px solid var(--line);border-radius:14px;padding:9px 11px;min-width:0}
+.directory-card .dc-meta span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:900}
+.directory-card .dc-meta b{display:block;font-size:12.5px;margin-top:2px;word-break:break-word}
+.directory-card .dc-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.directory-card .dc-source{color:var(--muted);font-size:13px}
+.directory-card .dc-source a{color:inherit}
+.directory-card .dc-actions{display:flex;flex-direction:row;flex-wrap:nowrap;gap:8px;flex:0 0 auto}
+.directory-card .dc-call,.directory-card .dc-copy{height:36px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:900;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:var(--text);white-space:nowrap}
+@media(max-width:760px){.directory-card .dc-meta{grid-template-columns:1fr}}
+.directory-screen{display:grid;gap:16px;max-width:1150px}
+.dc-page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.dc-page-head h2{margin:6px 0 0;font-family:var(--serif);font-weight:500;font-size:32px;letter-spacing:-.02em;color:var(--text)}
+.dc-page-head p{margin:4px 0 0;color:var(--muted);max-width:640px}
+.dc-tools{padding:16px}
+.dc-list{display:grid;gap:13px}
+@media(max-width:760px){.dc-page-head{flex-direction:column;align-items:stretch}}
 .v57-queue-actions{display:flex;gap:7px;flex-wrap:wrap}
 .v57-queue-actions button{height:30px;border-radius:999px;border:1px solid var(--line);background:#fff;padding:0 10px;font-size:11.5px;font-weight:850;color:var(--text)}
 .v57-drawer-grid{display:grid;gap:12px}
@@ -17616,11 +17641,234 @@ const specialtyTiles = [
   {type:'Homelessness / housing', color:'gold', icon:'H', help:'Housing navigation and coordinated entry'}
 ];
 
+/* ==============================
+   Staff Directory -- internal administrative numbers.
+   Deliberately NOT part of resources[]/state.plan/OUTPUTS: this data is never
+   read by addResource(), the workbench "add to plan" flow, or any of the
+   seven patient/professional document templates, so it structurally cannot
+   end up in a patient-facing output. Staff-only lookup, nothing else.
+   ============================== */
+const staffDirectoryCategories = [
+  {type:'Welfare check / non-emergency', color:'rose', icon:'!', help:'Non-emergency law enforcement wellness checks'},
+  {type:'Transportation', color:'blue', icon:'T', help:'Non-emergency medical transport, NEMT brokers, paratransit'},
+  {type:'Interpreter / language line', color:'lavender', icon:'L', help:'Phone interpretation for patient calls'},
+  {type:'Mandated reporting', color:'gold', icon:'MR', help:'Adult/Child Protective Services lines for mandated reporters'},
+  {type:'Records / ROI', color:'mint', icon:'R', help:'Release-of-information and records requests -- add your practice\'s own numbers here'},
+  {type:'Other administrative', color:'peach', icon:'A', help:'Other internal/administrative numbers'}
+];
+
+const staffDirectory = [
+  {
+    id:'sbc-sheriff-nonemergency-valley',
+    name:'San Bernardino County Sheriff — Non-Emergency (Valley Region)',
+    category:'Welfare check / non-emergency',
+    contact:'(909) 387-8313',
+    scope:'San Bernardino County -- Valley region (Rancho Cucamonga, Yucaipa, Highland, Chino Hills, Grand Terrace, Loma Linda, and other Sheriff-contract/unincorporated valley areas)',
+    notes:'Use for a non-emergency welfare/wellness check request when a patient is a safety concern but it is not a 911-level emergency. Does not cover cities with their own police department (see San Bernardino PD and Riverside PD entries).',
+    sourceUrl:'https://wp.sbcounty.gov/sheriff/',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'sbc-sheriff-nonemergency-desert',
+    name:'San Bernardino County Sheriff — Non-Emergency (Desert Region)',
+    category:'Welfare check / non-emergency',
+    contact:'(760) 956-5001',
+    scope:'San Bernardino County -- Desert region (Victorville, Apple Valley, Hesperia, Adelanto, Twentynine Palms, Yucca Valley, Needles, Big Bear Lake, and other Sheriff-contract/unincorporated desert areas)',
+    notes:'Use for a non-emergency welfare/wellness check request in the High Desert / desert region. SB County Sheriff runs separate valley and desert non-emergency lines -- use whichever matches the patient\'s location.',
+    sourceUrl:'https://wp.sbcounty.gov/sheriff/',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'riverside-sheriff-nonemergency',
+    name:'Riverside County Sheriff — Non-Emergency (Countywide)',
+    category:'Welfare check / non-emergency',
+    contact:'(800) 950-2444 -- area lines: West-End (951) 776-1099, Moreno Valley (951) 247-8700, Temecula (951) 696-4357, Blythe (760) 921-7900',
+    scope:'Riverside County (Sheriff-contract and unincorporated areas)',
+    notes:'Countywide toll-free non-emergency dispatch; use the area-specific line if you know it, otherwise the toll-free number. Does not cover cities with their own police department (e.g. Riverside, Corona).',
+    sourceUrl:'https://www.riversidesheriff.org/428/Who-to-Call',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'riverside-pd-nonemergency',
+    name:'Riverside Police Department — Non-Emergency',
+    category:'Welfare check / non-emergency',
+    contact:'(951) 354-2007',
+    scope:'City of Riverside (independent PD, not covered by Riverside County Sheriff)',
+    notes:'24-hour dispatch line for welfare checks or non-emergency reports for patients located within Riverside city limits.',
+    sourceUrl:'https://www.riversideca.gov/rpd/about-contact',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'sb-pd-nonemergency',
+    name:'San Bernardino Police Department — Non-Emergency',
+    category:'Welfare check / non-emergency',
+    contact:'(909) 383-5311',
+    scope:'City of San Bernardino (independent PD, not covered by SB County Sheriff)',
+    notes:'24-hour line for welfare checks or non-emergency reports for patients located within San Bernardino city limits. Fontana and Ontario also have their own PDs -- their numbers were not verified for this directory yet.',
+    sourceUrl:'https://www.sanbernardino.gov/580/Report-a-Crime',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'iehp-nemt-transportation',
+    name:'IEHP — Non-Emergency Medical Transportation',
+    category:'Transportation',
+    contact:'1-800-440-4347 (select the transportation prompt) -- TTY 1-800-718-4347',
+    scope:'IEHP Medi-Cal / DualChoice members',
+    notes:'24/7. For members whose health condition prevents using regular transportation to a medical appointment. Requires a Physician Certification Statement (PCS) from the provider; request at least 5 calendar days before a routine appointment. Not available under IEHP Covered commercial plans.',
+    sourceUrl:'https://www.iehp.org/en/learning-center/understanding-insurance/transportation',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'molina-nemt-transportation',
+    name:'Molina Healthcare — NEMT Booking (American Logistics)',
+    category:'Transportation',
+    contact:'1-844-292-2688 (also bookable online at molina.americanlogistics.com) -- Molina Medi-Cal Member Services 1-888-665-4621 (TTY 711)',
+    scope:'Molina Healthcare of California Medi-Cal members',
+    notes:'24/7 booking line; schedule at least 3 business days ahead. American Logistics is Molina\'s dedicated third-party transportation manager statewide, including the Inland Empire.',
+    sourceUrl:'https://www.molinahealthcare.com/members/ca/en-us/hp/medicaid/medical/coverd/services/transport.aspx',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'omnitrans-access-paratransit',
+    name:'Omnitrans Access (ADA Paratransit) — San Bernardino County',
+    category:'Transportation',
+    contact:'West Valley (Chino, Chino Hills, Montclair, Ontario, Rancho Cucamonga, Upland): (800) 990-2404 -- East Valley (Bloomington, Colton, Fontana, Grand Terrace, Highland, Loma Linda, Mentone, Muscoy, Redlands, Rialto, San Bernardino, Yucaipa): (909) 383-1680 -- general customer service / ADA eligibility: (800) 966-6428',
+    scope:'San Bernardino County valley area',
+    notes:'Daily 8am-5pm including holidays. ADA-mandated shared-ride paratransit for riders whose disability prevents use of fixed-route Omnitrans buses. Use the region-specific number if known.',
+    sourceUrl:'https://www.omnitrans.org/services/access-ada/',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'rta-dial-a-ride-riverside',
+    name:'Riverside Transit Agency — Dial-A-Ride (ADA Priority Service)',
+    category:'Transportation',
+    contact:'(800) 795-7887',
+    scope:'Western Riverside County (within 3/4 mile of a regular RTA route)',
+    notes:'Origin-to-destination, advance-reservation paratransit for seniors and people with disabilities who cannot use lift-equipped fixed-route RTA buses. Number was search-corroborated, not directly confirmed on a fetched RTA page -- verify by phone before treating as fully confirmed.',
+    sourceUrl:'https://www.riversidetransit.com/',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'sbc-dbh-language-line',
+    name:'San Bernardino County DBH — Language Assistance Line',
+    category:'Interpreter / language line',
+    contact:'(888) 743-1478',
+    scope:'San Bernardino County',
+    notes:'IMPORTANT: this is DBH\'s own public intake/Access Unit line offering language help to callers reaching DBH -- it is NOT a dial-in interpreter service outside clinic staff can use to get an interpreter on their own patient calls. Use it when referring/connecting a patient TO DBH who needs language assistance to do so. For staff\'s own interpreter needs on outside calls, use LanguageLine Solutions below (or your practice\'s existing vendor).',
+    sourceUrl:'https://wp.sbcounty.gov/dbh/',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'ruhs-bh-language-line',
+    name:'RUHS Behavioral Health — Language Assistance (CARES Line)',
+    category:'Interpreter / language line',
+    contact:'(800) 499-3008 (TTY 711)',
+    scope:'Riverside County',
+    notes:'Same pattern as the SB County entry: this is RUHS-BH\'s own CARES/access line offering language help to callers reaching RUHS-BH -- not a dial-in interpreter service for outside staff\'s own calls. Use it when referring/connecting a patient TO RUHS-BH who needs language assistance to do so.',
+    sourceUrl:'https://www.ruhealth.org/behavioral-health',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'languageline-solutions',
+    name:'LanguageLine Solutions — Telephonic Interpreter (Client Services)',
+    category:'Interpreter / language line',
+    contact:'(800) 752-6096',
+    scope:'National (240+ languages)',
+    notes:'Paid, on-demand telephonic/video interpreter service, 24/7/365, widely used by healthcare providers. Requires an active account/Client ID -- check whether IPMG already has a LanguageLine (or CyraCom) account before calling; this is not free/walk-up access.',
+    sourceUrl:'https://www.languageline.com/contact-us',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'sbc-aps-mandated-reporting',
+    name:'San Bernardino County Adult Protective Services (APS)',
+    category:'Mandated reporting',
+    contact:'(877) 565-2020',
+    scope:'San Bernardino County',
+    notes:'24/7/365. Report suspected abuse, neglect, exploitation, or self-neglect of an elder (65+) or dependent adult. Mandated reporters include health practitioners, clergy, and care custodians.',
+    sourceUrl:'https://daas.sbcounty.gov/adult-protective-services',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'sbc-cps-mandated-reporting',
+    name:'San Bernardino County Child & Family Services (CPS)',
+    category:'Mandated reporting',
+    contact:'(800) 827-8724 -- local (909) 384-9233 -- mandated-reporter fax (909) 891-3545 or (909) 891-3560',
+    scope:'San Bernardino County',
+    notes:'24/7. Report suspected child abuse or neglect. Mandated reporters include teachers, clinicians/therapists, medical/mental-health professionals, and social workers.',
+    sourceUrl:'https://cfs.sbcounty.gov/how-to-report-child-abuse-2',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'riverside-aps-mandated-reporting',
+    name:'Riverside County Adult Protective Services (APS)',
+    category:'Mandated reporting',
+    contact:'(800) 491-7123',
+    scope:'Riverside County',
+    notes:'24/7/365. Report suspected abuse, neglect, or financial exploitation of an elder (60+) or dependent adult (18-59). Mandated reporters include health practitioners, care custodians, and clergy.',
+    sourceUrl:'https://rivcodpss.org/',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'riverside-cps-mandated-reporting',
+    name:'Riverside County Child Abuse Hotline (DPSS Children\'s Services)',
+    category:'Mandated reporting',
+    contact:'(800) 442-4918',
+    scope:'Riverside County',
+    notes:'24/7/365. Report suspected child abuse or neglect. Mandated reporters include teachers, counselors/therapists, medical professionals, and law enforcement. Sourced directly from DPSS\'s own 2023 fact sheet; one secondary source lists an alternate number, (877) 922-4453, for the same hotline -- not independently confirmed, use the primary number above.',
+    sourceUrl:'https://rivcodpss.org/',
+    review:'Web checked Jul 2026'
+  }
+];
+
+function directoryFiltered(){
+  const q = String(state.directoryQuery||'').trim().toLowerCase();
+  let list = state.directoryCategory==='All' ? staffDirectory : staffDirectory.filter(d=>d.category===state.directoryCategory);
+  if(q) list = list.filter(d => `${d.name} ${d.category} ${d.notes} ${d.scope} ${d.contact}`.toLowerCase().includes(q));
+  return list;
+}
+function setDirectorySearch(value){ state.directoryQuery=value; commit({persist:false}); }
+function setDirectoryCategory(category){ state.directoryCategory=(state.directoryCategory===category?'All':category); commit(); }
+function directoryCategoryCount(category){ return staffDirectory.filter(d=>d.category===category).length; }
+function copyDirectoryContact(id){
+  const d = staffDirectory.find(x=>x.id===id); if(!d) return;
+  copyPlainTextToClipboard(`${d.name}: ${d.contact}`);
+}
+function exportDirectoryCSV(){
+  const headers=['name','category','contact','scope','notes','sourceUrl','review'];
+  const csv=[headers.join(','), ...staffDirectory.map(d=>headers.map(h=>`"${String(d[h]??'').replaceAll('"','""')}"`).join(','))].join('\n');
+  downloadText('ipmg_staff_directory.csv', csv, 'text/csv'); showToast('Staff directory exported');
+}
+function directoryCard(d){
+  const cat = staffDirectoryCategories.find(c=>c.type===d.category) || {color:'mint', icon:'A'};
+  const telHref = String(d.contact||'').match(/[0-9][0-9()\-.\s]{6,}/);
+  return `<article class="directory-card ${cat.color}"><div class="dc-accent"></div><div class="dc-body">
+    <div class="dc-head"><div class="dc-badge">${html(cat.icon||'A')}</div><div class="dc-headtext">
+      <h4>${html(d.name)}</h4>
+      <p class="dc-notes">${html(d.notes||'')}</p>
+    </div></div>
+    <div class="dc-meta"><div><span>Contact</span><b>${html(d.contact)}</b></div><div><span>Scope</span><b>${html(d.scope||'Verify')}</b></div><div><span>Reviewed</span><b>${html(d.review||'')}</b></div></div>
+    <div class="dc-foot"><div class="dc-source">${d.sourceUrl?`<a href="${escapeAttr(d.sourceUrl)}" target="_blank" rel="noreferrer">Source</a>`:''}</div><div class="dc-actions">${telHref?`<a class="dc-call" href="tel:${escapeAttr(telHref[0].replace(/[^0-9+]/g,''))}">Call</a>`:''}<button class="dc-copy" onclick="copyDirectoryContact('${d.id}')">Copy number</button></div></div>
+  </div></article>`;
+}
+function staffDirectoryView(){
+  const list = directoryFiltered();
+  return `<div class="directory-screen" data-ui="directory-view">
+    <div class="dc-page-head"><div><span class="eyebrow">Staff use only</span><h2>Staff Directory</h2><p>Internal administrative numbers -- welfare checks, transportation, interpreter lines, mandated reporting. This list is completely separate from the referral database: there is no way to add anything here to a patient plan or document.</p></div><button class="secondary-action" onclick="exportDirectoryCSV()">Export directory CSV</button></div>
+    <div class="panel dc-tools">
+      <div class="filter-strip"><div class="field-search">${svg('search')}<input value="${escapeAttr(state.directoryQuery)}" oninput="setDirectorySearch(this.value)" placeholder="Search staff directory" /></div></div>
+      <div class="v60-filter-pills specialty-pills"><span class="specialty-pills-label">Category</span>${staffDirectoryCategories.map(c=>`<button class="${state.directoryCategory===c.type?'active':''}" onclick="setDirectoryCategory('${c.type}')" title="${escapeAttr(c.help)}">${html(c.type)}<b>${directoryCategoryCount(c.type)}</b></button>`).join('')}</div>
+      <div class="result-bar"><b>${list.length}</b><span>staff directory entr${list.length===1?'y':'ies'}</span><em>${state.directoryCategory==='All'?'All categories':html(state.directoryCategory)}</em></div>
+    </div>
+    <div class="resource-list dc-list">${list.length ? list.map(directoryCard).join('') : `<div class="empty-results"><h3>No matches</h3><p>Clear search or category filter.</p><button onclick="state.directoryQuery=''; state.directoryCategory='All'; commit();">Clear filters</button></div>`}</div>
+  </div>`;
+}
+
 const screens = [
   {id:'dashboard', label:'Home', icon:'home'},
   {id:'workbench', label:'Build', icon:'catalog'},
   {id:'database', label:'Database', icon:'data'},
   {id:'print', label:'Review & Output', icon:'print'},
+  {id:'directory', label:'Staff Directory', icon:'phone'},
   {id:'settings', label:'Settings', icon:'settings'}
 ];
 
@@ -17638,7 +17886,9 @@ const DEFAULT_STATE = {
   output:'Patient handout',
   patient:{name:'', dob:'', phone:'', insurance:'', reason:''},
   toast:'',
-  lastAdded:null
+  lastAdded:null,
+  directoryQuery:'',
+  directoryCategory:'All'
 };
 
 let state = loadState();
@@ -17713,7 +17963,8 @@ function svg(name){
     spark:'M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z',
     bag:'M7 9V7a5 5 0 0 1 10 0v2m-12 0h14l-1 12H6L5 9z',
     send:'M4 12 20 4l-5 16-3-7-8-1z',
-    clipboard:'M9 5h6m-7 2H6v14h12V7h-2M9 3h6v4H9V3z'
+    clipboard:'M9 5h6m-7 2H6v14h12V7h-2M9 3h6v4H9V3z',
+    phone:'M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.5 21 3 13.5 3 4c0-.6.4-1 1-1h3.2c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8z'
   };
   return `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="${paths[name] || paths.home}"/></svg>`;
 }
@@ -18038,6 +18289,7 @@ function main(){
   if(state.view==='workbench') return workbench();
   if(state.view==='database') return database();
   if(state.view==='print') return printCenter();
+  if(state.view==='directory') return staffDirectoryView();
   return settings();
 }
 function render(){
@@ -20938,7 +21190,7 @@ scrollAppToTop();
     const title = screens.find(s=>s.id===state.view)?.label || 'Referral Hub';
     const count = state.plan.length;
     const status = planStatus();
-    const helper = state.view==='dashboard' ? 'Start a referral plan' : state.view==='workbench' ? 'Find primary + backup' : state.view==='print' ? 'Create handoff output' : state.view==='database' ? 'Maintain resource quality' : 'App preferences';
+    const helper = state.view==='dashboard' ? 'Start a referral plan' : state.view==='workbench' ? 'Find primary + backup' : state.view==='print' ? 'Create handoff output' : state.view==='database' ? 'Maintain resource quality' : state.view==='directory' ? 'Internal staff numbers -- never for patient output' : 'App preferences';
     return `<header class="topbar mature-topbar v60-topbar">
       <div class="page-title"><span class="kicker">IPMG Referral Hub</span><h1>${html(title)}</h1><small>${html(helper)}</small></div>
       <div class="v60-command-search">${svg('search')}<input value="${escapeAttr(state.query)}" oninput="setSearch(this.value)" placeholder="Search therapy, IOP, Kaiser, teen, ADHD testing, SB crisis…" /></div>
