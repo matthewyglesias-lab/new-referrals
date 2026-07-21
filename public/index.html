@@ -8886,6 +8886,15 @@ button:hover, .plan-button:hover, .assist:hover,
 .v60-add-backup:hover, .card-actions button:not(.dark):not(.wide.dark):hover {
   background: var(--soft) !important; border-color: var(--line-strong) !important; color: var(--text) !important;
 }
+/* Restore visible button chrome for "Add backup" -- the rule above washes it
+   out to a near-invisible border/text on a transparent background, unlike its
+   sibling "Details" button which keeps a solid white pill. Match them. */
+.v60-resource-actions .v60-add-backup {
+  background: #fff !important; border: 1px solid var(--line-strong, #bfd3dd) !important; color: var(--text, #20384e) !important;
+}
+.v60-resource-actions .v60-add-backup:hover {
+  background: var(--soft, #eef6f8) !important; border-color: var(--line-strong, #bfd3dd) !important; color: var(--text, #20384e) !important;
+}
 
 /* Readiness badge */
 .readiness-badge {
@@ -21190,7 +21199,7 @@ scrollAppToTop();
     const title = screens.find(s=>s.id===state.view)?.label || 'Referral Hub';
     const count = state.plan.length;
     const status = planStatus();
-    const helper = state.view==='dashboard' ? 'Start a referral plan' : state.view==='workbench' ? 'Find primary + backup' : state.view==='print' ? 'Create handoff output' : state.view==='database' ? 'Maintain resource quality' : state.view==='directory' ? 'Internal staff numbers -- never for patient output' : 'App preferences';
+    const helper = state.view==='dashboard' ? 'Start a referral plan' : state.view==='workbench' ? 'Find primary + backup' : state.view==='print' ? 'Create handoff output' : state.view==='database' ? 'Maintain resource quality' : state.view==='directory' ? 'Never for patient output' : 'App preferences';
     return `<header class="topbar mature-topbar v60-topbar">
       <div class="page-title"><span class="kicker">IPMG Referral Hub</span><h1>${html(title)}</h1><small>${html(helper)}</small></div>
       <div class="v60-command-search">${svg('search')}<input value="${escapeAttr(state.query)}" oninput="setSearch(this.value)" placeholder="Search therapy, IOP, Kaiser, teen, ADHD testing, SB crisis…" /></div>
