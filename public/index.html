@@ -5250,8 +5250,11 @@ body{background:var(--mature-bg);color:var(--mature-text);}
 .v57-queue-item{border:1px solid var(--line);background:#fff;border-radius:16px;padding:11px 12px;display:grid;gap:7px}
 .v57-queue-item.p1{border-color:var(--rose-b);background:linear-gradient(180deg,#fff,#fff8f7)}
 .v57-queue-item.p2{border-color:var(--gold-b);background:linear-gradient(180deg,#fff,#fffdf4)}
+.v57-queue-item.mint{border-color:var(--mint-b);background:linear-gradient(180deg,#fff,#f7fdfb)}
 .v57-queue-item b{font-size:13px;line-height:1.25;color:var(--text)}
 .v57-queue-item small{color:var(--muted);font-size:12px;line-height:1.35}
+.easy-referral-panel .v57-queue-actions{display:flex;gap:8px;flex-wrap:wrap}
+.easy-referral-panel a.secondary-action{text-decoration:none;font-size:12.5px}
 .v57-queue-actions{display:flex;gap:7px;flex-wrap:wrap}
 .v57-queue-actions button{height:30px;border-radius:999px;border:1px solid var(--line);background:#fff;padding:0 10px;font-size:11.5px;font-weight:850;color:var(--text)}
 .v57-drawer-grid{display:grid;gap:12px}
@@ -11041,6 +11044,8 @@ const resources = [
     "notIdeal": "Medi-Cal, Medicare, Tricare, urgent crisis, or county/safety-net needs.",
     "patient": "Use Octave’s California directory and insurance checker before booking.",
     "staff": "Flag that Octave states some public plans are not accepted; verify payer before giving as primary.",
+    "referralSubmitUrl": "https://www.findoctave.com/referral-form",
+    "referralSubmitNote": "Provider referral form (also referrals@findoctave.com or fax 628-234-3048).",
     "categories": [
       "Online CA"
     ],
@@ -11335,7 +11340,7 @@ const resources = [
     "readiness": 78,
     "review": "Web checked Jun 2026",
     "records": "Patient contact, insurance, therapy need, age/guardian if minor",
-    "city": "California online / Riverside",
+    "city": "California online / Murrieta-Temecula",
     "scope": "California only online",
     "modality": "Telehealth throughout CA; in-person some locations",
     "payer": "Verify insurance/self-pay",
@@ -12488,7 +12493,7 @@ const resources = [
     "route": "Youth PHP/IOP program",
     "fit": "Youth structured higher level of care",
     "action": "Confirm age, acuity, insurance, and Murrieta location fit",
-    "contact": "28078 Baxter Rd., Ste. 242, Murrieta · 951-290-6411",
+    "contact": "28078 Baxter Rd., Ste. 242, Murrieta · 951-783-3964",
     "readiness": 82,
     "review": "Web checked Jun 2026",
     "records": "Guardian info, insurance, risk screen, school concerns, recent notes",
@@ -13653,6 +13658,8 @@ const resources = [
     "notIdeal": "Therapy-only need without psychiatry or crisis/high-acuity emergency.",
     "patient": "Complete online matcher and confirm insurance is accepted.",
     "staff": "Verify insurance acceptance, age/service limits, current med needs, and controlled medication policy.",
+    "referralSubmitUrl": "https://www.talkiatry.com/refer-a-patient",
+    "referralSubmitNote": "Secure clinician referral portal; most patients scheduled within a week. Ages 5-18 and adult psychiatry, in-network with major insurers.",
     "categories": [
       "Online CA"
     ],
@@ -13702,6 +13709,8 @@ const resources = [
     "notIdeal": "IOP/PHP level, crisis stabilization, complex case needing local wraparound.",
     "patient": "Complete assessment and insurance check; choose therapy and/or psychiatry plan as appropriate.",
     "staff": "Confirm risk exclusions, diagnosis fit, insurance, and whether patient needs higher level of care.",
+    "referralSubmitUrl": "https://www.brightside.com/referral/",
+    "referralSubmitNote": "Provider referral portal; submit a new patient referral online in a few minutes.",
     "categories": [
       "Online CA"
     ],
@@ -16557,6 +16566,256 @@ const resources = [
     "routeTags": [
       "Virtual PHP/IOP eating disorder program",
       "Call to verify insurance, confirm age fit, and start intake"
+    ]
+  },
+  {
+    "id": "ie-behavioral-group-eating-disorder",
+    "name": "Inland Empire Behavioral Group — Eating Disorder Outpatient Care",
+    "type": "Local therapy",
+    "color": "gold",
+    "icon": "ED",
+    "route": "Individual outpatient eating disorder therapy, medication management, and nutrition support",
+    "fit": "Children through adults with anorexia, ARFID, bulimia, or binge-eating disorder needing routine outpatient (not IOP/PHP) care",
+    "action": "Call or email to confirm insurance, age fit, and current availability",
+    "contact": "(909) 429-3244 · iebehavioral@iebgroup.org",
+    "readiness": 76,
+    "review": "Web checked Jul 2026",
+    "records": "Insurance card, eating disorder/medical history, guardian info if minor, risk screen",
+    "city": "Riverside / Colton",
+    "scope": "Inland Empire",
+    "modality": "Individual therapy (CBT, Maudsley/family-based for younger patients), medication management, nutrition support, group therapy for BED",
+    "payer": "Verify insurance; not specified publicly",
+    "source": "Inland Empire Behavioral Group",
+    "sourceUrl": "https://iebehavioralgroup.com/our-services/eating-disorder/",
+    "best": "Patients who need a routine outpatient eating-disorder-specialized therapist/psychiatrist -- not a full IOP/PHP program -- for anorexia, ARFID, bulimia, or binge-eating disorder, including younger children where family (Maudsley) involvement is appropriate.",
+    "notIdeal": "Patients who are medically unstable or need IOP/PHP/residential-level structure; route to a program (e.g. RUHS ED-IOP, SB County EDC, Bright Road Recovery) instead.",
+    "patient": "Call or email IEBG and ask about eating disorder outpatient therapy intake, insurance, and current availability.",
+    "staff": "Confirm insurance/payer, age, current level-of-care need (this is outpatient, not IOP/PHP), and which Riverside or Colton office fits.",
+    "categories": [
+      "Local therapy"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Therapy/counseling",
+      "Psychiatry/med support"
+    ],
+    "deliveryModes": [
+      "In-person",
+      "Telehealth"
+    ],
+    "serviceAreas": [
+      "Riverside",
+      "West Valley"
+    ],
+    "populations": [
+      "Youth/teen",
+      "Adult"
+    ],
+    "payerTags": [
+      "Verify payer"
+    ],
+    "routeTags": [
+      "Individual outpatient eating disorder therapy, medication management, and nutrition support",
+      "Call or email to confirm insurance, age fit, and current availability"
+    ]
+  },
+  {
+    "id": "nourished-with-kindness-rd-ca",
+    "name": "Nourished with Kindness — CA Eating Disorder Dietitians",
+    "type": "Online CA",
+    "color": "blue",
+    "icon": "RD",
+    "route": "Virtual registered-dietitian nutrition therapy for eating disorders",
+    "fit": "Patients needing an eating-disorder-specialized registered dietitian for individual or family nutrition counseling",
+    "action": "Confirm insurance/PPO coverage, age fit, and clinician availability",
+    "contact": "855-259-7243 · hello@nourishedwithkindness.com",
+    "readiness": 72,
+    "review": "Web checked Jul 2026",
+    "records": "Insurance card, eating disorder history, referring provider info if required",
+    "city": "California online",
+    "scope": "California only online",
+    "modality": "1:1 registered dietitian nutrition therapy, family sessions, intuitive eating/weight-inclusive approach",
+    "payer": "PPO (Aetna, Anthem, Blue Shield of CA, Cigna, UHC, Health Net, Tricare West); verify current panel",
+    "source": "Nourished with Kindness",
+    "sourceUrl": "https://nourishedwithkindness.com/",
+    "best": "Patients in active eating disorder treatment (therapy and/or a program) who need a specialized registered dietitian for ongoing nutrition therapy, without needing a full IOP/PHP program.",
+    "notIdeal": "Patients who need therapy or medical monitoring, not just nutrition counseling, or who need IOP/PHP/residential-level care.",
+    "patient": "Contact Nourished with Kindness and ask about eating disorder nutrition therapy, insurance verification, and getting matched with a dietitian.",
+    "staff": "Confirm PPO panel/insurance, whether the patient also has a therapist/medical provider (dietitian-only care should not stand alone for higher-acuity cases), and current availability.",
+    "categories": [
+      "Online CA"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Nutrition/dietitian"
+    ],
+    "deliveryModes": [
+      "Virtual CA"
+    ],
+    "serviceAreas": [
+      "California virtual"
+    ],
+    "populations": [
+      "Youth/teen",
+      "Adult"
+    ],
+    "payerTags": [
+      "Commercial"
+    ],
+    "routeTags": [
+      "Virtual registered-dietitian nutrition therapy for eating disorders",
+      "Confirm insurance/PPO coverage, age fit, and clinician availability"
+    ]
+  },
+  {
+    "id": "neurochamp-riverside-testing",
+    "name": "NeuroChamp — Psychoeducational, ADHD, and Learning Testing",
+    "type": "Testing DD",
+    "color": "lavender",
+    "icon": "NC",
+    "route": "Psychoeducational / ADHD / learning-disability / autism evaluation",
+    "fit": "Children/adolescents (and virtual CA-wide) needing ADHD, dyslexia, learning-disability, or autism testing",
+    "action": "Confirm age, referral reason, payer, and in-person vs. virtual fit",
+    "contact": "(909) 255-6113",
+    "readiness": 78,
+    "review": "Web checked Jul 2026",
+    "records": "School records/IEP, developmental history, insurance, prior evaluations, guardian info",
+    "city": "Riverside",
+    "scope": "Inland Empire; virtual statewide",
+    "modality": "Psychoeducational evaluation, ADHD/anxiety evaluation, learning disability (dyslexia/dysgraphia/dyscalculia) testing, autism evaluation, IEE/IEP support",
+    "payer": "Verify insurance/self-pay",
+    "source": "NeuroChamp",
+    "sourceUrl": "https://www.theneurochamp.com/",
+    "best": "Children/teens needing a psychoeducational or ADHD/learning-disability evaluation, including IEP/504 documentation, with an in-person Riverside option or virtual CA-wide availability.",
+    "notIdeal": "Adult-only ADHD testing (confirm current age range directly) or urgent mental health crisis.",
+    "patient": "Guardian should call and ask about psychoeducational/ADHD evaluation intake, insurance, and wait time.",
+    "staff": "Confirm age range served, referral reason (school vs. clinical), payer, and in-person vs. virtual fit.",
+    "categories": [
+      "Testing DD",
+      "Youth family"
+    ],
+    "alsoUnder": [
+      "Youth family"
+    ],
+    "serviceTypes": [
+      "Testing/DD",
+      "Youth/family"
+    ],
+    "deliveryModes": [
+      "In-person",
+      "Virtual CA"
+    ],
+    "serviceAreas": [
+      "Riverside",
+      "San Bernardino"
+    ],
+    "populations": [
+      "Youth/teen"
+    ],
+    "payerTags": [
+      "Verify payer"
+    ],
+    "routeTags": [
+      "Psychoeducational / ADHD / learning-disability / autism evaluation",
+      "Confirm age, referral reason, payer, and in-person vs. virtual fit"
+    ]
+  },
+  {
+    "id": "abundance-therapy-adhd-testing-riverside",
+    "name": "Abundance Therapy Center — ADHD Testing",
+    "type": "Testing DD",
+    "color": "lavender",
+    "icon": "AT",
+    "route": "Comprehensive ADHD psychological assessment",
+    "fit": "Children (6+), teens, and adults needing a comprehensive ADHD evaluation, including school (IEP/504) documentation",
+    "action": "Confirm age, insurance/pre-authorization, and current wait time",
+    "contact": "213-505-4307",
+    "readiness": 80,
+    "review": "Web checked Jul 2026",
+    "records": "Insurance card, developmental/school history, prior evaluations, symptom history",
+    "city": "Riverside",
+    "scope": "Inland Empire (also LA, Valencia, Anaheim offices)",
+    "modality": "Comprehensive ADHD assessment: cognitive testing, behavioral observation, developmental history, 2-3 appointments over several weeks",
+    "payer": "Most major insurance accepted; handles pre-authorization; sliding scale/payment plans available for uninsured",
+    "source": "Abundance Therapy Center",
+    "sourceUrl": "https://www.abundancetherapycenter.com/adhd-testing-riverside-county",
+    "best": "Children (6+), teens, and adults needing a comprehensive ADHD evaluation without a long wait (typically 2-3 weeks to first appointment), including bilingual/culturally responsive evaluation and school documentation.",
+    "notIdeal": "Patients needing same-day crisis care or an autism-specific/neuropsychological (non-ADHD) battery -- confirm scope directly.",
+    "patient": "Call and ask about ADHD testing intake, insurance/pre-authorization, and current appointment availability.",
+    "staff": "Confirm age, insurance/pre-authorization requirements, and whether the Riverside office (vs. LA/Valencia/Anaheim) is the right fit.",
+    "categories": [
+      "Testing DD"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Testing/DD"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Youth/teen",
+      "Adult"
+    ],
+    "payerTags": [
+      "Commercial",
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "Comprehensive ADHD psychological assessment",
+      "Confirm age, insurance/pre-authorization, and current wait time"
+    ]
+  },
+  {
+    "id": "nixon-psychological-institute-chino",
+    "name": "Nixon Psychological Institute — Chino",
+    "type": "Testing DD",
+    "color": "lavender",
+    "icon": "NP",
+    "route": "Psychological testing and evaluation (ADHD, learning, cognitive, autism)",
+    "fit": "Children (3+) through adults needing ADHD, cognitive, learning, or autism (ADOS-2) testing",
+    "action": "Confirm age, insurance, and current availability",
+    "contact": "(909) 248-3434",
+    "readiness": 74,
+    "review": "Web checked Jul 2026",
+    "records": "Insurance card, developmental/school history, prior evaluations, symptom history",
+    "city": "Chino",
+    "scope": "Inland Empire / West Valley",
+    "modality": "Psychological testing and evaluation for ADHD and other cognitive disorders, including ADOS-2 autism testing; psychotherapy also offered in-person or via video",
+    "payer": "Verify current insurance panel directly",
+    "source": "Nixon Psychological Institute",
+    "sourceUrl": "https://www.nixonpsychologicalinstitute.com/",
+    "best": "Children (3+), teens, and adults needing ADHD, cognitive, learning, or autism testing in the West Valley/Chino area, with a free 15-minute consultation to start.",
+    "notIdeal": "Urgent mental health crisis or patients needing IOP/PHP-level care.",
+    "patient": "Call and ask about the free consultation, testing intake, and insurance verification.",
+    "staff": "Confirm age, current insurance panel, referral reason, and wait time.",
+    "categories": [
+      "Testing DD"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Testing/DD"
+    ],
+    "deliveryModes": [
+      "In-person",
+      "Telehealth"
+    ],
+    "serviceAreas": [
+      "West Valley"
+    ],
+    "populations": [
+      "Youth/teen",
+      "Adult"
+    ],
+    "payerTags": [
+      "Verify payer"
+    ],
+    "routeTags": [
+      "Psychological testing and evaluation (ADHD, learning, cognitive, autism)",
+      "Confirm age, insurance, and current availability"
     ]
   }
 ];
@@ -19430,7 +19689,15 @@ const V57_SOURCE_ANCHORS = {
   'eating-recovery-center-irvine': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Eating Recovery Center Irvine page lists address, admissions line, and PHP/IOP levels of care for ages 12+.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Call ERC admissions to confirm age track, payer authorization, and travel feasibility for daily PHP/IOP programming.'},
   'acute-denver-health-severe-malnutrition': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Denver Health / ACUTE.org page describes the only specialized inpatient medical-stabilization unit for severe eating disorders/malnutrition, ages 15+, contracted with most major insurance.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Use only when a patient is too medically unstable for PHP/IOP/residential care; have a physician arrange transfer, and send immediate emergencies to the nearest ER first.'},
   'equip-virtual-fbt-ca': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Equip Health referral-info page describes virtual family-based treatment for eating disorders, ages 5+, with insurance/Medicaid varying by state.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Call Equip admissions to confirm current California insurance/Medicaid acceptance and family fit for FBT before referring.'},
-  'within-health-virtual-ed': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Within Health location page confirms fully virtual Enhanced IOP/PHP eating disorder care serving San Bernardino and Riverside patients.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Call Within Health to verify insurance and confirm the patient is medically stable enough for a virtual-only program.'}
+  'within-health-virtual-ed': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Within Health location page confirms fully virtual Enhanced IOP/PHP eating disorder care serving San Bernardino and Riverside patients.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Call Within Health to verify insurance and confirm the patient is medically stable enough for a virtual-only program.'},
+  'ie-behavioral-group-eating-disorder': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Inland Empire Behavioral Group eating disorder services page lists individual therapy, medication management, and nutrition support at Riverside and Colton addresses, phone (909) 429-3244.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Use for a routine outpatient eating-disorder-specialized therapist/psychiatrist; call to confirm insurance and current availability.'},
+  'nourished-with-kindness-rd-ca': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Nourished with Kindness site lists CA telehealth registered dietitian eating-disorder nutrition therapy and a named PPO panel.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Use to pair with an existing therapist/program for eating-disorder-specialized nutrition therapy; confirm PPO panel before referring.'},
+  'neurochamp-riverside-testing': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official NeuroChamp site lists psychoeducational/ADHD/learning/autism testing services, Riverside address, and phone (909) 255-6113.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Use for youth psychoeducational or ADHD/learning-disability testing; confirm age range and payer before referring.'},
+  'abundance-therapy-adhd-testing-riverside': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Abundance Therapy Center ADHD testing page lists Riverside address, phone 213-505-4307, insurance/pre-authorization handling, and 2-3 week typical wait.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Use for a comprehensive ADHD evaluation (ages 6+) with a shorter wait than many local options; confirm insurance/pre-authorization.'},
+  'nixon-psychological-institute-chino': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Independently corroborated (Yelp/Psychology Today/practice listings) address 12530 10th St Ste C, Chino, and phone (909) 248-3434; official site reviewed for services offered.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Use for ADHD/cognitive/learning/autism testing in the Chino/West Valley area; confirm current insurance panel by phone.'},
+  'octave-ca': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Octave provider-referral page (findoctave.com/referral-form) confirmed as a live external clinician referral form; also reachable at referrals@findoctave.com or fax 628-234-3048.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'For commercially insured CA patients, staff can submit a referral directly online instead of calling.'},
+  'talkiatry-ca': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Talkiatry referral page (talkiatry.com/refer-a-patient) confirmed as a live clinician referral portal; most patients scheduled within a week; ages 5-18 and adult psychiatry; in-network with major insurers.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Staff can submit a referral directly online for insurance-covered psychiatry/medication management instead of the patient self-scheduling.'},
+  'brightside-ca': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Brightside provider-referral portal (brightside.com/referral/, redirects to externalprovider.brightside.com) confirmed as a live clinician referral form, distinct from the consumer "refer a friend" page.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Staff can submit a referral directly online for anxiety/depression therapy or psychiatry instead of the patient self-scheduling.'}
 };
 function v57Lower(x){ return String(x||'').toLowerCase(); }
 function v57UrlHost(url){ try{return new URL(url).hostname.replace(/^www\./,'');}catch(e){return '';} }
@@ -19774,9 +20041,15 @@ workbench = function(){
   const list=filtered();
   return `<div class="workbench-view mature-build" data-ui="workbench-view"><main class="work-main">${stepper()}<div class="section-head build-head"><div><span class="eyebrow">Build referral plan</span><h2>Find options and add the best primary route plus a backup.</h2><p>Search by patient need, payer, city, level of care, population, verification status, or staff shorthand.</p></div><button class="secondary-action" onclick="setView('database')">Open database</button></div>${startHere()}<div class="panel workbench-panel mature-resource-panel">${filters()}<div class="result-bar"><b>${list.length}</b><span>matching referral option${list.length===1?'':'s'}</span><em>${state.filter==='All'?'All categories':state.filter}</em></div><div class="resource-list">${list.length ? list.map(resourceCard).join('') : v58EmptySearchHtml()}</div></div></main>${planTray()}</div>`;
 };
+function easyOnlineReferralItems(){ return resources.filter(r=>r.referralSubmitUrl); }
+function easyOnlineReferralPanel(){
+  const items=easyOnlineReferralItems();
+  if(!items.length) return '';
+  return `<div class="panel v57-queue-panel easy-referral-panel"><h3>Easy online referrals</h3><p>These take a self-service referral submission online -- no phone tag required. Confirm insurance/fit first, then submit directly.</p><div class="v57-queue-list">${items.map(r=>`<div class="v57-queue-item mint"><b>${html(r.name)}</b><small>${html(r.referralSubmitNote || r.fit || '')}</small><div class="v57-queue-actions"><a class="secondary-action" href="${escapeAttr(r.referralSubmitUrl)}" target="_blank" rel="noreferrer">Submit referral online →</a><button onclick="openDrawer('${r.id}')">Details</button></div></div>`).join('')}</div></div>`;
+}
 database = function(){
   const audit=auditResources(); const list=filtered(); const stats=v57Stats();
-  return `<div class="database-view" data-ui="database-view"><main><div class="section-head"><div><h2>Verified resource database</h2><p>Search source status, payer, service type, city, queue priority, and staff confirmation needs.</p></div><div class="action-row"><button class="secondary-action" onclick="exportCSV()">Export master CSV</button><button class="secondary-action" onclick="exportVerificationQueue()">Export queue</button><button class="primary-action" onclick="showToast('Custom resource form is planned for the SQLite build')">Add resource</button></div></div><section class="db-tools panel">${filters()}<div class="v57-data-note"><b>Verification model</b><span>Official/public web review is not the same as human confirmation. Staff should mark phone-confirmed rows with date, initials, and notes before treating a route as operationally verified.</span></div><div class="v57-db-stats"><div class="v57-db-stat"><b>${stats.total}</b><span>resources</span></div><div class="v57-db-stat"><b>${stats.official}</b><span>official/crisis pages reviewed</span></div><div class="v57-db-stat"><b>${stats.staff}</b><span>staff-verify rows</span></div><div class="v57-db-stat"><b>${stats.p1}</b><span>P1 verification priorities</span></div></div><div class="coverage-strip">${categoryTiles.map(c=>`<span class="coverage-chip ${c.color}">${c.type}<b>${categoryCount(c.type)}</b></span>`).join('')}</div></section><section class="db-table panel"><div class="db-header v38"><span>Resource / source</span><span>First move</span><span>Delivery</span><span>Payer</span><span>Status</span><span></span></div>${list.length?list.map(dbRow).join(''):`<div class="empty-results"><h3>No database rows match</h3><p>Try status terms like “P1,” “staff verify,” “official,” or clinical terms like “teen IOP,” “Kaiser,” “SUD,” or “ADHD testing.”</p><div class="smart-empty-suggestions"><button onclick="smartSearchQuick('P1 verify')">P1 verify</button><button onclick="smartSearchQuick('official')">official</button><button onclick="smartSearchQuick('staff verify')">staff verify</button><button onclick="state.query=''; state.filter='All'; commit();">Clear all</button></div></div>`}</section></main><aside class="db-side">${v57QueueHtml(14)}<div class="panel v57-queue-panel"><h3>Known coverage gaps</h3><p>These should be researched and verified before being added as routine staff options.</p><div class="v57-gap-list">${V57_GAPS.map(g=>`<span>${html(g)}</span>`).join('')}</div></div></aside></div>`;
+  return `<div class="database-view" data-ui="database-view"><main><div class="section-head"><div><h2>Verified resource database</h2><p>Search source status, payer, service type, city, queue priority, and staff confirmation needs.</p></div><div class="action-row"><button class="secondary-action" onclick="exportCSV()">Export master CSV</button><button class="secondary-action" onclick="exportVerificationQueue()">Export queue</button><button class="primary-action" onclick="showToast('Custom resource form is planned for the SQLite build')">Add resource</button></div></div><section class="db-tools panel">${filters()}<div class="v57-data-note"><b>Verification model</b><span>Official/public web review is not the same as human confirmation. Staff should mark phone-confirmed rows with date, initials, and notes before treating a route as operationally verified.</span></div><div class="v57-db-stats"><div class="v57-db-stat"><b>${stats.total}</b><span>resources</span></div><div class="v57-db-stat"><b>${stats.official}</b><span>official/crisis pages reviewed</span></div><div class="v57-db-stat"><b>${stats.staff}</b><span>staff-verify rows</span></div><div class="v57-db-stat"><b>${stats.p1}</b><span>P1 verification priorities</span></div></div><div class="coverage-strip">${categoryTiles.map(c=>`<span class="coverage-chip ${c.color}">${c.type}<b>${categoryCount(c.type)}</b></span>`).join('')}</div></section><section class="db-table panel"><div class="db-header v38"><span>Resource / source</span><span>First move</span><span>Delivery</span><span>Payer</span><span>Status</span><span></span></div>${list.length?list.map(dbRow).join(''):`<div class="empty-results"><h3>No database rows match</h3><p>Try status terms like “P1,” “staff verify,” “official,” or clinical terms like “teen IOP,” “Kaiser,” “SUD,” or “ADHD testing.”</p><div class="smart-empty-suggestions"><button onclick="smartSearchQuick('P1 verify')">P1 verify</button><button onclick="smartSearchQuick('official')">official</button><button onclick="smartSearchQuick('staff verify')">staff verify</button><button onclick="state.query=''; state.filter='All'; commit();">Clear all</button></div></div>`}</section></main><aside class="db-side">${easyOnlineReferralPanel()}${v57QueueHtml(14)}<div class="panel v57-queue-panel"><h3>Known coverage gaps</h3><p>These should be researched and verified before being added as routine staff options.</p><div class="v57-gap-list">${V57_GAPS.map(g=>`<span>${html(g)}</span>`).join('')}</div></div></aside></div>`;
 };
 
 function v58RiskForSearch(r){

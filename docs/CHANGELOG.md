@@ -1,3 +1,11 @@
+# v70 Data Verification, Specialists, Testing Referrals, Easy Referrals
+
+- Fact-checked all 131 existing resources (phone/address against each live sourceUrl, corroborated via search where a site blocked automated fetches) and fixed 2 real errors found: `lluh-murrieta-youth-php-iop` had the wrong phone number for the youth PHP/IOP line (was 951-290-6411, corrected to 951-783-3964), and `grow-through-life-ca`'s city label misleadingly implied a Riverside-city office that doesn't exist (corrected to "California online / Murrieta-Temecula").
+- Added 2 individual eating-disorder outpatient specialists (distinct from the program-level PHP/IOP/residential entries added previously): Inland Empire Behavioral Group (Riverside/Colton -- individual therapy, medication management, nutrition support) and Nourished with Kindness (CA telehealth eating-disorder-specialized registered dietitians).
+- Added 3 neuropsychological/ADHD testing resources to a previously thin "Testing DD" category: NeuroChamp (Riverside, psychoeducational/ADHD/learning/autism testing), Abundance Therapy Center (Riverside, ADHD testing ages 6+, ~2-3 week wait), and Nixon Psychological Institute (Chino, ages 3+, ADHD/cognitive/learning/autism testing).
+- Added a new staff-facing "Easy online referrals" panel on the Database screen: resources with a real, verified external-provider referral-submission portal (not just a patient self-assessment link) now get a `referralSubmitUrl` field and a direct "Submit referral online" button. Verified and wired up Octave, Talkiatry, and Brightside Health's genuine clinician referral forms (SonderMind's clinician referral was checked and excluded -- SonderMind doesn't currently serve California).
+- Resource count: 131 → 136.
+
 # v69 Eating Disorder Referrals + Repo Hardening
 
 - Reconstructed the repository into the documented `public/`, `docs/`, and `.github/workflows/` layout; the prior commit had every file's name mismatched with its content (a scrambled zip extraction), so nothing in the repo actually matched the deployable v68 package.
