@@ -39,13 +39,38 @@ jobs:
           grep -qi '<title' public/index.html
           grep -q '/\* /index.html 200' public/_redirects
           grep -q 'Content-Security-Policy:' public/_headers
+          grep -q 'Strict-Transport-Security:' public/_headers
           grep -q 'Disallow: /' public/robots.txt
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check inline script blocks parse
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -e "
+          const fs = require('fs');
+          const { execFileSync } = require('child_process');
+          const html = fs.readFileSync('public/index.html', 'utf8');
+          const blocks = [...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1]);
+          if (!blocks.length) { console.error('No inline <script> blocks found.'); process.exit(1); }
+          blocks.forEach((block, i) => {
+            if (!block.trim()) return;
+            const tmp = '/tmp/_inline_script_' + i + '.js';
+            fs.writeFileSync(tmp, block);
+            execFileSync('node', ['--check', tmp], { stdio: 'inherit' });
+          });
+          console.log(blocks.length + ' inline script block(s) parsed successfully.');
+          "
 
       - name: Reject common accidental secrets
         shell: bash
         run: |
           set -euo pipefail
-          if grep -RInE --exclude-dir=.git --exclude='*.md' \
+          if grep -RInE --exclude-dir=.git --exclude-dir=.github --exclude='*.md' \
             '(BEGIN (RSA|OPENSSH|EC|DSA) PRIVATE KEY|AWS_SECRET_ACCESS_KEY|CLOUDFLARE_API_TOKEN|GITHUB_TOKEN=)' .; then
             echo 'Possible secret detected.'
             exit 1

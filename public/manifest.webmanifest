@@ -1,0 +1,21 @@
+{
+  "name": "IPMG Referral Hub",
+  "short_name": "Referral Hub",
+  "description": "Behavioral-health referral planning and output workspace for Inland Psychiatric Medical Group staff.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "id": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f5f9fc",
+  "theme_color": "#1e5040",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
