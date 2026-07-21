@@ -66,6 +66,37 @@ jobs:
           console.log(blocks.length + ' inline script block(s) parsed successfully.');
           "
 
+      - name: Validate referral resource data integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -e "
+          const fs = require('fs');
+          const html = fs.readFileSync('public/index.html', 'utf8');
+          const start = html.indexOf('const resources = [');
+          const end = html.indexOf('\n' + 'const categoryTiles');
+          if (start === -1 || end === -1) { console.error('Could not locate the resources array in public/index.html.'); process.exit(1); }
+          const resources = eval(html.slice(start, end).replace('const resources = ', ''));
+          const validColors = new Set(['mint','blue','lavender','peach','rose','gold']);
+          const required = ['id','name','type','color','icon','route','fit','action','contact','sourceUrl','best','notIdeal','patient','staff'];
+          const problems = [];
+          const seenIds = new Set();
+          resources.forEach((r) => {
+            required.forEach((k) => { if (r[k] === undefined || r[k] === null || r[k] === '') problems.push(r.id + ': missing/empty \"' + k + '\"'); });
+            if (!validColors.has(r.color)) problems.push(r.id + ': invalid color \"' + r.color + '\"');
+            if (r.sourceUrl && !/^https?:\/\//.test(r.sourceUrl)) problems.push(r.id + ': malformed sourceUrl \"' + r.sourceUrl + '\"');
+            if (!Array.isArray(r.categories) || !r.categories.length) problems.push(r.id + ': missing categories');
+            if (seenIds.has(r.id)) problems.push(r.id + ': duplicate id');
+            seenIds.add(r.id);
+          });
+          console.log(resources.length + ' referral resources checked.');
+          if (problems.length) {
+            problems.forEach((p) => console.error(' - ' + p));
+            process.exit(1);
+          }
+          console.log('No data-integrity problems found.');
+          "
+
       - name: Reject common accidental secrets
         shell: bash
         run: |

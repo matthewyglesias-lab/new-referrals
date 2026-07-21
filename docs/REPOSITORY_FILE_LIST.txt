@@ -3,6 +3,7 @@
 .gitignore
 README.md
 SECURITY.md
+netlify.toml
 docs/CHANGELOG.md
 docs/RELEASE_QA_REPORT.md
 docs/REPOSITORY_FILE_LIST.txt
