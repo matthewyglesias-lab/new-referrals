@@ -9860,6 +9860,7 @@ html body .plan-overview.open button:active{
   <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
 </head>
 <body>
+  <script src="vendor/pdf-lib.min.js"></script>
   <div id="app"></div>
   <!-- LOGIC LOCK: business logic starts here. For third-party design polish, do not edit this script unless the QA checks pass afterward. -->
   <script>
@@ -21137,35 +21138,40 @@ window.filtered = filtered;
 /* ==============================================================
    IEHP Adult Medi-Cal PHP/IOP Transition of Care
    -----------------------------------------------------------------
-   Source: IEHP Provider Relations notice "CORRECTION: Discontinuation
+   Source #1: IEHP Provider Relations notice "CORRECTION: Discontinuation
    of Behavioral Health Services -- PHP and IOP Coverage for Members
    Over Age 21" (April 23, 2026). Effective May 1, 2026, IEHP no longer
    covers PHP/IOP for Medi-Cal members over 21 (per DHCS APL 22-006,
    these aren't a Health Plan covered benefit); providers refer those
    members to County Behavioral Health instead, using the county's own
    "Transition of Care Tool for Medi-Cal Mental Health Services" form
-   sent to DGBHCountyCareCoordination@iehp.org. That form -- available
-   at providerservices.iehp.org > Resources for Providers > Forms > BH
-   -- is a different document than this notice and hasn't been supplied
-   yet, so real field-for-field PDF population (see IEHP_TOC_PDF_FIELD_MAP
-   below) is still pending it.
+   sent to DGBHCountyCareCoordination@iehp.org.
+   Source #2: DHCS 8765 B (01/2023), "Transition of Care Tool for
+   Medi-Cal Mental Health Services" -- the actual fillable form named in
+   source #1, supplied directly (public/assets/dhcs-8765b-transition-of-
+   care-tool.pdf). It has 56 real AcroForm fields across its 4 data pages
+   (page 1 is instructions only); IEHP_TOC_FORM_SCHEMA below preserves
+   its exact field names, labels, and grouping.
 
    This adds one inline notice (never a hard stop) plus a short guided
    form for that single case -- nothing else about the referral
-   workflow changes. Kept in three independent pieces so any one can
-   change later without touching the others:
+   workflow changes. Kept in independent pieces so any one can change
+   later without touching the others:
      1. Eligibility -- iehpTocEligibility() and its checks below.
-     2. Form schema -- IEHP_TOC_FORM_SCHEMA, auto-filled from whatever
-        the referral/patient fields already have; only a handful of
-        IEHP-only fields (member ID, diagnosis, etc.) are new.
-     3. PDF mapping -- IEHP_TOC_PDF_FIELD_MAP, left empty on purpose.
-        Once the official Transition of Care Tool PDF is supplied, fill
-        in each schema id's exact AcroForm field name there and replace
-        downloadIehpTocSummary() with a real PDF-fill step -- nothing
-        above it needs to change.
+     2. Form schema -- IEHP_TOC_FORM_SCHEMA, one entry per real PDF
+        field, grouped into the official form's own sections. Every
+        field carries its exact PDF field name so the schema doubles as
+        the field map; fields already answered elsewhere in the app
+        (patient name/DOB/phone, referring provider) read live from
+        there instead of asking twice.
+     3. PDF fill -- generateIehpTocPdf() loads the real template with
+        pdf-lib (vendored at public/vendor/pdf-lib.min.js, no CDN per
+        the app's CSP) and fills every field, producing the actual
+        completed official PDF, not a paraphrase of it.
    ============================== */
 const IEHP_TOC_MIN_AGE = 21; // confirmed by the source notice: "Members Over Age 21", i.e. strictly over 21
 const IEHP_TOC_EFFECTIVE_DATE = new Date(2026, 4, 1); // May 1, 2026 per the source notice
+const IEHP_TOC_PDF_TEMPLATE_URL = 'assets/dhcs-8765b-transition-of-care-tool.pdf';
 const IEHP_TOC_ROUTING = {
   formLocation: 'providerservices.iehp.org > Resources for Providers > Forms > BH ("Transition of Care Tool for Medi-Cal Mental Health Services")',
   submitEmail: 'DGBHCountyCareCoordination@iehp.org',
@@ -21211,12 +21217,19 @@ function iehpTocEligibility(){
 }
 window.iehpTocEligibility = iehpTocEligibility;
 
+// One entry per real field on DHCS 8765 B. `_seeded` is an internal flag
+// (see iehpTocSeedDefaults) -- not a form answer, so it's excluded from
+// the summary/PDF output further down.
 const DEFAULT_IEHP_TOC_STATE = {
-  memberId:'',
-  diagnosis:'',
-  transferringFrom:'',
-  reasonForTransition:'',
-  requestedDate:''
+  _seeded:false,
+  planType:'', submittingPlan:'', planContactName:'', planContactTitle:'', planContactPhone:'', planContactEmail:'', planAddress:'', planCity:'', planState:'', planZip:'',
+  beneficiaryPreferredName:'', beneficiaryAgreement:false, genderIdentity:'', otherGenderIdentity:'', pronouns:'', otherPronouns:'',
+  beneficiaryAddress:'', beneficiaryCity:'', beneficiaryState:'', beneficiaryZip:'', beneficiaryEmail:'', caregiverName:'', caregiverPhone:'', memberId:'',
+  diagnosis:'', supportingDocuments:'', culturalLinguisticRequests:'', presentingSymptoms:'', presentingSymptomsAttachment:false,
+  environmentalFactors:'', environmentalFactorsAttachment:false, behavioralHealthHistory:'', behavioralHealthHistoryAttachment:false,
+  medicalHistory:'', medicalHistoryAttachment:false, medicationsDosage:'', medicationsDosageAttachment:false,
+  serviceTransitionOfCare:false, serviceAdditionOfServices:false, servicesRequestedDescription:'', destination:'',
+  mcpName:'', mcpFax:'', mcpPhone:'', mcpTollFree:'', mcpTTY:'', cmhpName:'', cmhpFax:'', cmhpPhone:'', cmhpTollFree:'', cmhpTTY:''
 };
 function ensureIehpTocState(){
   if(!state.iehpToc || typeof state.iehpToc!=='object') state.iehpToc = {...DEFAULT_IEHP_TOC_STATE};
@@ -21227,34 +21240,125 @@ function setIehpTocField(field, value, shouldRender=false){
   const t = ensureIehpTocState();
   if(field in t){ t[field]=value; saveState(); if(shouldRender) scheduleRender(); }
 }
-function openIehpTocForm(){ ensureIehpTocState(); state.iehpTocOpen=true; commit({persist:false}); }
+// Runs once ever per browser (tracked by `_seeded`), the first time the
+// form opens -- fills in the parts of this workflow that are always true
+// (referring from the MCP side, destination is the county, transition of
+// care not addition-of-services) plus practice-level contact info already
+// entered elsewhere, so returning to a blank field later (e.g. someone
+// deliberately clears it) is never silently overwritten again.
+function iehpTocSeedDefaults(){
+  const t = ensureIehpTocState();
+  if(t._seeded) return;
+  t._seeded = true;
+  if(!t.planType) t.planType = 'Managed Care Plan';
+  if(!t.destination) t.destination = 'County Mental Health Plan';
+  if(!t.serviceTransitionOfCare) t.serviceTransitionOfCare = true;
+  if(!t.planState) t.planState = 'CA';
+  if(!t.beneficiaryState) t.beneficiaryState = 'CA';
+  if(!t.planContactName && state.packet && state.packet.preparedByName) t.planContactName = state.packet.preparedByName;
+  if(!t.planContactTitle && state.packet && state.packet.preparedByCredentials) t.planContactTitle = state.packet.preparedByCredentials;
+  if(!t.planContactPhone && state.packet && state.packet.returnContact) t.planContactPhone = state.packet.returnContact;
+  if(!t.presentingSymptoms && state.patient && state.patient.reason) t.presentingSymptoms = state.patient.reason;
+  if(!t.servicesRequestedDescription){ const p = paperContext().primary; if(p) t.servicesRequestedDescription = p.name; }
+}
+function openIehpTocForm(){ ensureIehpTocState(); iehpTocSeedDefaults(); saveState(); state.iehpTocOpen=true; commit({persist:false}); }
 function closeIehpTocForm(){ state.iehpTocOpen=false; commit({persist:false}); }
 window.setIehpTocField = setIehpTocField;
 window.openIehpTocForm = openIehpTocForm;
 window.closeIehpTocForm = closeIehpTocForm;
 
-// PENDING OFFICIAL PDF: each row's `value()` auto-fills from data the
-// referral already has. Only the fields with `editable:true` are new,
-// IEHP-only questions with no existing home elsewhere in the app.
+// Field factory: `pdfField` is the exact DHCS 8765 B AcroForm field name
+// (verbatim, including its typos like "Beneficary") so this same entry
+// works as both the UI row and the PDF fill instruction. `value` reads
+// live app state for read-only rows; everything else reads/writes
+// state.iehpToc[id] via ensureIehpTocState().
+function iehpTocField(id, pdfField, label, opts={}){
+  return {
+    id, pdfField, label,
+    type: opts.type || 'text',
+    options: opts.options || null,
+    optionLabels: opts.optionLabels || null,
+    placeholder: opts.placeholder || '',
+    conditional: opts.conditional || null,
+    value: opts.value || (()=>ensureIehpTocState()[id])
+  };
+}
 const IEHP_TOC_FORM_SCHEMA = [
-  {id:'memberName', label:'Member name', editable:false, value:()=>(state.patient && state.patient.name) || ''},
-  {id:'memberDob', label:'Member date of birth', editable:false, value:()=>(state.patient && state.patient.dob) || ''},
-  {id:'memberId', label:'IEHP Member ID / CIN', editable:true, placeholder:'9-digit CIN', value:()=>ensureIehpTocState().memberId},
-  {id:'diagnosis', label:'Diagnosis', editable:true, placeholder:'Primary behavioral health diagnosis', value:()=>ensureIehpTocState().diagnosis},
-  {id:'transferringFrom', label:'Current / prior provider or program', editable:true, placeholder:'Who the member is transitioning from, if known', value:()=>ensureIehpTocState().transferringFrom},
-  {id:'receivingProgram', label:'Receiving program (this referral)', editable:false, value:()=>(paperContext().primary && paperContext().primary.name) || ''},
-  {id:'reasonForTransition', label:'Reason for transition', editable:true, placeholder:'Clinical reason IEHP should review', value:()=>ensureIehpTocState().reasonForTransition || (state.patient && state.patient.reason) || ''},
-  {id:'requestedDate', label:'Requested transition date', editable:true, type:'date', value:()=>ensureIehpTocState().requestedDate},
-  {id:'requestingProvider', label:'Requesting provider', editable:false, value:()=>[state.packet && state.packet.providerName, state.packet && state.packet.providerCredentials].filter(Boolean).join(', ')},
-  {id:'callbackPhone', label:'Callback phone', editable:false, value:()=>(state.patient && state.patient.phone) || ''},
-  {id:'preparedBy', label:'Prepared by', editable:false, value:()=>(state.packet && state.packet.preparedByName) || ''}
+  {section:'Referring plan information', fields:[
+    iehpTocField('planType','Plan','Submitting plan type',{type:'radio', options:['Managed Care Plan','County Mental Health Plan']}),
+    iehpTocField('submittingPlan','Submitting Plan','Submitting plan'),
+    iehpTocField('planContactName','Plan Contact Name','Plan contact name'),
+    iehpTocField('planContactTitle','Plan Contact Title','Plan contact title'),
+    iehpTocField('planContactPhone','Phone Number','Plan contact phone'),
+    iehpTocField('planContactEmail','Email','Plan contact email'),
+    iehpTocField('planAddress','Address','Plan address'),
+    iehpTocField('planCity','City','Plan city'),
+    iehpTocField('planState','State','Plan state (2-letter)'),
+    iehpTocField('planZip','Zip Code','Plan ZIP code')
+  ]},
+  {section:'Beneficiary information', fields:[
+    iehpTocField('beneficiaryName','Beneficiarys Name','Beneficiary name',{type:'readonly', value:()=>(state.patient && state.patient.name) || ''}),
+    iehpTocField('beneficiaryPreferredName','Beneficiarys Preferred Name','Beneficiary preferred name'),
+    iehpTocField('beneficiaryDob','Date of Birth','Date of birth',{type:'readonly', value:()=>(state.patient && state.patient.dob) || ''}),
+    iehpTocField('beneficiaryAgreement','Beneficiary or Legal','Beneficiary or Legal Representative is in agreement with referral or transition of care',{type:'checkbox'}),
+    iehpTocField('genderIdentity','Gender Identity','Gender identity',{type:'radio', options:['Male','Female','Transgender Male','Transgender Female','Non-Binary','Other']}),
+    iehpTocField('otherGenderIdentity','Other Gender Identity','If Other, please specify',{conditional:()=>ensureIehpTocState().genderIdentity==='Other'}),
+    iehpTocField('pronouns','Pronouns','Pronouns',{type:'radio', options:['He/him','She/her','They/them','Other'], optionLabels:{'He/him':'He/Him','She/her':'She/Her','They/them':'They/Them','Other':'Other'}}),
+    iehpTocField('otherPronouns','Other Pronouns','If Other, please specify',{conditional:()=>ensureIehpTocState().pronouns==='Other'}),
+    iehpTocField('beneficiaryAddress','Beneficary Address','Beneficiary address'),
+    iehpTocField('beneficiaryCity','Beneficary City','Beneficiary city'),
+    iehpTocField('beneficiaryState','BeneState','Beneficiary state (2-letter)'),
+    iehpTocField('beneficiaryZip','Beneficary Zip','Beneficiary ZIP code'),
+    iehpTocField('beneficiaryPhone','Beneficary phone Number','Beneficiary phone',{type:'readonly', value:()=>(state.patient && state.patient.phone) || ''}),
+    iehpTocField('beneficiaryEmail','Beneficary Email','Beneficiary email'),
+    iehpTocField('caregiverName','Caregiver/Guardian','Caregiver / guardian name'),
+    iehpTocField('caregiverPhone','Caregiver/Guardian phone','Caregiver / guardian phone'),
+    iehpTocField('memberId','Medi-Cal Number (CIN)/SSN:','Medi-Cal Number (CIN) / SSN',{placeholder:'9-digit CIN'})
+  ]},
+  {section:'Clinical information', fields:[
+    iehpTocField('diagnosis','Behavioral Health Diagnosis or Diagnoses if known','Behavioral health diagnosis or diagnoses, if known',{type:'textarea'}),
+    iehpTocField('supportingDocuments','Supporting Clinical Documents Included','Supporting clinical documents included',{type:'textarea'}),
+    iehpTocField('culturalLinguisticRequests','Cultural and Linguistic Requests','Cultural and linguistic requests',{type:'textarea'}),
+    iehpTocField('presentingSymptoms','Current Presenting Symptoms/Behaviors (including substance use if appropriate):','Current presenting symptoms/behaviors (including substance use if appropriate)',{type:'textarea'}),
+    iehpTocField('presentingSymptomsAttachment','APA-CPSB','Additional pages attached',{type:'checkbox'}),
+    iehpTocField('environmentalFactors','CurrentEnvironmentalFactors','Current environmental factors (caregiver relationships, living environment, education)',{type:'textarea'}),
+    iehpTocField('environmentalFactorsAttachment','APA-CEF','Additional pages attached',{type:'checkbox'}),
+    iehpTocField('behavioralHealthHistory','BriefBehavioralHealthHistory','Brief behavioral health history (psychosocial stressors, traumatic experiences)',{type:'textarea'}),
+    iehpTocField('behavioralHealthHistoryAttachment','APA-BBHH','Additional pages attached',{type:'checkbox'}),
+    iehpTocField('medicalHistory','BriefMedicalHistory','Brief medical history',{type:'textarea'}),
+    iehpTocField('medicalHistoryAttachment','APA-BMH','Additional pages attached',{type:'checkbox'}),
+    iehpTocField('medicationsDosage','CurrentMedicationsDosage','Current medications/dosage',{type:'textarea'}),
+    iehpTocField('medicationsDosageAttachment','APA-CMD','Additional pages attached',{type:'checkbox'})
+  ]},
+  {section:'Services requested + destination', fields:[
+    iehpTocField('referringProvider','Referring ProviderCurrent Care Team','Referring provider / current care team',{type:'readonly', value:()=>[state.packet && state.packet.providerName, state.packet && state.packet.providerCredentials].filter(Boolean).join(', ')}),
+    iehpTocField('referringProviderPhone','RPCCTPhone','Referring provider / current care team phone',{type:'readonly', value:()=>(state.packet && state.packet.returnContact) || ''}),
+    iehpTocField('serviceTransitionOfCare','Transition of Care','Transition of care',{type:'checkbox'}),
+    iehpTocField('serviceAdditionOfServices','Addition of Services','Addition of service(s)',{type:'checkbox'}),
+    iehpTocField('servicesRequestedDescription','What services is the beneficiary being referred for','What service(s) is the beneficiary being referred for?',{type:'textarea'}),
+    iehpTocField('destination','Destination','Transition of care or service referral destination',{type:'radio', options:['Managed Care Plan','County Mental Health Plan']}),
+    iehpTocField('mcpName','MCP','Managed Care Plan name'),
+    iehpTocField('mcpFax','MCP Fax','Managed Care Plan fax'),
+    iehpTocField('mcpPhone','MCP Phone','Managed Care Plan phone'),
+    iehpTocField('mcpTollFree','MCP Toll Free','Managed Care Plan toll free'),
+    iehpTocField('mcpTTY','MCP TTY','Managed Care Plan TTY'),
+    iehpTocField('cmhpName','CMHP','County Mental Health Plan name'),
+    iehpTocField('cmhpFax','CMHP Fax','County Mental Health Plan fax'),
+    iehpTocField('cmhpPhone','CMHP Phone','County Mental Health Plan phone'),
+    iehpTocField('cmhpTollFree','CMHP Toll Free','County Mental Health Plan toll free'),
+    iehpTocField('cmhpTTY','CMHP TTY','County Mental Health Plan TTY')
+  ]}
 ];
-// PENDING OFFICIAL PDF: map each schema id above to the exact AcroForm field
-// name from the real IEHP Transition of Care PDF, then replace
-// downloadIehpTocSummary() below with a real PDF-fill step that reads this
-// map. Left empty until that PDF is supplied -- every function above this
-// line keeps working unchanged either way.
-const IEHP_TOC_PDF_FIELD_MAP = {};
+function iehpTocAllFields(){ return IEHP_TOC_FORM_SCHEMA.flatMap(sec=>sec.fields); }
+
+function iehpTocFillCounty(county){
+  const t = ensureIehpTocState();
+  if(county==='riverside'){ t.cmhpName='RUHS-BH CARES'; t.cmhpPhone='(800) 499-3008'; }
+  else if(county==='sanbernardino'){ t.cmhpName='San Bernardino County DBH'; t.cmhpPhone='(888) 743-1478'; }
+  t.destination = 'County Mental Health Plan';
+  saveState(); scheduleRender(); showToast('County contact filled in -- confirm fax/toll-free/TTY before sending');
+}
+window.iehpTocFillCounty = iehpTocFillCounty;
 
 function iehpTocBanner(){
   const elig = iehpTocEligibility();
@@ -21266,19 +21370,84 @@ function iehpTocBanner(){
 }
 
 function iehpTocFieldRow(field){
-  if(!field.editable) return `<div class="iehp-toc-field readonly"><span>${html(field.label)}</span><b>${html(field.value() || '—')}</b></div>`;
-  return `<label class="patient-field iehp-toc-input"><span>${html(field.label)}</span><input type="${field.type==='date'?'date':'text'}" value="${escapeAttr(field.value() || '')}" placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)" /></label>`;
+  if(field.conditional && !field.conditional()) return '';
+  if(field.type==='readonly') return `<div class="iehp-toc-field readonly"><span>${html(field.label)}</span><b>${html(field.value() || '—')}</b></div>`;
+  if(field.type==='checkbox') return `<label class="packet-check iehp-toc-check"><input type="checkbox" ${field.value()?'checked':''} onchange="setIehpTocField('${field.id}', this.checked, true)" /><span><b>${html(field.label)}</b></span></label>`;
+  if(field.type==='radio') return `<div class="iehp-toc-radio-field"><span>${html(field.label)}</span><div class="iehp-toc-radio-group">${field.options.map(opt=>{
+    const active = field.value()===opt;
+    const optLabel = (field.optionLabels && field.optionLabels[opt]) || opt;
+    return `<button type="button" class="${active?'active':''}" onclick="setIehpTocField('${field.id}', '${escapeAttr(opt)}', true)">${html(optLabel)}</button>`;
+  }).join('')}</div></div>`;
+  if(field.type==='textarea') return `<label class="patient-field iehp-toc-input wide"><span>${html(field.label)}</span><textarea placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)">${html(field.value()||'')}</textarea></label>`;
+  return `<label class="patient-field iehp-toc-input"><span>${html(field.label)}</span><input type="text" value="${escapeAttr(field.value()||'')}" placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)" /></label>`;
 }
 function iehpTocSummaryText(){
-  const lines = IEHP_TOC_FORM_SCHEMA.map(f=>`${f.label}: ${f.value() || 'Not provided'}`);
   const r = IEHP_TOC_ROUTING;
-  return `IEHP Transition of Care -- Referral Summary\nPrepared ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}\n\n${lines.join('\n')}\n\nComplete IEHP's official form, available at ${r.formLocation}, and send both to ${r.submitEmail}. Provider questions: ${r.providerCallCenter}.`;
+  const lines = [];
+  IEHP_TOC_FORM_SCHEMA.forEach(sec=>{
+    lines.push(`\n${sec.section.toUpperCase()}`);
+    sec.fields.forEach(f=>{
+      if(f.conditional && !f.conditional()) return;
+      const v = f.value();
+      const display = typeof v === 'boolean' ? (v ? 'Yes' : 'No') : (v || 'Not provided');
+      lines.push(`${f.label}: ${display}`);
+    });
+  });
+  return `IEHP Transition of Care -- Referral Summary\nPrepared ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}\n${lines.join('\n')}\n\nComplete IEHP's official form, available at ${r.formLocation}, and send both to ${r.submitEmail}. Provider questions: ${r.providerCallCenter}.`;
 }
 function copyIehpTocSummary(){ copyPlainTextToClipboard(iehpTocSummaryText()); }
-function downloadIehpTocSummary(){ downloadText('iehp-transition-of-care-summary.txt', iehpTocSummaryText()); showToast('Summary downloaded'); }
 window.copyIehpTocSummary = copyIehpTocSummary;
-window.downloadIehpTocSummary = downloadIehpTocSummary;
 
+function downloadBlob(filename, blob){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 500);
+}
+window.downloadBlob = downloadBlob;
+
+async function generateIehpTocPdf(){
+  if(typeof PDFLib==='undefined'){ showToast('PDF library did not load -- try Copy summary instead'); return; }
+  showToast('Preparing completed PDF…');
+  try{
+    const res = await fetch(IEHP_TOC_PDF_TEMPLATE_URL);
+    if(!res.ok) throw new Error('template fetch failed: ' + res.status);
+    const bytes = await res.arrayBuffer();
+    const pdfDoc = await PDFLib.PDFDocument.load(bytes);
+    const form = pdfDoc.getForm();
+    const skipped = [];
+    iehpTocAllFields().forEach(field=>{
+      if(field.conditional && !field.conditional()) return;
+      const value = field.value();
+      try{
+        if(field.type==='checkbox'){
+          const cb = form.getCheckBox(field.pdfField);
+          if(value) cb.check(); else cb.uncheck();
+        } else if(field.type==='radio'){
+          if(value) form.getRadioGroup(field.pdfField).select(value);
+        } else if(value){
+          form.getTextField(field.pdfField).setText(String(value));
+        }
+      }catch(err){ skipped.push(field.pdfField); console.warn('IEHP TOC PDF: could not set field', field.pdfField, err); }
+    });
+    const filled = await pdfDoc.save();
+    downloadBlob('iehp-transition-of-care-tool.pdf', new Blob([filled], {type:'application/pdf'}));
+    showToast(skipped.length ? `PDF downloaded (${skipped.length} field${skipped.length===1?'':'s'} needs manual entry)` : 'Completed PDF downloaded');
+  }catch(err){
+    console.error('IEHP TOC PDF generation failed:', err);
+    showToast('Could not generate the PDF -- try Copy summary instead');
+  }
+}
+window.generateIehpTocPdf = generateIehpTocPdf;
+
+function iehpTocPresetsCard(){
+  return `<div class="iehp-toc-presets"><b>Quick fill</b><span>Riverside and San Bernardino county contacts, one click. Confirm fax/toll-free/TTY before sending.</span>
+    <div class="iehp-toc-preset-buttons">
+      <button type="button" onclick="iehpTocFillCounty('riverside')">Riverside County (RUHS-BH)</button>
+      <button type="button" onclick="iehpTocFillCounty('sanbernardino')">San Bernardino County (DBH)</button>
+    </div>
+  </div>`;
+}
 function iehpTocRoutingCard(){
   const r = IEHP_TOC_ROUTING;
   return `<div class="iehp-toc-routing"><b>Where this goes</b>
@@ -21292,12 +21461,14 @@ function iehpTocRoutingCard(){
 function iehpTocDrawer(){
   if(!state.iehpTocOpen) return '';
   ensureIehpTocState();
+  const sectionsHtml = IEHP_TOC_FORM_SCHEMA.map(sec=>`<div class="iehp-toc-section"><h4>${html(sec.section)}</h4><div class="iehp-toc-grid">${sec.fields.map(iehpTocFieldRow).join('')}</div></div>`).join('');
   return `<aside class="drawer iehp-toc-drawer open" aria-label="IEHP Transition of Care">
-    <div class="drawer-head"><div><span class="eyebrow">IEHP Transition of Care</span><h3>Complete transition details</h3><p>Most fields are filled in from this referral. Add the IEHP-specific details below, then copy or download a summary to send alongside IEHP's official Transition of Care Tool for Medi-Cal Mental Health Services.</p></div><button onclick="closeIehpTocForm()">×</button></div>
+    <div class="drawer-head"><div><span class="eyebrow">IEHP Transition of Care</span><h3>DHCS 8765 B -- Transition of Care Tool</h3><p>Most fields are filled in from this referral. Add the rest below, then download the completed official PDF to send alongside it.</p></div><button onclick="closeIehpTocForm()">×</button></div>
     <div class="drawer-body iehp-toc-body">
-      <div class="iehp-toc-grid">${IEHP_TOC_FORM_SCHEMA.map(iehpTocFieldRow).join('')}</div>
+      ${iehpTocPresetsCard()}
+      ${sectionsHtml}
       ${iehpTocRoutingCard()}
-      <div class="iehp-toc-actions"><button class="dark" onclick="copyIehpTocSummary()">Copy summary</button><button onclick="downloadIehpTocSummary()">Download summary</button></div>
+      <div class="iehp-toc-actions"><button class="dark" onclick="generateIehpTocPdf()">Download completed PDF</button><button onclick="copyIehpTocSummary()">Copy summary text</button></div>
     </div>
   </aside>`;
 }
@@ -23427,8 +23598,23 @@ html body .review-output-view .v44-output-rail .doc-card.active b,html body .rev
 .iehp-toc-routing-row span{color:var(--muted)}
 .iehp-toc-routing-row em{color:var(--text);font-style:normal;font-weight:650}
 .iehp-toc-routing-row a{color:inherit}
-.iehp-toc-actions{display:flex;gap:10px;flex-wrap:wrap}
+.iehp-toc-actions{display:flex;gap:10px;flex-wrap:wrap;position:sticky;bottom:0;background:#fff;padding-top:6px}
 .iehp-toc-actions button{flex:1 1 auto;height:42px;border-radius:999px}
+.iehp-toc-presets{border:1px solid var(--line-strong,#bfd3dd);background:var(--soft);border-radius:16px;padding:12px 14px;display:grid;gap:8px}
+.iehp-toc-presets b{font-size:13px}
+.iehp-toc-presets>span{font-size:12px;color:var(--muted);line-height:1.35}
+.iehp-toc-preset-buttons{display:flex;flex-wrap:wrap;gap:8px}
+.iehp-toc-preset-buttons button{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line-strong,#bfd3dd);background:#fff;font-size:12.5px;font-weight:800;color:var(--text);cursor:pointer}
+.iehp-toc-preset-buttons button:hover{background:var(--soft)}
+.iehp-toc-section{display:grid;gap:10px}
+.iehp-toc-section h4{margin:6px 0 -2px;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:850}
+.iehp-toc-input.wide{grid-column:1/-1}
+.iehp-toc-radio-field{display:grid;gap:6px}
+.iehp-toc-radio-field>span{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:850}
+.iehp-toc-radio-group{display:flex;flex-wrap:wrap;gap:8px}
+.iehp-toc-radio-group button{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:700;color:var(--muted);cursor:pointer}
+.iehp-toc-radio-group button.active{background:var(--gold-ink,#8a6a2e);border-color:var(--gold-ink,#8a6a2e);color:#fff}
+.iehp-toc-check{margin:0}
 </style>
 
 <script id="v68-cloudflare-release-polish-js">

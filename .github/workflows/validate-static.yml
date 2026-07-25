@@ -26,6 +26,8 @@ jobs:
             public/favicon.svg
             public/manifest.webmanifest
             public/robots.txt
+            public/vendor/pdf-lib.min.js
+            public/assets/dhcs-8765b-transition-of-care-tool.pdf
           )
           for file in "${required[@]}"; do
             test -s "$file" || { echo "Missing or empty: $file"; exit 1; }
@@ -41,6 +43,14 @@ jobs:
           grep -q 'Content-Security-Policy:' public/_headers
           grep -q 'Strict-Transport-Security:' public/_headers
           grep -q 'Disallow: /' public/robots.txt
+
+      - name: Validate vendored PDF-fill assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          head -c 5 public/assets/dhcs-8765b-transition-of-care-tool.pdf | grep -q '%PDF-' || { echo "dhcs-8765b-transition-of-care-tool.pdf is not a valid PDF"; exit 1; }
+          grep -q 'PDFLib' public/vendor/pdf-lib.min.js || { echo "pdf-lib.min.js does not look like the pdf-lib bundle"; exit 1; }
+          grep -q 'vendor/pdf-lib.min.js' public/index.html || { echo "index.html does not load vendor/pdf-lib.min.js"; exit 1; }
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
