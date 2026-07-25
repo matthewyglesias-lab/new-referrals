@@ -17879,6 +17879,7 @@ const screens = [
   {id:'database', label:'Database', icon:'data'},
   {id:'print', label:'Review & Output', icon:'print'},
   {id:'directory', label:'Staff Directory', icon:'phone'},
+  {id:'transition', label:'Transition of Care', icon:'clipboard'},
   {id:'settings', label:'Settings', icon:'settings'}
 ];
 
@@ -17899,7 +17900,8 @@ const DEFAULT_STATE = {
   lastAdded:null,
   directoryQuery:'',
   directoryCategory:'All',
-  iehpTocOpen:false
+  iehpTocOpen:false,
+  railExpanded:false
 };
 
 let state = loadState();
@@ -17976,12 +17978,14 @@ function svg(name){
     bag:'M7 9V7a5 5 0 0 1 10 0v2m-12 0h14l-1 12H6L5 9z',
     send:'M4 12 20 4l-5 16-3-7-8-1z',
     clipboard:'M9 5h6m-7 2H6v14h12V7h-2M9 3h6v4H9V3z',
-    phone:'M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.5 21 3 13.5 3 4c0-.6.4-1 1-1h3.2c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8z'
+    phone:'M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.5 21 3 13.5 3 4c0-.6.4-1 1-1h3.2c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8z',
+    chevron:'M9 6l6 6-6 6'
   };
   return `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="${paths[name] || paths.home}"/></svg>`;
 }
 
 function setView(view){ state.view=view; state.planOpen=false; state.assistOpen=false; state.drawer=null; commit(); scrollAppToTop(); }
+function toggleRail(){ state.railExpanded = !state.railExpanded; commit(); }
 function setFilter(filter){ state.filter=filter; commit(); }
 function setSpecialty(specialty){ state.specialty=(state.specialty===specialty?'All':specialty); commit(); }
 function setSearch(value){ state.query=value; commit({persist:false}); }
@@ -18302,13 +18306,14 @@ function main(){
   if(state.view==='database') return database();
   if(state.view==='print') return printCenter();
   if(state.view==='directory') return staffDirectoryView();
+  if(state.view==='transition') return iehpTocScreenView();
   return settings();
 }
 function render(){
   try{
     const app = $('#app');
     if(!app) return;
-    app.innerHTML = `<div class="app-shell" data-ui="app-shell" data-design-surface="application">${rail()}<div class="main-shell" data-ui="main-shell">${topbar()}<main class="workspace" data-ui="workspace">${main()}</main></div>${drawer()}${planDrawer()}${assistDrawer()}${iehpTocDrawer()}${toast()}${mobileTabs()}</div>`;
+    app.innerHTML = `<div class="app-shell ${state.railExpanded?'rail-expanded':''}" data-ui="app-shell" data-design-surface="application">${rail()}<div class="main-shell" data-ui="main-shell">${topbar()}<main class="workspace" data-ui="workspace">${main()}</main></div>${drawer()}${planDrawer()}${assistDrawer()}${iehpTocDrawer()}${toast()}${mobileTabs()}</div>`;
     fitV51PreviewSoon();
   }catch(err){
     console.error('Referral Hub render failed:', err);
@@ -21248,7 +21253,7 @@ function setIehpTocField(field, value, shouldRender=false){
 // deliberately clears it) is never silently overwritten again.
 function iehpTocSeedDefaults(){
   const t = ensureIehpTocState();
-  if(t._seeded) return;
+  if(t._seeded) return false;
   t._seeded = true;
   if(!t.planType) t.planType = 'Managed Care Plan';
   if(!t.destination) t.destination = 'County Mental Health Plan';
@@ -21260,8 +21265,9 @@ function iehpTocSeedDefaults(){
   if(!t.planContactPhone && state.packet && state.packet.returnContact) t.planContactPhone = state.packet.returnContact;
   if(!t.presentingSymptoms && state.patient && state.patient.reason) t.presentingSymptoms = state.patient.reason;
   if(!t.servicesRequestedDescription){ const p = paperContext().primary; if(p) t.servicesRequestedDescription = p.name; }
+  return true;
 }
-function openIehpTocForm(){ ensureIehpTocState(); iehpTocSeedDefaults(); saveState(); state.iehpTocOpen=true; commit({persist:false}); }
+function openIehpTocForm(){ ensureIehpTocState(); if(iehpTocSeedDefaults()) saveState(); state.iehpTocOpen=true; commit({persist:false}); }
 function closeIehpTocForm(){ state.iehpTocOpen=false; commit({persist:false}); }
 window.setIehpTocField = setIehpTocField;
 window.openIehpTocForm = openIehpTocForm;
@@ -21279,15 +21285,17 @@ function iehpTocField(id, pdfField, label, opts={}){
     options: opts.options || null,
     optionLabels: opts.optionLabels || null,
     placeholder: opts.placeholder || '',
+    help: opts.help || '',
     conditional: opts.conditional || null,
     value: opts.value || (()=>ensureIehpTocState()[id])
   };
 }
+function iehpTocNote(text){ return {id:null, pdfField:null, label:'', type:'note', text, conditional:null, value:()=>''}; }
 const IEHP_TOC_FORM_SCHEMA = [
   {section:'Referring plan information', fields:[
-    iehpTocField('planType','Plan','Submitting plan type',{type:'radio', options:['Managed Care Plan','County Mental Health Plan']}),
-    iehpTocField('submittingPlan','Submitting Plan','Submitting plan'),
-    iehpTocField('planContactName','Plan Contact Name','Plan contact name'),
+    iehpTocField('planType','Plan','Submitting plan type',{type:'radio', options:['Managed Care Plan','County Mental Health Plan'], help:"IPMG submits this on IEHP's behalf as the Managed Care Plan -- leave this as Managed Care Plan unless told otherwise."}),
+    iehpTocField('submittingPlan','Submitting Plan','Submitting plan',{help:"The health plan's name (usually IEHP), not your practice name."}),
+    iehpTocField('planContactName','Plan Contact Name','Plan contact name',{help:'You, or whoever staff should call back with questions about this submission.'}),
     iehpTocField('planContactTitle','Plan Contact Title','Plan contact title'),
     iehpTocField('planContactPhone','Phone Number','Plan contact phone'),
     iehpTocField('planContactEmail','Email','Plan contact email'),
@@ -21300,10 +21308,10 @@ const IEHP_TOC_FORM_SCHEMA = [
     iehpTocField('beneficiaryName','Beneficiarys Name','Beneficiary name',{type:'readonly', value:()=>(state.patient && state.patient.name) || ''}),
     iehpTocField('beneficiaryPreferredName','Beneficiarys Preferred Name','Beneficiary preferred name'),
     iehpTocField('beneficiaryDob','Date of Birth','Date of birth',{type:'readonly', value:()=>(state.patient && state.patient.dob) || ''}),
-    iehpTocField('beneficiaryAgreement','Beneficiary or Legal','Beneficiary or Legal Representative is in agreement with referral or transition of care',{type:'checkbox'}),
-    iehpTocField('genderIdentity','Gender Identity','Gender identity',{type:'radio', options:['Male','Female','Transgender Male','Transgender Female','Non-Binary','Other']}),
+    iehpTocField('beneficiaryAgreement','Beneficiary or Legal','Beneficiary or Legal Representative is in agreement with referral or transition of care',{type:'checkbox', help:'Check only if the patient (or their legal representative) has actually agreed to this -- leave unchecked if that conversation hasn’t happened yet.'}),
+    iehpTocField('genderIdentity','Gender Identity','Gender identity',{type:'radio', options:['Male','Female','Transgender Male','Transgender Female','Non-Binary','Other'], help:'Optional -- only if already known or the patient is comfortable sharing it.'}),
     iehpTocField('otherGenderIdentity','Other Gender Identity','If Other, please specify',{conditional:()=>ensureIehpTocState().genderIdentity==='Other'}),
-    iehpTocField('pronouns','Pronouns','Pronouns',{type:'radio', options:['He/him','She/her','They/them','Other'], optionLabels:{'He/him':'He/Him','She/her':'She/Her','They/them':'They/Them','Other':'Other'}}),
+    iehpTocField('pronouns','Pronouns','Pronouns',{type:'radio', options:['He/him','She/her','They/them','Other'], optionLabels:{'He/him':'He/Him','She/her':'She/Her','They/them':'They/Them','Other':'Other'}, help:'Optional -- same as above.'}),
     iehpTocField('otherPronouns','Other Pronouns','If Other, please specify',{conditional:()=>ensureIehpTocState().pronouns==='Other'}),
     iehpTocField('beneficiaryAddress','Beneficary Address','Beneficiary address'),
     iehpTocField('beneficiaryCity','Beneficary City','Beneficiary city'),
@@ -21311,14 +21319,14 @@ const IEHP_TOC_FORM_SCHEMA = [
     iehpTocField('beneficiaryZip','Beneficary Zip','Beneficiary ZIP code'),
     iehpTocField('beneficiaryPhone','Beneficary phone Number','Beneficiary phone',{type:'readonly', value:()=>(state.patient && state.patient.phone) || ''}),
     iehpTocField('beneficiaryEmail','Beneficary Email','Beneficiary email'),
-    iehpTocField('caregiverName','Caregiver/Guardian','Caregiver / guardian name'),
+    iehpTocField('caregiverName','Caregiver/Guardian','Caregiver / guardian name',{help:'Leave blank if the beneficiary doesn’t have one.'}),
     iehpTocField('caregiverPhone','Caregiver/Guardian phone','Caregiver / guardian phone'),
-    iehpTocField('memberId','Medi-Cal Number (CIN)/SSN:','Medi-Cal Number (CIN) / SSN',{placeholder:'9-digit CIN'})
+    iehpTocField('memberId','Medi-Cal Number (CIN)/SSN:','Medi-Cal Number (CIN) / SSN',{placeholder:'9-digit CIN', help:"The 9-digit Client Index Number (CIN) on the beneficiary's Medi-Cal card -- use SSN only if the CIN isn't available."})
   ]},
   {section:'Clinical information', fields:[
-    iehpTocField('diagnosis','Behavioral Health Diagnosis or Diagnoses if known','Behavioral health diagnosis or diagnoses, if known',{type:'textarea'}),
-    iehpTocField('supportingDocuments','Supporting Clinical Documents Included','Supporting clinical documents included',{type:'textarea'}),
-    iehpTocField('culturalLinguisticRequests','Cultural and Linguistic Requests','Cultural and linguistic requests',{type:'textarea'}),
+    iehpTocField('diagnosis','Behavioral Health Diagnosis or Diagnoses if known','Behavioral health diagnosis or diagnoses, if known',{type:'textarea', help:'Fine to leave blank if the diagnosis is still being worked up.'}),
+    iehpTocField('supportingDocuments','Supporting Clinical Documents Included','Supporting clinical documents included',{type:'textarea', help:'List what you’re attaching or sending separately, e.g. recent progress note, discharge summary, records checklist.'}),
+    iehpTocField('culturalLinguisticRequests','Cultural and Linguistic Requests','Cultural and linguistic requests',{type:'textarea', help:'Preferred language, interpreter needs, or other cultural considerations for care.'}),
     iehpTocField('presentingSymptoms','Current Presenting Symptoms/Behaviors (including substance use if appropriate):','Current presenting symptoms/behaviors (including substance use if appropriate)',{type:'textarea'}),
     iehpTocField('presentingSymptomsAttachment','APA-CPSB','Additional pages attached',{type:'checkbox'}),
     iehpTocField('environmentalFactors','CurrentEnvironmentalFactors','Current environmental factors (caregiver relationships, living environment, education)',{type:'textarea'}),
@@ -21333,15 +21341,18 @@ const IEHP_TOC_FORM_SCHEMA = [
   {section:'Services requested + destination', fields:[
     iehpTocField('referringProvider','Referring ProviderCurrent Care Team','Referring provider / current care team',{type:'readonly', value:()=>[state.packet && state.packet.providerName, state.packet && state.packet.providerCredentials].filter(Boolean).join(', ')}),
     iehpTocField('referringProviderPhone','RPCCTPhone','Referring provider / current care team phone',{type:'readonly', value:()=>(state.packet && state.packet.returnContact) || ''}),
+    iehpTocNote('What’s the difference? <b>Transition of Care</b> means services the beneficiary already has are moving to the new plan or county. <b>Addition of Services</b> means new services are being added alongside what they already have. For an IEHP adult PHP/IOP referral, that’s almost always Transition of Care.'),
     iehpTocField('serviceTransitionOfCare','Transition of Care','Transition of care',{type:'checkbox'}),
     iehpTocField('serviceAdditionOfServices','Addition of Services','Addition of service(s)',{type:'checkbox'}),
-    iehpTocField('servicesRequestedDescription','What services is the beneficiary being referred for','What service(s) is the beneficiary being referred for?',{type:'textarea'}),
-    iehpTocField('destination','Destination','Transition of care or service referral destination',{type:'radio', options:['Managed Care Plan','County Mental Health Plan']}),
+    iehpTocField('servicesRequestedDescription','What services is the beneficiary being referred for','What service(s) is the beneficiary being referred for?',{type:'textarea', help:'e.g. PHP, IOP, or the specific program name.'}),
+    iehpTocField('destination','Destination','Transition of care or service referral destination',{type:'radio', options:['Managed Care Plan','County Mental Health Plan'], help:"Where this referral is going. For an IEHP adult PHP/IOP transition, that's almost always County Mental Health Plan -- only the matching contact block below needs to be filled in."}),
+    iehpTocNote('Managed Care Plan contact info -- only fill this in if Destination above is <b>Managed Care Plan</b>.'),
     iehpTocField('mcpName','MCP','Managed Care Plan name'),
     iehpTocField('mcpFax','MCP Fax','Managed Care Plan fax'),
     iehpTocField('mcpPhone','MCP Phone','Managed Care Plan phone'),
     iehpTocField('mcpTollFree','MCP Toll Free','Managed Care Plan toll free'),
     iehpTocField('mcpTTY','MCP TTY','Managed Care Plan TTY'),
+    iehpTocNote('County Mental Health Plan contact info -- only fill this in if Destination above is <b>County Mental Health Plan</b>. Use the Quick fill buttons at the top of this form for the two local counties.'),
     iehpTocField('cmhpName','CMHP','County Mental Health Plan name'),
     iehpTocField('cmhpFax','CMHP Fax','County Mental Health Plan fax'),
     iehpTocField('cmhpPhone','CMHP Phone','County Mental Health Plan phone'),
@@ -21371,15 +21382,17 @@ function iehpTocBanner(){
 
 function iehpTocFieldRow(field){
   if(field.conditional && !field.conditional()) return '';
+  if(field.type==='note') return `<div class="iehp-toc-note">${field.text}</div>`;
+  const help = field.help ? `<small class="iehp-toc-help">${html(field.help)}</small>` : '';
   if(field.type==='readonly') return `<div class="iehp-toc-field readonly"><span>${html(field.label)}</span><b>${html(field.value() || '—')}</b></div>`;
-  if(field.type==='checkbox') return `<label class="packet-check iehp-toc-check"><input type="checkbox" ${field.value()?'checked':''} onchange="setIehpTocField('${field.id}', this.checked, true)" /><span><b>${html(field.label)}</b></span></label>`;
+  if(field.type==='checkbox') return `<label class="packet-check iehp-toc-check"><input type="checkbox" ${field.value()?'checked':''} onchange="setIehpTocField('${field.id}', this.checked, true)" /><span><b>${html(field.label)}</b>${field.help ? `<small>${html(field.help)}</small>` : ''}</span></label>`;
   if(field.type==='radio') return `<div class="iehp-toc-radio-field"><span>${html(field.label)}</span><div class="iehp-toc-radio-group">${field.options.map(opt=>{
     const active = field.value()===opt;
     const optLabel = (field.optionLabels && field.optionLabels[opt]) || opt;
     return `<button type="button" class="${active?'active':''}" onclick="setIehpTocField('${field.id}', '${escapeAttr(opt)}', true)">${html(optLabel)}</button>`;
-  }).join('')}</div></div>`;
-  if(field.type==='textarea') return `<label class="patient-field iehp-toc-input wide"><span>${html(field.label)}</span><textarea placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)">${html(field.value()||'')}</textarea></label>`;
-  return `<label class="patient-field iehp-toc-input"><span>${html(field.label)}</span><input type="text" value="${escapeAttr(field.value()||'')}" placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)" /></label>`;
+  }).join('')}</div>${help}</div>`;
+  if(field.type==='textarea') return `<label class="patient-field iehp-toc-input wide"><span>${html(field.label)}</span><textarea placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)">${html(field.value()||'')}</textarea>${help}</label>`;
+  return `<label class="patient-field iehp-toc-input"><span>${html(field.label)}</span><input type="text" value="${escapeAttr(field.value()||'')}" placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)" />${help}</label>`;
 }
 function iehpTocSummaryText(){
   const r = IEHP_TOC_ROUTING;
@@ -21387,6 +21400,7 @@ function iehpTocSummaryText(){
   IEHP_TOC_FORM_SCHEMA.forEach(sec=>{
     lines.push(`\n${sec.section.toUpperCase()}`);
     sec.fields.forEach(f=>{
+      if(f.type==='note') return;
       if(f.conditional && !f.conditional()) return;
       const v = f.value();
       const display = typeof v === 'boolean' ? (v ? 'Yes' : 'No') : (v || 'Not provided');
@@ -21417,6 +21431,7 @@ async function generateIehpTocPdf(){
     const form = pdfDoc.getForm();
     const skipped = [];
     iehpTocAllFields().forEach(field=>{
+      if(field.type==='note' || !field.pdfField) return;
       if(field.conditional && !field.conditional()) return;
       const value = field.value();
       try{
@@ -21458,19 +21473,28 @@ function iehpTocRoutingCard(){
     <div class="iehp-toc-routing-row"><span>San Bernardino County BH</span><em>${html(r.sanBernardinoCountyBH)}</em></div>
   </div>`;
 }
+// Shared by both entry points: the inline drawer (opened from the eligibility
+// banner once a referral is already detected as needing this) and the
+// standalone screen (for staff who already know they need the form and want
+// to jump straight to it, no referral plan required first).
+function iehpTocFormBody(){
+  ensureIehpTocState();
+  if(iehpTocSeedDefaults()) saveState();
+  const sectionsHtml = IEHP_TOC_FORM_SCHEMA.map(sec=>`<div class="iehp-toc-section"><h4>${html(sec.section)}</h4><div class="iehp-toc-grid">${sec.fields.map(iehpTocFieldRow).join('')}</div></div>`).join('');
+  return `${iehpTocPresetsCard()}${sectionsHtml}${iehpTocRoutingCard()}<div class="iehp-toc-actions"><button class="dark" onclick="generateIehpTocPdf()">Download completed PDF</button><button onclick="copyIehpTocSummary()">Copy summary text</button></div>`;
+}
 function iehpTocDrawer(){
   if(!state.iehpTocOpen) return '';
-  ensureIehpTocState();
-  const sectionsHtml = IEHP_TOC_FORM_SCHEMA.map(sec=>`<div class="iehp-toc-section"><h4>${html(sec.section)}</h4><div class="iehp-toc-grid">${sec.fields.map(iehpTocFieldRow).join('')}</div></div>`).join('');
   return `<aside class="drawer iehp-toc-drawer open" aria-label="IEHP Transition of Care">
     <div class="drawer-head"><div><span class="eyebrow">IEHP Transition of Care</span><h3>DHCS 8765 B -- Transition of Care Tool</h3><p>Most fields are filled in from this referral. Add the rest below, then download the completed official PDF to send alongside it.</p></div><button onclick="closeIehpTocForm()">×</button></div>
-    <div class="drawer-body iehp-toc-body">
-      ${iehpTocPresetsCard()}
-      ${sectionsHtml}
-      ${iehpTocRoutingCard()}
-      <div class="iehp-toc-actions"><button class="dark" onclick="generateIehpTocPdf()">Download completed PDF</button><button onclick="copyIehpTocSummary()">Copy summary text</button></div>
-    </div>
+    <div class="drawer-body iehp-toc-body">${iehpTocFormBody()}</div>
   </aside>`;
+}
+function iehpTocScreenView(){
+  return `<div class="iehp-toc-screen directory-screen" data-ui="transition-view">
+    <div class="dc-page-head"><div><span class="eyebrow">Provider tool</span><h2>Transition of Care</h2><p>DHCS 8765 B -- Transition of Care Tool for Medi-Cal Mental Health Services. Fill this out any time, whether or not a referral plan is built yet, and download the real completed official PDF ready to send to IEHP.</p></div></div>
+    <div class="panel iehp-toc-body">${iehpTocFormBody()}</div>
+  </div>`;
 }
 
 render();
@@ -21530,10 +21554,10 @@ scrollAppToTop();
 
   rail = function(){
     const helpText = 'Search, add a primary and backup, then use Review & Output.';
-    return `<aside class="rail v60-rail">
-      <button class="brand-mark" onclick="setView('dashboard')" aria-label="Home"><span class="ipmg-app-leaf" aria-hidden="true"><i></i><i></i><i></i></span></button>
-      <nav class="rail-nav">${screens.map(s=>`<button class="rail-btn ${state.view===s.id?'active':''}" onclick="setView('${s.id}')" data-label="${html(s.label)}" title="${html(s.label)}">${svg(s.icon)}</button>`).join('')}</nav>
-      <div class="rail-footer"><button class="rail-btn small" title="Help" onclick="showToast('${helpText}')">?</button></div>
+    return `<aside class="rail v60-rail ${state.railExpanded?'expanded':''}">
+      <button class="brand-mark" onclick="setView('dashboard')" aria-label="Home"><span class="ipmg-app-leaf" aria-hidden="true"><i></i><i></i><i></i></span><span class="rail-brand-text">IPMG Referral Hub</span></button>
+      <nav class="rail-nav">${screens.map(s=>`<button class="rail-btn ${state.view===s.id?'active':''}" onclick="setView('${s.id}')" data-label="${html(s.label)}" title="${html(s.label)}">${svg(s.icon)}<span class="rail-label">${html(s.label)}</span></button>`).join('')}</nav>
+      <div class="rail-footer"><button class="rail-btn small rail-expand-toggle" title="${state.railExpanded?'Collapse sidebar':'Expand sidebar'}" aria-label="${state.railExpanded?'Collapse sidebar':'Expand sidebar'}" onclick="toggleRail()">${svg('chevron')}</button><button class="rail-btn small" title="Help" onclick="showToast('${helpText}')">?</button></div>
     </aside>`;
   };
 
@@ -21541,7 +21565,7 @@ scrollAppToTop();
     const title = screens.find(s=>s.id===state.view)?.label || 'Referral Hub';
     const count = state.plan.length;
     const status = planStatus();
-    const helper = state.view==='dashboard' ? 'Start a referral plan' : state.view==='workbench' ? 'Find primary + backup' : state.view==='print' ? 'Create handoff output' : state.view==='database' ? 'Maintain resource quality' : state.view==='directory' ? 'Never for patient output' : 'App preferences';
+    const helper = state.view==='dashboard' ? 'Start a referral plan' : state.view==='workbench' ? 'Find primary + backup' : state.view==='print' ? 'Create handoff output' : state.view==='database' ? 'Maintain resource quality' : state.view==='directory' ? 'Never for patient output' : state.view==='transition' ? 'DHCS 8765 B, any time' : 'App preferences';
     return `<header class="topbar mature-topbar v60-topbar">
       <div class="page-title"><span class="kicker">IPMG Referral Hub</span><h1>${html(title)}</h1><small>${html(helper)}</small></div>
       <div class="v60-command-search">${svg('search')}<input value="${escapeAttr(state.query)}" oninput="setSearch(this.value)" placeholder="Search therapy, IOP, Kaiser, teen, ADHD testing, SB crisis…" /></div>
@@ -21854,6 +21878,7 @@ scrollAppToTop();
   window.addResource = addResource;
   window.removeResource = removeResource;
   window.setView = setView;
+  window.toggleRail = toggleRail;
   window.showToast = showToast;
   window.__IPMG_REFERRAL_HUB_V61__ = V61_VERSION;
   render();
@@ -23609,12 +23634,36 @@ html body .review-output-view .v44-output-rail .doc-card.active b,html body .rev
 .iehp-toc-section{display:grid;gap:10px}
 .iehp-toc-section h4{margin:6px 0 -2px;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:850}
 .iehp-toc-input.wide{grid-column:1/-1}
-.iehp-toc-radio-field{display:grid;gap:6px}
+.iehp-toc-radio-field{display:grid;gap:6px;grid-column:1/-1}
 .iehp-toc-radio-field>span{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:850}
 .iehp-toc-radio-group{display:flex;flex-wrap:wrap;gap:8px}
 .iehp-toc-radio-group button{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:700;color:var(--muted);cursor:pointer}
 .iehp-toc-radio-group button.active{background:var(--gold-ink,#8a6a2e);border-color:var(--gold-ink,#8a6a2e);color:#fff}
-.iehp-toc-check{margin:0}
+.iehp-toc-check{margin:0;grid-column:1/-1}
+.iehp-toc-help{display:block;font-size:11.5px;color:var(--muted);line-height:1.35;margin-top:5px;font-weight:500;text-transform:none;letter-spacing:0}
+.packet-check.iehp-toc-check small.iehp-toc-help{margin-top:2px}
+.iehp-toc-note{grid-column:1/-1;border:1px dashed var(--line-strong,#bfd3dd);background:var(--soft);border-radius:14px;padding:10px 12px;font-size:12.5px;color:var(--muted);line-height:1.4}
+.iehp-toc-note b{color:var(--text);font-weight:750}
+.iehp-toc-screen{max-width:900px}
+@media(min-width:760px){.iehp-toc-screen .iehp-toc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Expandable rail nav -- collapsed (icon-only) is the existing default;
+   .expanded widens it and reveals text labels next to each icon. */
+.app-shell.rail-expanded{grid-template-columns:228px minmax(0,1fr)!important}
+.rail{transition:width .16s ease}
+.rail.expanded{width:228px!important;align-items:stretch!important;padding:16px 14px!important}
+.rail .rail-label{display:none}
+.rail.expanded .rail-label{display:inline;margin-left:10px;font-size:13px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rail.expanded .rail-btn{width:100%!important;height:40px!important;border-radius:11px!important;justify-content:flex-start!important;padding:0 10px!important;display:flex!important;align-items:center!important}
+.rail.expanded .rail-btn::after{display:none!important}
+.rail-brand-text{display:none}
+.rail.expanded .rail-brand-text{display:inline;margin-left:9px;font-weight:850;font-size:13px;white-space:nowrap;color:var(--text)}
+.rail.expanded .brand-mark{display:flex!important;align-items:center!important;width:100%!important;padding:0 6px!important;justify-content:flex-start!important}
+.rail-expand-toggle svg{transition:transform .15s ease}
+.rail.expanded .rail-expand-toggle svg{transform:rotate(180deg)}
+.rail.expanded .rail-footer{width:100%;display:flex;gap:8px}
+.rail.expanded .rail-footer .rail-btn.small{width:auto!important;flex:1 1 auto;justify-content:center!important;display:flex!important}
+@media(max-width:760px){.app-shell.rail-expanded{grid-template-columns:1fr!important}}
 </style>
 
 <script id="v68-cloudflare-release-polish-js">
