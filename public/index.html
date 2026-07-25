@@ -17897,7 +17897,8 @@ const DEFAULT_STATE = {
   toast:'',
   lastAdded:null,
   directoryQuery:'',
-  directoryCategory:'All'
+  directoryCategory:'All',
+  iehpTocOpen:false
 };
 
 let state = loadState();
@@ -17941,7 +17942,8 @@ function loadState(){
       planOpen:false,
       assistOpen:false,
       toast:'',
-      lastAdded:null
+      lastAdded:null,
+      iehpTocOpen:false
     };
   }catch(err){
     console.warn('Saved state was reset:', err);
@@ -17950,7 +17952,7 @@ function loadState(){
 }
 function saveState(){
   try{
-    const {toast, drawer, planOpen, assistOpen, lastAdded, ...persisted} = state;
+    const {toast, drawer, planOpen, assistOpen, lastAdded, iehpTocOpen, ...persisted} = state;
     localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(persisted));
   }catch(err){ console.warn('Could not save Referral Hub state:', err); }
 }
@@ -18305,7 +18307,7 @@ function render(){
   try{
     const app = $('#app');
     if(!app) return;
-    app.innerHTML = `<div class="app-shell" data-ui="app-shell" data-design-surface="application">${rail()}<div class="main-shell" data-ui="main-shell">${topbar()}<main class="workspace" data-ui="workspace">${main()}</main></div>${drawer()}${planDrawer()}${assistDrawer()}${toast()}${mobileTabs()}</div>`;
+    app.innerHTML = `<div class="app-shell" data-ui="app-shell" data-design-surface="application">${rail()}<div class="main-shell" data-ui="main-shell">${topbar()}<main class="workspace" data-ui="workspace">${main()}</main></div>${drawer()}${planDrawer()}${assistDrawer()}${iehpTocDrawer()}${toast()}${mobileTabs()}</div>`;
     fitV51PreviewSoon();
   }catch(err){
     console.error('Referral Hub render failed:', err);
@@ -20049,6 +20051,7 @@ function printCenter(){
     </aside>
     <main class="v44-details-panel" data-ui="referral-details">
       <section class="v44-detail-hero" data-ui="details-hero"><div><span class="eyebrow">${html(meta.group)}</span><h2>${html(detailTitle)}</h2><p>${html(detailCopy)}</p></div><span class="v44-mode-pill">${html(state.output)}</span></section>
+      ${iehpTocBanner()}
       ${isPacketOutput() ? packetBuilderCard() : quickHandoutCard()}
       ${printReadinessCard()}
     </main>
@@ -20209,7 +20212,7 @@ function startNewRoute(){
 
 function resetAppState(){
   try{ localStorage.removeItem(APP_STORAGE_KEY); }catch(err){}
-  state = {...DEFAULT_STATE, patient:{...DEFAULT_STATE.patient}, packet:JSON.parse(JSON.stringify(DEFAULT_PACKET_STATE)), plan:[...DEFAULT_STATE.plan]};
+  state = {...DEFAULT_STATE, patient:{...DEFAULT_STATE.patient}, packet:JSON.parse(JSON.stringify(DEFAULT_PACKET_STATE)), plan:[...DEFAULT_STATE.plan], iehpToc:JSON.parse(JSON.stringify(DEFAULT_IEHP_TOC_STATE))};
   showToast('Reset to a clean plan');
   render();
   scrollAppToTop();
@@ -21131,6 +21134,143 @@ window.setSearch = setSearch;
 window.smartSearchQuick = v58SmartSearchQuick;
 window.filtered = filtered;
 
+/* ==============================================================
+   IEHP Adult Medi-Cal PHP/IOP Transition of Care
+   -----------------------------------------------------------------
+   IEHP requires a Transition of Care hand-off when an adult (over 21)
+   Medi-Cal member is referred to a PHP/IOP program. This adds one
+   inline notice (never a hard stop) plus a short guided form for that
+   single case -- nothing else about the referral workflow changes.
+
+   Kept in three independent pieces so any one can change later without
+   touching the others:
+     1. Eligibility -- iehpTocEligibility() and its three checks below.
+     2. Form schema -- IEHP_TOC_FORM_SCHEMA, auto-filled from whatever
+        the referral/patient fields already have; only a handful of
+        IEHP-only fields (member ID, diagnosis, etc.) are new.
+     3. PDF mapping -- IEHP_TOC_PDF_FIELD_MAP, left empty on purpose.
+        Once the official Transition of Care PDF is available, fill in
+        each schema id's exact AcroForm field name there and replace
+        downloadIehpTocSummary() with a real PDF-fill step -- nothing
+        above it needs to change.
+   ============================== */
+const IEHP_TOC_MIN_AGE = 21; // "over age 21" per the policy as described -- adjust here only if staff confirm the cutoff is 21-and-over instead of strictly-over-21
+
+function iehpTocParseAge(dobStr){
+  const m = String(dobStr||'').trim().match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+  if(!m) return null;
+  let mm=parseInt(m[1],10), dd=parseInt(m[2],10), yy=parseInt(m[3],10);
+  if(yy<100) yy += yy<50 ? 2000 : 1900;
+  const dob = new Date(yy, mm-1, dd);
+  if(Number.isNaN(dob.getTime())) return null;
+  const today = new Date();
+  let age = today.getFullYear()-dob.getFullYear();
+  const hadBirthdayThisYear = today.getMonth()>dob.getMonth() || (today.getMonth()===dob.getMonth() && today.getDate()>=dob.getDate());
+  if(!hadBirthdayThisYear) age--;
+  return age;
+}
+function iehpTocIsIehpMediCal(insuranceStr){
+  const s = String(insuranceStr||'').toLowerCase();
+  if(!/iehp/.test(s)) return false;
+  // IEHP also underwrites a Medicare "DualChoice" product; this policy is
+  // Medi-Cal only, so an explicit Medicare-only mention doesn't qualify.
+  if(/medicare/.test(s) && !/medi[\s-]?cal/.test(s)) return false;
+  return true;
+}
+function iehpTocReferralIsIopPhp(resource){
+  if(!resource) return false;
+  if(resource.type==='IOP PHP') return true;
+  return Array.isArray(resource.categories) && resource.categories.includes('IOP PHP');
+}
+function iehpTocEligibility(){
+  const ctx = paperContext();
+  const age = iehpTocParseAge(state.patient && state.patient.dob);
+  const referralMatches = iehpTocReferralIsIopPhp(ctx.primary);
+  const isIehpMediCal = iehpTocIsIehpMediCal(state.patient && state.patient.insurance);
+  const isOverAge = age!==null && age>IEHP_TOC_MIN_AGE;
+  return {referralMatches, isIehpMediCal, isOverAge, age, eligible: referralMatches && isIehpMediCal && isOverAge};
+}
+window.iehpTocEligibility = iehpTocEligibility;
+
+const DEFAULT_IEHP_TOC_STATE = {
+  memberId:'',
+  diagnosis:'',
+  transferringFrom:'',
+  reasonForTransition:'',
+  requestedDate:''
+};
+function ensureIehpTocState(){
+  if(!state.iehpToc || typeof state.iehpToc!=='object') state.iehpToc = {...DEFAULT_IEHP_TOC_STATE};
+  Object.keys(DEFAULT_IEHP_TOC_STATE).forEach(k=>{ if(state.iehpToc[k]===undefined) state.iehpToc[k]=DEFAULT_IEHP_TOC_STATE[k]; });
+  return state.iehpToc;
+}
+function setIehpTocField(field, value, shouldRender=false){
+  const t = ensureIehpTocState();
+  if(field in t){ t[field]=value; saveState(); if(shouldRender) scheduleRender(); }
+}
+function openIehpTocForm(){ ensureIehpTocState(); state.iehpTocOpen=true; commit({persist:false}); }
+function closeIehpTocForm(){ state.iehpTocOpen=false; commit({persist:false}); }
+window.setIehpTocField = setIehpTocField;
+window.openIehpTocForm = openIehpTocForm;
+window.closeIehpTocForm = closeIehpTocForm;
+
+// PENDING OFFICIAL PDF: each row's `value()` auto-fills from data the
+// referral already has. Only the fields with `editable:true` are new,
+// IEHP-only questions with no existing home elsewhere in the app.
+const IEHP_TOC_FORM_SCHEMA = [
+  {id:'memberName', label:'Member name', editable:false, value:()=>(state.patient && state.patient.name) || ''},
+  {id:'memberDob', label:'Member date of birth', editable:false, value:()=>(state.patient && state.patient.dob) || ''},
+  {id:'memberId', label:'IEHP Member ID / CIN', editable:true, placeholder:'9-digit CIN', value:()=>ensureIehpTocState().memberId},
+  {id:'diagnosis', label:'Diagnosis', editable:true, placeholder:'Primary behavioral health diagnosis', value:()=>ensureIehpTocState().diagnosis},
+  {id:'transferringFrom', label:'Current / prior provider or program', editable:true, placeholder:'Who the member is transitioning from, if known', value:()=>ensureIehpTocState().transferringFrom},
+  {id:'receivingProgram', label:'Receiving program (this referral)', editable:false, value:()=>(paperContext().primary && paperContext().primary.name) || ''},
+  {id:'reasonForTransition', label:'Reason for transition', editable:true, placeholder:'Clinical reason IEHP should review', value:()=>ensureIehpTocState().reasonForTransition || (state.patient && state.patient.reason) || ''},
+  {id:'requestedDate', label:'Requested transition date', editable:true, type:'date', value:()=>ensureIehpTocState().requestedDate},
+  {id:'requestingProvider', label:'Requesting provider', editable:false, value:()=>[state.packet && state.packet.providerName, state.packet && state.packet.providerCredentials].filter(Boolean).join(', ')},
+  {id:'callbackPhone', label:'Callback phone', editable:false, value:()=>(state.patient && state.patient.phone) || ''},
+  {id:'preparedBy', label:'Prepared by', editable:false, value:()=>(state.packet && state.packet.preparedByName) || ''}
+];
+// PENDING OFFICIAL PDF: map each schema id above to the exact AcroForm field
+// name from the real IEHP Transition of Care PDF, then replace
+// downloadIehpTocSummary() below with a real PDF-fill step that reads this
+// map. Left empty until that PDF is supplied -- every function above this
+// line keeps working unchanged either way.
+const IEHP_TOC_PDF_FIELD_MAP = {};
+
+function iehpTocBanner(){
+  const elig = iehpTocEligibility();
+  if(!elig.eligible) return '';
+  return `<div class="iehp-toc-banner" data-ui="iehp-toc-banner" role="note">
+    <div class="iehp-toc-banner-top"><div class="iehp-toc-banner-icon">${svg('clipboard')}</div><div class="iehp-toc-banner-copy"><b>IEHP Transition of Care needed</b><span>This adult Medi-Cal PHP/IOP referral needs IEHP's Transition of Care hand-off before intake. Most of the details below are already filled in from this referral.</span></div></div>
+    <button class="iehp-toc-banner-btn" onclick="openIehpTocForm()">Complete Transition Form</button>
+  </div>`;
+}
+
+function iehpTocFieldRow(field){
+  if(!field.editable) return `<div class="iehp-toc-field readonly"><span>${html(field.label)}</span><b>${html(field.value() || '—')}</b></div>`;
+  return `<label class="patient-field iehp-toc-input"><span>${html(field.label)}</span><input type="${field.type==='date'?'date':'text'}" value="${escapeAttr(field.value() || '')}" placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)" /></label>`;
+}
+function iehpTocSummaryText(){
+  const lines = IEHP_TOC_FORM_SCHEMA.map(f=>`${f.label}: ${f.value() || 'Not provided'}`);
+  return `IEHP Transition of Care -- Referral Summary\nPrepared ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}\n\n${lines.join('\n')}\n\nSubmit alongside IEHP's official Transition of Care form.`;
+}
+function copyIehpTocSummary(){ copyPlainTextToClipboard(iehpTocSummaryText()); }
+function downloadIehpTocSummary(){ downloadText('iehp-transition-of-care-summary.txt', iehpTocSummaryText()); showToast('Summary downloaded'); }
+window.copyIehpTocSummary = copyIehpTocSummary;
+window.downloadIehpTocSummary = downloadIehpTocSummary;
+
+function iehpTocDrawer(){
+  if(!state.iehpTocOpen) return '';
+  ensureIehpTocState();
+  return `<aside class="drawer iehp-toc-drawer open" aria-label="IEHP Transition of Care">
+    <div class="drawer-head"><div><span class="eyebrow">IEHP Transition of Care</span><h3>Complete transition details</h3><p>Most fields are filled in from this referral. Add the IEHP-specific details below, then copy or download a summary to submit alongside IEHP's official Transition of Care form.</p></div><button onclick="closeIehpTocForm()">×</button></div>
+    <div class="drawer-body iehp-toc-body">
+      <div class="iehp-toc-grid">${IEHP_TOC_FORM_SCHEMA.map(iehpTocFieldRow).join('')}</div>
+      <div class="iehp-toc-actions"><button class="dark" onclick="copyIehpTocSummary()">Copy summary</button><button onclick="downloadIehpTocSummary()">Download summary</button></div>
+    </div>
+  </aside>`;
+}
+
 render();
 scrollAppToTop();
 
@@ -21896,7 +22036,7 @@ body.v64-panel-open{overflow:hidden!important}
 
   function v64CloseAll(){
     const back=state.drawer?v64ReturnDescriptor('details',state.drawer):state.assistOpen?v64ReturnDescriptor('assist'):v64ReturnDescriptor('plan');
-    state.drawer=null;state.assistOpen=false;state.planOpen=false;commit({persist:false});v64RestoreTarget(back);
+    state.drawer=null;state.assistOpen=false;state.planOpen=false;state.iehpTocOpen=false;commit({persist:false});v64RestoreTarget(back);
   }
   window.v64CloseAll=v64CloseAll;
 
@@ -23232,6 +23372,26 @@ html body .review-output-view .v44-output-rail .doc-card.active b,html body .rev
   .v68-deploy-status{display:none!important;}
   .v44-preview-panel{position:static!important;max-height:none!important;overflow:visible!important;}
 }
+</style>
+
+<style id="iehp-toc-css">
+.iehp-toc-banner{display:grid;gap:12px;padding:16px 18px;border-radius:20px;background:var(--gold);border:1px solid var(--gold-b);color:var(--gold-ink);margin-bottom:16px}
+.iehp-toc-banner-top{display:flex;align-items:flex-start;gap:12px}
+.iehp-toc-banner-icon{width:34px;height:34px;flex:0 0 auto;border-radius:12px;background:#fff;display:grid;place-items:center;color:var(--gold-ink)}
+.iehp-toc-banner-icon svg{width:18px;height:18px}
+.iehp-toc-banner-copy{min-width:0;display:grid;gap:3px}
+.iehp-toc-banner-copy b{font-size:14.5px}
+.iehp-toc-banner-copy span{font-size:13px;line-height:1.4;opacity:.92}
+.iehp-toc-banner-btn{justify-self:start;height:38px;padding:0 16px;border-radius:999px;border:1px solid var(--gold-ink);background:#fff;color:var(--gold-ink);font-size:13px;font-weight:800;white-space:nowrap;cursor:pointer}
+.iehp-toc-banner-btn:hover{background:var(--gold-ink);color:#fff}
+@media(max-width:640px){.iehp-toc-banner-btn{width:100%}}
+.iehp-toc-body{display:grid;gap:14px}
+.iehp-toc-grid{display:grid;gap:10px}
+.iehp-toc-field{display:grid;gap:3px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:var(--soft)}
+.iehp-toc-field span{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:850}
+.iehp-toc-field b{font-size:13px;color:var(--text);font-weight:650;word-break:break-word}
+.iehp-toc-actions{display:flex;gap:10px;flex-wrap:wrap}
+.iehp-toc-actions button{flex:1 1 auto;height:42px;border-radius:999px}
 </style>
 
 <script id="v68-cloudflare-release-polish-js">
