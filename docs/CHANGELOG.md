@@ -1,3 +1,10 @@
+# v75 IEHP Transition of Care -- Grounded in the Official Notice
+
+- IPMG supplied IEHP's April 23, 2026 Provider Relations notice ("CORRECTION: Discontinuation of Behavioral Health Services -- PHP and IOP Coverage for Members Over Age 21"). It's a policy bulletin, not the actual fillable "Transition of Care Tool for Medi-Cal Mental Health Services" form (that form lives separately at providerservices.iehp.org > Resources for Providers > Forms > BH), so real field-for-field PDF population is still pending that document -- but the notice confirms every part of the v74 eligibility logic was already correct: strictly over 21, Medi-Cal only (not IEHP's Medicare "DualChoice" product), PHP/IOP specifically, effective May 1, 2026.
+- Added an effective-date gate (`IEHP_TOC_EFFECTIVE_DATE`, May 1 2026) so the banner can never appear for a referral before the policy actually took effect.
+- Filled a real gap the notice surfaced: the guided form previously generated a summary with nowhere for staff to send it. Added a "Where this goes" card (in the drawer and in the copy/download summary) with the actual submission email (DGBHCountyCareCoordination@iehp.org), the official form's location, the IEHP Provider Call Center, and both counties' behavioral health numbers -- everything a staff member needs to actually complete the hand-off, not just fill in a form.
+- Code comments now cite the source notice directly instead of hedging ("adjust if staff confirm...").
+
 # v74 IEHP Adult Medi-Cal PHP/IOP Transition of Care
 
 - **Added a small, inline eligibility check for IEHP's adult Transition of Care policy** -- when the Primary referral route is IOP/PHP, the patient's insurance reads as IEHP Medi-Cal (not IEHP's separate Medicare "DualChoice" product), and the patient is over 21, a gold advisory banner appears on the Review & Output screen ("IEHP Transition of Care needed") with a "Complete Transition Form" button. It's a notice, never a hard stop, and disappears the moment any one of the three conditions no longer holds.

@@ -21137,24 +21137,42 @@ window.filtered = filtered;
 /* ==============================================================
    IEHP Adult Medi-Cal PHP/IOP Transition of Care
    -----------------------------------------------------------------
-   IEHP requires a Transition of Care hand-off when an adult (over 21)
-   Medi-Cal member is referred to a PHP/IOP program. This adds one
-   inline notice (never a hard stop) plus a short guided form for that
-   single case -- nothing else about the referral workflow changes.
+   Source: IEHP Provider Relations notice "CORRECTION: Discontinuation
+   of Behavioral Health Services -- PHP and IOP Coverage for Members
+   Over Age 21" (April 23, 2026). Effective May 1, 2026, IEHP no longer
+   covers PHP/IOP for Medi-Cal members over 21 (per DHCS APL 22-006,
+   these aren't a Health Plan covered benefit); providers refer those
+   members to County Behavioral Health instead, using the county's own
+   "Transition of Care Tool for Medi-Cal Mental Health Services" form
+   sent to DGBHCountyCareCoordination@iehp.org. That form -- available
+   at providerservices.iehp.org > Resources for Providers > Forms > BH
+   -- is a different document than this notice and hasn't been supplied
+   yet, so real field-for-field PDF population (see IEHP_TOC_PDF_FIELD_MAP
+   below) is still pending it.
 
-   Kept in three independent pieces so any one can change later without
-   touching the others:
-     1. Eligibility -- iehpTocEligibility() and its three checks below.
+   This adds one inline notice (never a hard stop) plus a short guided
+   form for that single case -- nothing else about the referral
+   workflow changes. Kept in three independent pieces so any one can
+   change later without touching the others:
+     1. Eligibility -- iehpTocEligibility() and its checks below.
      2. Form schema -- IEHP_TOC_FORM_SCHEMA, auto-filled from whatever
         the referral/patient fields already have; only a handful of
         IEHP-only fields (member ID, diagnosis, etc.) are new.
      3. PDF mapping -- IEHP_TOC_PDF_FIELD_MAP, left empty on purpose.
-        Once the official Transition of Care PDF is available, fill in
-        each schema id's exact AcroForm field name there and replace
+        Once the official Transition of Care Tool PDF is supplied, fill
+        in each schema id's exact AcroForm field name there and replace
         downloadIehpTocSummary() with a real PDF-fill step -- nothing
         above it needs to change.
    ============================== */
-const IEHP_TOC_MIN_AGE = 21; // "over age 21" per the policy as described -- adjust here only if staff confirm the cutoff is 21-and-over instead of strictly-over-21
+const IEHP_TOC_MIN_AGE = 21; // confirmed by the source notice: "Members Over Age 21", i.e. strictly over 21
+const IEHP_TOC_EFFECTIVE_DATE = new Date(2026, 4, 1); // May 1, 2026 per the source notice
+const IEHP_TOC_ROUTING = {
+  formLocation: 'providerservices.iehp.org > Resources for Providers > Forms > BH ("Transition of Care Tool for Medi-Cal Mental Health Services")',
+  submitEmail: 'DGBHCountyCareCoordination@iehp.org',
+  providerCallCenter: '(909) 890-2054',
+  riversideCountyBH: 'RUHS-BH CARES (800) 499-3008',
+  sanBernardinoCountyBH: 'SB County DBH (888) 743-1478'
+};
 
 function iehpTocParseAge(dobStr){
   const m = String(dobStr||'').trim().match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
@@ -21188,7 +21206,8 @@ function iehpTocEligibility(){
   const referralMatches = iehpTocReferralIsIopPhp(ctx.primary);
   const isIehpMediCal = iehpTocIsIehpMediCal(state.patient && state.patient.insurance);
   const isOverAge = age!==null && age>IEHP_TOC_MIN_AGE;
-  return {referralMatches, isIehpMediCal, isOverAge, age, eligible: referralMatches && isIehpMediCal && isOverAge};
+  const isPolicyActive = Date.now() >= IEHP_TOC_EFFECTIVE_DATE.getTime();
+  return {referralMatches, isIehpMediCal, isOverAge, isPolicyActive, age, eligible: referralMatches && isIehpMediCal && isOverAge && isPolicyActive};
 }
 window.iehpTocEligibility = iehpTocEligibility;
 
@@ -21252,20 +21271,32 @@ function iehpTocFieldRow(field){
 }
 function iehpTocSummaryText(){
   const lines = IEHP_TOC_FORM_SCHEMA.map(f=>`${f.label}: ${f.value() || 'Not provided'}`);
-  return `IEHP Transition of Care -- Referral Summary\nPrepared ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}\n\n${lines.join('\n')}\n\nSubmit alongside IEHP's official Transition of Care form.`;
+  const r = IEHP_TOC_ROUTING;
+  return `IEHP Transition of Care -- Referral Summary\nPrepared ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}\n\n${lines.join('\n')}\n\nComplete IEHP's official form, available at ${r.formLocation}, and send both to ${r.submitEmail}. Provider questions: ${r.providerCallCenter}.`;
 }
 function copyIehpTocSummary(){ copyPlainTextToClipboard(iehpTocSummaryText()); }
 function downloadIehpTocSummary(){ downloadText('iehp-transition-of-care-summary.txt', iehpTocSummaryText()); showToast('Summary downloaded'); }
 window.copyIehpTocSummary = copyIehpTocSummary;
 window.downloadIehpTocSummary = downloadIehpTocSummary;
 
+function iehpTocRoutingCard(){
+  const r = IEHP_TOC_ROUTING;
+  return `<div class="iehp-toc-routing"><b>Where this goes</b>
+    <div class="iehp-toc-routing-row"><span>Official form</span><em>${html(r.formLocation)}</em></div>
+    <div class="iehp-toc-routing-row"><span>Send completed form to</span><em><a href="mailto:${escapeAttr(r.submitEmail)}">${html(r.submitEmail)}</a></em></div>
+    <div class="iehp-toc-routing-row"><span>Provider questions</span><em>${html(r.providerCallCenter)}</em></div>
+    <div class="iehp-toc-routing-row"><span>Riverside County BH</span><em>${html(r.riversideCountyBH)}</em></div>
+    <div class="iehp-toc-routing-row"><span>San Bernardino County BH</span><em>${html(r.sanBernardinoCountyBH)}</em></div>
+  </div>`;
+}
 function iehpTocDrawer(){
   if(!state.iehpTocOpen) return '';
   ensureIehpTocState();
   return `<aside class="drawer iehp-toc-drawer open" aria-label="IEHP Transition of Care">
-    <div class="drawer-head"><div><span class="eyebrow">IEHP Transition of Care</span><h3>Complete transition details</h3><p>Most fields are filled in from this referral. Add the IEHP-specific details below, then copy or download a summary to submit alongside IEHP's official Transition of Care form.</p></div><button onclick="closeIehpTocForm()">×</button></div>
+    <div class="drawer-head"><div><span class="eyebrow">IEHP Transition of Care</span><h3>Complete transition details</h3><p>Most fields are filled in from this referral. Add the IEHP-specific details below, then copy or download a summary to send alongside IEHP's official Transition of Care Tool for Medi-Cal Mental Health Services.</p></div><button onclick="closeIehpTocForm()">×</button></div>
     <div class="drawer-body iehp-toc-body">
       <div class="iehp-toc-grid">${IEHP_TOC_FORM_SCHEMA.map(iehpTocFieldRow).join('')}</div>
+      ${iehpTocRoutingCard()}
       <div class="iehp-toc-actions"><button class="dark" onclick="copyIehpTocSummary()">Copy summary</button><button onclick="downloadIehpTocSummary()">Download summary</button></div>
     </div>
   </aside>`;
@@ -23390,6 +23421,12 @@ html body .review-output-view .v44-output-rail .doc-card.active b,html body .rev
 .iehp-toc-field{display:grid;gap:3px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:var(--soft)}
 .iehp-toc-field span{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:850}
 .iehp-toc-field b{font-size:13px;color:var(--text);font-weight:650;word-break:break-word}
+.iehp-toc-routing{border:1px solid var(--gold-b);background:linear-gradient(180deg,#fffefa,#fffdf4);border-radius:16px;padding:12px 14px;display:grid;gap:9px}
+.iehp-toc-routing b{font-size:13px}
+.iehp-toc-routing-row{display:grid;gap:2px;font-size:12.5px}
+.iehp-toc-routing-row span{color:var(--muted)}
+.iehp-toc-routing-row em{color:var(--text);font-style:normal;font-weight:650}
+.iehp-toc-routing-row a{color:inherit}
 .iehp-toc-actions{display:flex;gap:10px;flex-wrap:wrap}
 .iehp-toc-actions button{flex:1 1 auto;height:42px;border-radius:999px}
 </style>
