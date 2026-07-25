@@ -21391,7 +21391,7 @@ function iehpTocFieldRow(field){
     const optLabel = (field.optionLabels && field.optionLabels[opt]) || opt;
     return `<button type="button" class="${active?'active':''}" onclick="setIehpTocField('${field.id}', '${escapeAttr(opt)}', true)">${html(optLabel)}</button>`;
   }).join('')}</div>${help}</div>`;
-  if(field.type==='textarea') return `<label class="patient-field iehp-toc-input wide"><span>${html(field.label)}</span><textarea placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)">${html(field.value()||'')}</textarea>${help}</label>`;
+  if(field.type==='textarea') return `<label class="patient-field iehp-toc-input iehp-toc-full"><span>${html(field.label)}</span><textarea placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)">${html(field.value()||'')}</textarea>${help}</label>`;
   return `<label class="patient-field iehp-toc-input"><span>${html(field.label)}</span><input type="text" value="${escapeAttr(field.value()||'')}" placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)" />${help}</label>`;
 }
 function iehpTocSummaryText(){
@@ -23613,7 +23613,7 @@ html body .review-output-view .v44-output-rail .doc-card.active b,html body .rev
 .iehp-toc-banner-btn:hover{background:var(--gold-ink);color:#fff}
 @media(max-width:640px){.iehp-toc-banner-btn{width:100%}}
 .iehp-toc-body{display:grid;gap:14px}
-.iehp-toc-grid{display:grid;gap:10px}
+.iehp-toc-grid{display:grid;gap:16px}
 .iehp-toc-field{display:grid;gap:3px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:var(--soft)}
 .iehp-toc-field span{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:850}
 .iehp-toc-field b{font-size:13px;color:var(--text);font-weight:650;word-break:break-word}
@@ -23629,16 +23629,25 @@ html body .review-output-view .v44-output-rail .doc-card.active b,html body .rev
 .iehp-toc-presets b{font-size:13px}
 .iehp-toc-presets>span{font-size:12px;color:var(--muted);line-height:1.35}
 .iehp-toc-preset-buttons{display:flex;flex-wrap:wrap;gap:8px}
-.iehp-toc-preset-buttons button{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line-strong,#bfd3dd);background:#fff;font-size:12.5px;font-weight:800;color:var(--text);cursor:pointer}
-.iehp-toc-preset-buttons button:hover{background:var(--soft)}
+.iehp-toc-preset-buttons button{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line-strong,#bfd3dd);background:#fff;font-size:12.5px;font-weight:800;color:var(--text);cursor:pointer;transition:background-color .12s,border-color .12s,transform .12s}
+.iehp-toc-preset-buttons button:hover{background:#fff;border-color:var(--gold-ink,#8a6a2e);color:var(--gold-ink,#8a6a2e);transform:translateY(-1px)}
+.iehp-toc-preset-buttons button:active{transform:translateY(0)}
 .iehp-toc-section{display:grid;gap:10px}
 .iehp-toc-section h4{margin:6px 0 -2px;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:850}
-.iehp-toc-input.wide{grid-column:1/-1}
+.iehp-toc-input.iehp-toc-full{grid-column:1/-1}
+/* A legacy .patient-field:nth-child(5){grid-column:1/-1} rule (written for
+   an unrelated 5-field patient form elsewhere in the app) silently grabs
+   whichever short text field happens to land 5th in our grid -- neutralize
+   it here since .patient-field is a shared, position-dependent class we
+   don't own the numbering of. */
+.iehp-toc-grid > .patient-field.iehp-toc-input:not(.iehp-toc-full){grid-column:auto!important;max-width:none!important}
 .iehp-toc-radio-field{display:grid;gap:6px;grid-column:1/-1}
 .iehp-toc-radio-field>span{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:850}
 .iehp-toc-radio-group{display:flex;flex-wrap:wrap;gap:8px}
-.iehp-toc-radio-group button{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:700;color:var(--muted);cursor:pointer}
+.iehp-toc-radio-group button{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:700;color:var(--muted);cursor:pointer;transition:background-color .12s,border-color .12s,color .12s}
+.iehp-toc-radio-group button:hover:not(.active){background:var(--soft);border-color:var(--line-strong,#bfd3dd);color:var(--text)}
 .iehp-toc-radio-group button.active{background:var(--gold-ink,#8a6a2e);border-color:var(--gold-ink,#8a6a2e);color:#fff}
+.iehp-toc-radio-group button.active:hover{background:#77592a}
 .iehp-toc-check{margin:0;grid-column:1/-1}
 .iehp-toc-help{display:block;font-size:11.5px;color:var(--muted);line-height:1.35;margin-top:5px;font-weight:500;text-transform:none;letter-spacing:0}
 .packet-check.iehp-toc-check small.iehp-toc-help{margin-top:2px}
