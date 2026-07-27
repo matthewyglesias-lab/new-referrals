@@ -21291,6 +21291,7 @@ function iehpTocSeedDefaults(){
   if(!t.planType) t.planType = 'Managed Care Plan';
   if(!t.destination) t.destination = 'County Mental Health Plan';
   if(!t.serviceTransitionOfCare) t.serviceTransitionOfCare = true;
+  if(!t.submittingPlan) t.submittingPlan = 'IEHP';
   if(!t.planState) t.planState = 'CA';
   if(!t.beneficiaryState) t.beneficiaryState = 'CA';
   if(!t.planContactName && state.packet && state.packet.preparedByName) t.planContactName = state.packet.preparedByName;
@@ -21323,7 +21324,7 @@ function iehpTocField(id, pdfField, label, opts={}){
     value: opts.value || (()=>ensureIehpTocState()[id])
   };
 }
-function iehpTocNote(text){ return {id:null, pdfField:null, label:'', type:'note', text, conditional:null, value:()=>''}; }
+function iehpTocNote(text, conditional=null){ return {id:null, pdfField:null, label:'', type:'note', text, conditional, value:()=>''}; }
 const IEHP_TOC_FORM_SCHEMA = [
   {id:'referring-plan', section:'Referring plan information', fields:[
     iehpTocField('planType','Plan','Submitting plan type',{type:'radio', options:['Managed Care Plan','County Mental Health Plan'], help:"IPMG submits this on IEHP's behalf as the Managed Care Plan -- leave this as Managed Care Plan unless told otherwise."}),
@@ -21379,18 +21380,18 @@ const IEHP_TOC_FORM_SCHEMA = [
     iehpTocField('serviceAdditionOfServices','Addition of Services','Addition of service(s)',{type:'checkbox'}),
     iehpTocField('servicesRequestedDescription','What services is the beneficiary being referred for','What service(s) is the beneficiary being referred for?',{type:'textarea', help:'e.g. PHP, IOP, or the specific program name.'}),
     iehpTocField('destination','Destination','Transition of care or service referral destination',{type:'radio', options:['Managed Care Plan','County Mental Health Plan'], help:"Where this referral is going. For an IEHP adult PHP/IOP transition, that's almost always County Mental Health Plan -- only the matching contact block below needs to be filled in."}),
-    iehpTocNote('Managed Care Plan contact info -- only fill this in if Destination above is <b>Managed Care Plan</b>.'),
-    iehpTocField('mcpName','MCP','Managed Care Plan name'),
-    iehpTocField('mcpFax','MCP Fax','Managed Care Plan fax'),
-    iehpTocField('mcpPhone','MCP Phone','Managed Care Plan phone'),
-    iehpTocField('mcpTollFree','MCP Toll Free','Managed Care Plan toll free'),
-    iehpTocField('mcpTTY','MCP TTY','Managed Care Plan TTY'),
-    iehpTocNote('County Mental Health Plan contact info -- only fill this in if Destination above is <b>County Mental Health Plan</b>. Use the Quick fill buttons at the top of this form for the two local counties.'),
-    iehpTocField('cmhpName','CMHP','County Mental Health Plan name'),
-    iehpTocField('cmhpFax','CMHP Fax','County Mental Health Plan fax'),
-    iehpTocField('cmhpPhone','CMHP Phone','County Mental Health Plan phone'),
-    iehpTocField('cmhpTollFree','CMHP Toll Free','County Mental Health Plan toll free'),
-    iehpTocField('cmhpTTY','CMHP TTY','County Mental Health Plan TTY')
+    iehpTocNote('Managed Care Plan contact info.', ()=>ensureIehpTocState().destination==='Managed Care Plan'),
+    iehpTocField('mcpName','MCP','Managed Care Plan name',{conditional:()=>ensureIehpTocState().destination==='Managed Care Plan'}),
+    iehpTocField('mcpFax','MCP Fax','Managed Care Plan fax',{conditional:()=>ensureIehpTocState().destination==='Managed Care Plan'}),
+    iehpTocField('mcpPhone','MCP Phone','Managed Care Plan phone',{conditional:()=>ensureIehpTocState().destination==='Managed Care Plan'}),
+    iehpTocField('mcpTollFree','MCP Toll Free','Managed Care Plan toll free',{conditional:()=>ensureIehpTocState().destination==='Managed Care Plan'}),
+    iehpTocField('mcpTTY','MCP TTY','Managed Care Plan TTY',{conditional:()=>ensureIehpTocState().destination==='Managed Care Plan'}),
+    iehpTocNote('County Mental Health Plan contact info. Use the Quick fill buttons at the top of this form for the two local counties.', ()=>ensureIehpTocState().destination==='County Mental Health Plan'),
+    iehpTocField('cmhpName','CMHP','County Mental Health Plan name',{conditional:()=>ensureIehpTocState().destination==='County Mental Health Plan'}),
+    iehpTocField('cmhpFax','CMHP Fax','County Mental Health Plan fax',{conditional:()=>ensureIehpTocState().destination==='County Mental Health Plan'}),
+    iehpTocField('cmhpPhone','CMHP Phone','County Mental Health Plan phone',{conditional:()=>ensureIehpTocState().destination==='County Mental Health Plan'}),
+    iehpTocField('cmhpTollFree','CMHP Toll Free','County Mental Health Plan toll free',{conditional:()=>ensureIehpTocState().destination==='County Mental Health Plan'}),
+    iehpTocField('cmhpTTY','CMHP TTY','County Mental Health Plan TTY',{conditional:()=>ensureIehpTocState().destination==='County Mental Health Plan'})
   ]}
 ];
 function iehpTocAllFields(){ return IEHP_TOC_FORM_SCHEMA.flatMap(sec=>sec.fields); }
@@ -21420,6 +21421,19 @@ function iehpTocFillCounty(county){
   saveState(); scheduleRender(); showToast('County contact filled in -- confirm fax/toll-free/TTY before sending');
 }
 window.iehpTocFillCounty = iehpTocFillCounty;
+
+function iehpTocFillPlanContact(){
+  const t = ensureIehpTocState();
+  const p = ensurePacketState();
+  const name = p.preparedByName || p.providerName || '';
+  const title = p.preparedByCredentials || p.providerCredentials || '';
+  if(name) t.planContactName = name;
+  if(title) t.planContactTitle = title;
+  if(p.returnContact) t.planContactPhone = p.returnContact;
+  if(!t.submittingPlan) t.submittingPlan = 'IEHP';
+  saveState(); scheduleRender(); showToast('Plan contact filled from staff/provider info');
+}
+window.iehpTocFillPlanContact = iehpTocFillPlanContact;
 
 function iehpTocBanner(){
   const elig = iehpTocEligibility();
@@ -21543,12 +21557,13 @@ function iehpTocFormBody(){
     const reqCount = visibleFields.filter(iehpTocFieldIsRequired).length;
     const reqLeft = visibleFields.filter(f=>iehpTocFieldIsRequired(f) && !iehpTocFieldIsFilled(f)).length;
     const badge = reqCount ? `<span class="iehp-toc-section-badge${reqLeft?'':' done'}">${reqLeft ? reqLeft+' required left' : 'All required done'}</span>` : '';
+    const quickFill = sec.id==='referring-plan' && !collapsed ? `<button type="button" class="iehp-toc-mini-fill" onclick="iehpTocFillPlanContact()">Use my info</button>` : '';
     return `<div class="iehp-toc-section">
       <div class="iehp-toc-section-head">
         <button type="button" class="iehp-toc-section-toggle" aria-expanded="${!collapsed}" onclick="toggleIehpTocSection('${sec.id}')">
           <svg class="iehp-toc-chevron${collapsed?' collapsed':''}" viewBox="0 0 24 24" width="16" height="16"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <h4>${html(sec.section)}</h4>
-        </button>${badge}
+        </button><div class="iehp-toc-section-trailing">${quickFill}${badge}</div>
       </div>
       ${collapsed ? '' : `<div class="iehp-toc-grid">${sec.fields.map(iehpTocFieldRow).join('')}</div>`}
     </div>`;
@@ -23692,7 +23707,7 @@ html body .review-output-view .v44-output-rail .doc-card.active b,html body .rev
 @media(max-width:640px){.iehp-toc-banner-btn{width:100%}}
 .iehp-toc-body{display:grid;gap:14px}
 .iehp-toc-grid{display:grid;gap:16px}
-.iehp-toc-field{display:grid;gap:3px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:var(--soft)}
+.iehp-toc-field{display:grid;gap:3px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:#fff}
 .iehp-toc-field span{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:850}
 .iehp-toc-field b{font-size:13px;color:var(--text);font-weight:650;word-break:break-word}
 .iehp-toc-routing{border:1px solid var(--gold-b);background:linear-gradient(180deg,#fffefa,#fffdf4);border-radius:16px;padding:12px 14px;display:grid;gap:9px}
@@ -23710,7 +23725,7 @@ html body .review-output-view .v44-output-rail .doc-card.active b,html body .rev
 .iehp-toc-preset-buttons button{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line-strong,#bfd3dd);background:#fff;font-size:12.5px;font-weight:800;color:var(--text);cursor:pointer;transition:background-color .12s,border-color .12s,transform .12s}
 .iehp-toc-preset-buttons button:hover{background:#fff;border-color:var(--gold-ink,#8a6a2e);color:var(--gold-ink,#8a6a2e);transform:translateY(-1px)}
 .iehp-toc-preset-buttons button:active{transform:translateY(0)}
-.iehp-toc-section{display:grid;gap:10px}
+.iehp-toc-section{display:grid;gap:12px;background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:14px 16px}
 .iehp-toc-section h4{margin:6px 0 -2px;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:850}
 .iehp-toc-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .iehp-toc-section-toggle{display:flex;align-items:center;gap:8px;background:none;border:none;padding:2px 0;cursor:pointer;color:inherit;min-width:0}
@@ -23718,8 +23733,11 @@ html body .review-output-view .v44-output-rail .doc-card.active b,html body .rev
 .iehp-toc-section-toggle:hover h4{color:var(--text)}
 .iehp-toc-chevron{flex:0 0 auto;color:var(--muted);transition:transform .15s ease}
 .iehp-toc-chevron.collapsed{transform:rotate(-90deg)}
+.iehp-toc-section-trailing{display:flex;align-items:center;gap:8px;flex:0 0 auto}
 .iehp-toc-section-badge{flex:0 0 auto;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;background:var(--gold);color:var(--gold-ink);white-space:nowrap}
-.iehp-toc-section-badge.done{background:var(--soft);color:var(--muted)}
+.iehp-toc-section-badge.done{background:#fff;color:var(--muted)}
+.iehp-toc-mini-fill{height:28px;padding:0 12px;border-radius:999px;border:1px solid var(--line-strong,#bfd3dd);background:#fff;font-size:11.5px;font-weight:800;color:var(--text);cursor:pointer;white-space:nowrap;transition:border-color .12s,color .12s}
+.iehp-toc-mini-fill:hover{border-color:var(--gold-ink,#8a6a2e);color:var(--gold-ink,#8a6a2e)}
 .iehp-toc-required-mark{color:var(--gold-ink,#8a6a2e);font-weight:900;margin-left:3px}
 .iehp-toc-legend{margin:-6px 0 0;font-size:12px;color:var(--muted)}
 .iehp-toc-readiness{border-radius:14px;padding:10px 14px;display:grid;gap:6px;font-size:12.5px}
@@ -23727,7 +23745,8 @@ html body .review-output-view .v44-output-rail .doc-card.active b,html body .rev
 .iehp-toc-readiness.ready{border:1px solid var(--line);background:var(--soft)}
 .iehp-toc-readiness b{font-size:13px}
 .iehp-toc-readiness span{color:var(--muted)}
-.iehp-toc-readiness ul{margin:0;padding:0;list-style:none;display:grid;gap:3px;color:var(--muted)}
+.iehp-toc-readiness ul{margin:0;padding:0;list-style:none;display:grid;gap:3px 16px;color:var(--muted)}
+@media(min-width:640px){.iehp-toc-readiness ul{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .iehp-toc-input.iehp-toc-full{grid-column:1/-1}
 /* A legacy .patient-field:nth-child(5){grid-column:1/-1} rule (written for
    an unrelated 5-field patient form elsewhere in the app) silently grabs
@@ -23745,7 +23764,7 @@ html body .review-output-view .v44-output-rail .doc-card.active b,html body .rev
 .iehp-toc-check{margin:0;grid-column:1/-1}
 .iehp-toc-help{display:block;font-size:11.5px;color:var(--muted);line-height:1.35;margin-top:5px;font-weight:500;text-transform:none;letter-spacing:0}
 .packet-check.iehp-toc-check small.iehp-toc-help{margin-top:2px}
-.iehp-toc-note{grid-column:1/-1;border:1px dashed var(--line-strong,#bfd3dd);background:var(--soft);border-radius:14px;padding:10px 12px;font-size:12.5px;color:var(--muted);line-height:1.4}
+.iehp-toc-note{grid-column:1/-1;border:1px dashed var(--line-strong,#bfd3dd);background:#fff;border-radius:14px;padding:10px 12px;font-size:12.5px;color:var(--muted);line-height:1.4}
 .iehp-toc-note b{color:var(--text);font-weight:750}
 .iehp-toc-screen{max-width:900px}
 @media(min-width:760px){.iehp-toc-screen .iehp-toc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
