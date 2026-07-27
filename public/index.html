@@ -5250,8 +5250,36 @@ body{background:var(--mature-bg);color:var(--mature-text);}
 .v57-queue-item{border:1px solid var(--line);background:#fff;border-radius:16px;padding:11px 12px;display:grid;gap:7px}
 .v57-queue-item.p1{border-color:var(--rose-b);background:linear-gradient(180deg,#fff,#fff8f7)}
 .v57-queue-item.p2{border-color:var(--gold-b);background:linear-gradient(180deg,#fff,#fffdf4)}
+.v57-queue-item.mint{border-color:var(--mint-b);background:linear-gradient(180deg,#fff,#f7fdfb)}
 .v57-queue-item b{font-size:13px;line-height:1.25;color:var(--text)}
 .v57-queue-item small{color:var(--muted);font-size:12px;line-height:1.35}
+.easy-referral-panel .v57-queue-actions{display:flex;gap:8px;flex-wrap:wrap}
+.easy-referral-panel a.secondary-action{text-decoration:none;font-size:12.5px}
+.directory-card{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow-soft);display:flex}
+.directory-card .dc-accent{width:8px;flex:0 0 auto;background:var(--tile-bg)}
+.directory-card .dc-body{padding:16px 18px;flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:12px}
+.directory-card .dc-head{display:flex;gap:13px;align-items:flex-start}
+.directory-card .dc-badge{width:44px;height:44px;flex:0 0 auto;border-radius:16px;background:var(--tile-bg);border:1px solid var(--tile-border);color:var(--tile-ink);display:grid;place-items:center;font-weight:950;font-size:12px}
+.directory-card .dc-headtext{min-width:0;flex:1 1 auto}
+.directory-card h4{margin:0;font-size:16px}
+.directory-card .dc-notes{margin:4px 0 0;color:var(--muted);font-size:13.5px}
+.directory-card .dc-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.directory-card .dc-meta div{background:#f9fcff;border:1px solid var(--line);border-radius:14px;padding:9px 11px;min-width:0}
+.directory-card .dc-meta span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:900}
+.directory-card .dc-meta b{display:block;font-size:12.5px;margin-top:2px;word-break:break-word}
+.directory-card .dc-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.directory-card .dc-source{color:var(--muted);font-size:13px}
+.directory-card .dc-source a{color:inherit}
+.directory-card .dc-actions{display:flex;flex-direction:row;flex-wrap:nowrap;gap:8px;flex:0 0 auto}
+.directory-card .dc-call,.directory-card .dc-copy{height:36px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:900;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:var(--text);white-space:nowrap}
+@media(max-width:760px){.directory-card .dc-meta{grid-template-columns:1fr}}
+.directory-screen{display:grid;gap:16px;max-width:1150px}
+.dc-page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.dc-page-head h2{margin:6px 0 0;font-family:var(--serif);font-weight:500;font-size:32px;letter-spacing:-.02em;color:var(--text)}
+.dc-page-head p{margin:4px 0 0;color:var(--muted);max-width:640px}
+.dc-tools{padding:16px}
+.dc-list{display:grid;gap:13px}
+@media(max-width:760px){.dc-page-head{flex-direction:column;align-items:stretch}}
 .v57-queue-actions{display:flex;gap:7px;flex-wrap:wrap}
 .v57-queue-actions button{height:30px;border-radius:999px;border:1px solid var(--line);background:#fff;padding:0 10px;font-size:11.5px;font-weight:850;color:var(--text)}
 .v57-drawer-grid{display:grid;gap:12px}
@@ -7638,7 +7666,11 @@ body{background:var(--v60-bg); color:var(--v60-text);}
 .v60-filter-row .field-search input{font-size:14px;}
 .v60-filter-pills{display:flex; gap:8px; overflow:auto; padding-bottom:2px;}
 .v60-filter-pills button,.v60-quick-chip{white-space:nowrap; border-radius:999px; border:1px solid var(--v60-line); background:#fff; color:#536058; padding:9px 12px; font-size:12px;}
-.v60-filter-pills button.active{background:var(--v60-sage); color:#fff; border-color:var(--v60-sage);} 
+.v60-filter-pills button.active{background:var(--v60-sage); color:#fff; border-color:var(--v60-sage);}
+.specialty-pills{align-items:center; flex-wrap:wrap; overflow:visible;}
+.specialty-pills-label{color:var(--v60-muted,#879188); font-size:12px; font-weight:700; white-space:nowrap; margin-right:2px;}
+.specialty-pills button{display:inline-flex; align-items:center; gap:6px;}
+.specialty-pills button b{font-weight:800; font-size:11px; color:inherit; opacity:.7;}
 .v60-quick-row{display:flex; align-items:center; gap:8px; flex-wrap:wrap; color:var(--v60-muted); font-size:12px;}
 .v60-quick-row b{color:#879188; font-weight:700;}
 .v60-result-bar{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 4px 14px; color:var(--v60-muted); border-top:1px solid rgba(231,225,215,.65);} 
@@ -8854,6 +8886,15 @@ button:hover, .plan-button:hover, .assist:hover,
 .v60-add-backup:hover, .card-actions button:not(.dark):not(.wide.dark):hover {
   background: var(--soft) !important; border-color: var(--line-strong) !important; color: var(--text) !important;
 }
+/* Restore visible button chrome for "Add backup" -- the rule above washes it
+   out to a near-invisible border/text on a transparent background, unlike its
+   sibling "Details" button which keeps a solid white pill. Match them. */
+.v60-resource-actions .v60-add-backup {
+  background: #fff !important; border: 1px solid var(--line-strong, #bfd3dd) !important; color: var(--text, #20384e) !important;
+}
+.v60-resource-actions .v60-add-backup:hover {
+  background: var(--soft, #eef6f8) !important; border-color: var(--line-strong, #bfd3dd) !important; color: var(--text, #20384e) !important;
+}
 
 /* Readiness badge */
 .readiness-badge {
@@ -9819,6 +9860,7 @@ html body .plan-overview.open button:active{
   <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
 </head>
 <body>
+  <script src="vendor/pdf-lib.min.js"></script>
   <div id="app"></div>
   <!-- LOGIC LOCK: business logic starts here. For third-party design polish, do not edit this script unless the QA checks pass afterward. -->
   <script>
@@ -11041,6 +11083,8 @@ const resources = [
     "notIdeal": "Medi-Cal, Medicare, Tricare, urgent crisis, or county/safety-net needs.",
     "patient": "Use Octave’s California directory and insurance checker before booking.",
     "staff": "Flag that Octave states some public plans are not accepted; verify payer before giving as primary.",
+    "referralSubmitUrl": "https://www.findoctave.com/referral-form",
+    "referralSubmitNote": "Provider referral form (also referrals@findoctave.com or fax 628-234-3048).",
     "categories": [
       "Online CA"
     ],
@@ -11335,7 +11379,7 @@ const resources = [
     "readiness": 78,
     "review": "Web checked Jun 2026",
     "records": "Patient contact, insurance, therapy need, age/guardian if minor",
-    "city": "California online / Riverside",
+    "city": "California online / Murrieta-Temecula",
     "scope": "California only online",
     "modality": "Telehealth throughout CA; in-person some locations",
     "payer": "Verify insurance/self-pay",
@@ -12488,7 +12532,7 @@ const resources = [
     "route": "Youth PHP/IOP program",
     "fit": "Youth structured higher level of care",
     "action": "Confirm age, acuity, insurance, and Murrieta location fit",
-    "contact": "28078 Baxter Rd., Ste. 242, Murrieta · 951-290-6411",
+    "contact": "28078 Baxter Rd., Ste. 242, Murrieta · 951-783-3964",
     "readiness": 82,
     "review": "Web checked Jun 2026",
     "records": "Guardian info, insurance, risk screen, school concerns, recent notes",
@@ -12555,6 +12599,7 @@ const resources = [
     "notIdeal": "Severe medical instability, immediate suicide risk, or county-only payer route without coverage check.",
     "patient": "Call to ask about the appropriate program, insurance verification, and current availability.",
     "staff": "Confirm level of care, medical/safety exclusions, eating disorder criteria, and payer.",
+    "specialtyTags": ["Eating disorder"],
     "categories": [
       "Youth family",
       "IOP PHP"
@@ -13351,6 +13396,7 @@ const resources = [
     "notIdeal": "Adult ADHD-only testing or urgent mental health crisis.",
     "patient": "Guardian should call and ask about autism/developmental assessment intake.",
     "staff": "Confirm age, referral requirements, payer, documents, and wait time.",
+    "specialtyTags": ["Autism / developmental"],
     "categories": [
       "Youth family",
       "Testing DD"
@@ -13404,6 +13450,7 @@ const resources = [
     "notIdeal": "Emergency mental health support or guaranteed appointment availability.",
     "patient": "Use guide to identify evaluation routes, then call providers directly.",
     "staff": "Tell staff to verify payer, age range, waitlist, and whether the provider does formal diagnosis.",
+    "specialtyTags": ["Autism / developmental"],
     "categories": [
       "Testing DD"
     ],
@@ -13653,6 +13700,8 @@ const resources = [
     "notIdeal": "Therapy-only need without psychiatry or crisis/high-acuity emergency.",
     "patient": "Complete online matcher and confirm insurance is accepted.",
     "staff": "Verify insurance acceptance, age/service limits, current med needs, and controlled medication policy.",
+    "referralSubmitUrl": "https://www.talkiatry.com/refer-a-patient",
+    "referralSubmitNote": "Secure clinician referral portal; most patients scheduled within a week. Ages 5-18 and adult psychiatry, in-network with major insurers.",
     "categories": [
       "Online CA"
     ],
@@ -13702,6 +13751,8 @@ const resources = [
     "notIdeal": "IOP/PHP level, crisis stabilization, complex case needing local wraparound.",
     "patient": "Complete assessment and insurance check; choose therapy and/or psychiatry plan as appropriate.",
     "staff": "Confirm risk exclusions, diagnosis fit, insurance, and whether patient needs higher level of care.",
+    "referralSubmitUrl": "https://www.brightside.com/referral/",
+    "referralSubmitNote": "Provider referral portal; submit a new patient referral online in a few minutes.",
     "categories": [
       "Online CA"
     ],
@@ -16192,6 +16243,1388 @@ const resources = [
       "California virtual IOP",
       "Confirm payer, clinical fit, schedule, and leave/documentation needs"
     ]
+  },
+  {
+    "id": "ruhs-riverside-eating-disorder-iop",
+    "name": "RUHS Mindful Body and Recovery Program (Eating Disorder IOP)",
+    "type": "IOP PHP",
+    "color": "peach",
+    "icon": "ED",
+    "route": "Riverside County eating disorder intensive outpatient program",
+    "fit": "Anorexia, bulimia, binge-eating disorder, or ARFID needing structured IOP-level eating disorder care",
+    "action": "Call CARES Line or program directly to confirm eligibility, Medi-Cal enrollment, and intake",
+    "contact": "(951) 210-1750 · CARES Line (800) 499-3008",
+    "readiness": 82,
+    "review": "Web checked Jul 2026",
+    "records": "Medi-Cal/insurance, eating disorder history, medical clearance, weight/vitals if available, risk screen",
+    "city": "Perris",
+    "scope": "Riverside County",
+    "modality": "County eating disorder intensive outpatient program",
+    "payer": "Medi-Cal",
+    "source": "Riverside University Health System Behavioral Health",
+    "sourceUrl": "https://ruhealth.org/behavioral-health/mindful-body-and-recovery-program",
+    "best": "Riverside County Medi-Cal patients of any age with anorexia, bulimia, binge-eating disorder, or ARFID who need structured IOP-level eating disorder treatment close to home.",
+    "notIdeal": "Non-Medi-Cal/commercial-only patients, or patients who are medically unstable and need inpatient medical stabilization before outpatient-level care (route to ER or a medical-stabilization unit instead).",
+    "patient": "Call the CARES Line and ask for the Mindful Body and Recovery Program eating disorder IOP at Perris Valley Community Health Center.",
+    "staff": "Confirm Medi-Cal enrollment, age, current medical stability/weight trend, and whether the patient needs IOP or a higher level of care first.",
+    "specialtyTags": ["Eating disorder"],
+    "categories": [
+      "County access",
+      "IOP PHP"
+    ],
+    "alsoUnder": [
+      "County access"
+    ],
+    "serviceTypes": [
+      "IOP",
+      "County access"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Youth/teen",
+      "Adult"
+    ],
+    "payerTags": [
+      "Medi-Cal"
+    ],
+    "routeTags": [
+      "Riverside County eating disorder intensive outpatient program",
+      "Call CARES Line or program directly to confirm eligibility, Medi-Cal enrollment, and intake"
+    ]
+  },
+  {
+    "id": "sbc-eating-disorder-collaborative",
+    "name": "San Bernardino County Eating Disorder Collaborative (EDC)",
+    "type": "County access",
+    "color": "mint",
+    "icon": "ED",
+    "route": "County eating disorder screening, assessment, and care-coordination program",
+    "fit": "SB County patients (any age; primary focus transitional age youth 16-25) needing eating disorder screening and linkage to treatment",
+    "action": "Call EDC directly to start screening/assessment and MCP (IEHP/Molina/Kaiser) coordination",
+    "contact": "(909) 387-7336 · DBH-EatingDisorders@dbh.sbcounty.gov",
+    "readiness": 84,
+    "review": "Web checked Jul 2026",
+    "records": "Demographics, insurance/MCP plan, eating disorder history, guardian info if minor, risk screen",
+    "city": "San Bernardino",
+    "scope": "San Bernardino County",
+    "modality": "County eating disorder screening, assessment, case management, and higher-level-of-care linkage",
+    "payer": "Medi-Cal managed care (IEHP, Molina), Kaiser; uninsured/safety-net via DBH",
+    "source": "San Bernardino County Department of Behavioral Health",
+    "sourceUrl": "https://wp.sbcounty.gov/dbh/",
+    "best": "San Bernardino County patients of any age with a suspected or diagnosed eating disorder who need screening, MCP navigation, case management, or a warm handoff to IOP/PHP/residential eating disorder care.",
+    "notIdeal": "Patients outside San Bernardino County, or immediate medical emergencies (send to ER instead of routing through EDC first).",
+    "patient": "Call the Eating Disorder Collaborative directly and ask for a screening/assessment appointment.",
+    "staff": "Confirm county residence, MCP/insurance plan, age, current safety/medical status, and whether EDC or a direct residential/PHP/IOP referral is the right first step.",
+    "specialtyTags": ["Eating disorder"],
+    "categories": [
+      "County access",
+      "Youth family"
+    ],
+    "alsoUnder": [
+      "Youth family"
+    ],
+    "serviceTypes": [
+      "County access",
+      "Youth/family"
+    ],
+    "deliveryModes": [
+      "In-person",
+      "Phone intake"
+    ],
+    "serviceAreas": [
+      "San Bernardino",
+      "Countywide"
+    ],
+    "populations": [
+      "Youth/teen",
+      "Adult"
+    ],
+    "payerTags": [
+      "Medi-Cal",
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "County eating disorder screening, assessment, and care-coordination program",
+      "Call EDC directly to start screening/assessment and MCP (IEHP/Molina/Kaiser) coordination"
+    ]
+  },
+  {
+    "id": "bright-road-recovery-claremont",
+    "name": "Bright Road Recovery — Claremont",
+    "type": "IOP PHP",
+    "color": "peach",
+    "icon": "BR",
+    "route": "Residential / PHP / IOP eating disorder program",
+    "fit": "Adults needing residential, PHP, or IOP eating disorder treatment close to the Inland Empire",
+    "action": "Confirm level of care, insurance network status, age, and medical clearance",
+    "contact": "909-624-7070 · Toll-free 800-948-0342",
+    "readiness": 80,
+    "review": "Web checked Jul 2026",
+    "records": "Insurance card, eating disorder/medical history, current weight/vitals, medication list, risk screen",
+    "city": "Claremont",
+    "scope": "Inland Empire / Los Angeles County border",
+    "modality": "Residential treatment center, PHP, and IOP for eating disorders",
+    "payer": "Commercial (Aetna, Anthem Blue Cross, Kaiser, UHC, Cigna, Beacon, Magellan); single-case agreements and self-pay available",
+    "source": "Bright Road Recovery",
+    "sourceUrl": "https://brightroadrecovery.com/brr/",
+    "best": "Adults with anorexia, bulimia, binge-eating disorder, or related conditions who need residential, PHP, or IOP-level eating disorder care and want an Inland Empire-adjacent, commercially-insured option.",
+    "notIdeal": "Adolescents under 18 (confirm current age policy directly), or patients who are medically unstable and need inpatient medical stabilization first.",
+    "patient": "Call Bright Road Recovery directly and ask about level-of-care assessment, insurance verification, and admission timing.",
+    "staff": "Confirm age policy, in-network status for the patient's specific plan, medical stability for RTC/PHP admission, and current bed/schedule availability.",
+    "specialtyTags": ["Eating disorder"],
+    "categories": [
+      "IOP PHP"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Residential",
+      "PHP",
+      "IOP"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "West Valley",
+      "Los Angeles County border"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Commercial"
+    ],
+    "routeTags": [
+      "Residential / PHP / IOP eating disorder program",
+      "Confirm level of care, insurance network status, age, and medical clearance"
+    ]
+  },
+  {
+    "id": "eating-recovery-center-irvine",
+    "name": "Eating Recovery Center — Irvine",
+    "type": "IOP PHP",
+    "color": "peach",
+    "icon": "ERC",
+    "route": "PHP / IOP eating disorder program for adolescents and adults",
+    "fit": "Ages 12+ with anorexia, bulimia, binge-eating disorder, ARFID, or body image disturbance needing specialty PHP/IOP",
+    "action": "Call admissions for assessment; confirm age track, payer, and travel feasibility",
+    "contact": "Admissions 866-348-7839 · Irvine center 949-504-4673",
+    "readiness": 78,
+    "review": "Web checked Jul 2026",
+    "records": "Insurance card, eating disorder/medical history, prior treatment, current weight/vitals, guardian info if minor",
+    "city": "Irvine",
+    "scope": "Orange County (regional referral)",
+    "modality": "Partial hospitalization and intensive outpatient eating disorder program",
+    "payer": "Commercial/private; verify network and authorization",
+    "source": "Eating Recovery Center",
+    "sourceUrl": "https://www.eatingrecoverycenter.com/recovery-centers/irvine/",
+    "best": "Adolescents (12-17) and adults needing a specialty eating-disorder-only PHP/IOP program when local Inland Empire options are full, unavailable, or not the right clinical fit.",
+    "notIdeal": "Patients unable to travel to Irvine for daily programming, or patients who are medically unstable and need inpatient medical stabilization first.",
+    "patient": "Call the admissions line and ask about PHP/IOP assessment, insurance verification, and current availability.",
+    "staff": "Confirm age track, in-network/authorization status, travel feasibility, and medical clearance for PHP/IOP-level (not inpatient) care.",
+    "specialtyTags": ["Eating disorder"],
+    "categories": [
+      "IOP PHP",
+      "Youth family"
+    ],
+    "alsoUnder": [
+      "Youth family"
+    ],
+    "serviceTypes": [
+      "PHP",
+      "IOP",
+      "Youth/family"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Orange County"
+    ],
+    "populations": [
+      "Youth/teen",
+      "Adult"
+    ],
+    "payerTags": [
+      "Commercial"
+    ],
+    "routeTags": [
+      "PHP / IOP eating disorder program for adolescents and adults",
+      "Call admissions for assessment; confirm age track, payer, and travel feasibility"
+    ]
+  },
+  {
+    "id": "acute-denver-health-severe-malnutrition",
+    "name": "ACUTE Center for Eating Disorders & Severe Malnutrition (Denver Health)",
+    "type": "IOP PHP",
+    "color": "rose",
+    "icon": "!",
+    "route": "Inpatient medical stabilization for severe eating disorders / malnutrition",
+    "fit": "Medically unstable eating disorder patients (severe malnutrition, refeeding risk, vital-sign instability) who cannot safely start PHP/IOP/residential care",
+    "action": "Have referring physician/PCP or ER call ACUTE directly to arrange medical transfer/admission",
+    "contact": "1-877-ACUTE-4-U (1-877-228-8348)",
+    "readiness": 70,
+    "review": "Web checked Jul 2026",
+    "records": "Medical records, current labs/vitals, weight history, physician referral, insurance",
+    "city": "Denver, CO",
+    "scope": "National medical-stabilization referral (out of area)",
+    "modality": "Hospital-based medical telemetry unit for eating disorder medical stabilization",
+    "payer": "Bills under medical benefit; contracted with most major commercial insurance plans",
+    "source": "Denver Health — ACUTE Center for Eating Disorders",
+    "sourceUrl": "https://www.acute.org/",
+    "best": "Patients ages 15+ who are too medically unstable for standard PHP/IOP/residential eating disorder programs (e.g. severe bradycardia, electrolyte instability, extreme malnutrition) and need hospital-level medical stabilization before stepping down to behavioral treatment.",
+    "notIdeal": "Patients who are medically stable enough for routine outpatient, IOP, PHP, or residential eating disorder care — use a local/regional program instead. Immediate life-threatening emergencies should go to the nearest ER by 911 first.",
+    "patient": "This is an out-of-area medical transfer route; staff/physician will coordinate directly with ACUTE rather than the patient self-referring.",
+    "staff": "This is the medical-stability exclusion route: use when a patient screened for local ED PHP/IOP/residential care is flagged as too medically unstable. Confirm insurance, get physician-to-physician contact, and arrange transfer.",
+    "specialtyTags": ["Eating disorder"],
+    "categories": [
+      "IOP PHP",
+      "Crisis urgent"
+    ],
+    "alsoUnder": [
+      "Crisis urgent"
+    ],
+    "serviceTypes": [
+      "Medical stabilization"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Out of area / national"
+    ],
+    "populations": [
+      "Youth/teen",
+      "Adult"
+    ],
+    "payerTags": [
+      "Commercial"
+    ],
+    "routeTags": [
+      "Inpatient medical stabilization for severe eating disorders / malnutrition",
+      "Have referring physician/PCP or ER call ACUTE directly to arrange medical transfer/admission"
+    ]
+  },
+  {
+    "id": "equip-virtual-fbt-ca",
+    "name": "Equip — Virtual Family-Based Treatment (Eating Disorders)",
+    "type": "Online CA",
+    "color": "blue",
+    "icon": "EQ",
+    "route": "Virtual family-based eating disorder treatment",
+    "fit": "Youth/young patients (5+) whose family can support home-based, evidence-based eating disorder treatment via telehealth",
+    "action": "Call admissions to confirm age fit, insurance/Medicaid, and start intake",
+    "contact": "855-387-4378",
+    "readiness": 76,
+    "review": "Web checked Jul 2026",
+    "records": "Insurance/Medicaid info, eating disorder history, guardian/family info, current living situation, risk screen",
+    "city": "California online",
+    "scope": "California only online",
+    "modality": "Virtual family-based treatment (FBT), CBT-E, DBT, and medical/dietitian support",
+    "payer": "Commercial insurance; Medicaid in some states — verify current CA coverage",
+    "source": "Equip Health",
+    "sourceUrl": "https://equip.health/referral-info",
+    "best": "Patients age 5+ (especially children/adolescents) whose family wants to keep them at home while accessing a dedicated therapist, dietitian, and medical provider team for eating disorder treatment.",
+    "notIdeal": "Patients who need in-person medical monitoring, are medically unstable, or lack a family/support system able to participate in FBT.",
+    "patient": "Call Equip admissions and ask about family-based treatment fit, insurance/Medicaid verification, and getting started.",
+    "staff": "Confirm age, insurance/Medicaid acceptance in California, family capacity to participate in FBT, and medical stability for a virtual-only program.",
+    "specialtyTags": ["Eating disorder"],
+    "categories": [
+      "Online CA",
+      "Youth family"
+    ],
+    "alsoUnder": [
+      "Youth family"
+    ],
+    "serviceTypes": [
+      "Youth/family",
+      "Virtual"
+    ],
+    "deliveryModes": [
+      "Virtual CA"
+    ],
+    "serviceAreas": [
+      "California virtual"
+    ],
+    "populations": [
+      "Youth/teen"
+    ],
+    "payerTags": [
+      "Commercial",
+      "Medicaid varies"
+    ],
+    "routeTags": [
+      "Virtual family-based eating disorder treatment",
+      "Call admissions to confirm age fit, insurance/Medicaid, and start intake"
+    ]
+  },
+  {
+    "id": "within-health-virtual-ed",
+    "name": "Within Health — Virtual PHP/IOP (Eating Disorders)",
+    "type": "Online CA",
+    "color": "blue",
+    "icon": "WH",
+    "route": "Virtual PHP/IOP eating disorder program",
+    "fit": "Adolescents, adults, and college students needing structured virtual PHP/IOP eating disorder care from home",
+    "action": "Call to verify insurance, confirm age fit, and start intake",
+    "contact": "(866) 293-0041",
+    "readiness": 74,
+    "review": "Web checked Jul 2026",
+    "records": "Insurance info, eating disorder history, current weight/vitals if available, risk screen",
+    "city": "California online",
+    "scope": "California only online",
+    "modality": "Virtual enhanced PHP and IOP with therapist, nurse, and dietitian support via app",
+    "payer": "Commercial/private; verify insurance",
+    "source": "Within Health",
+    "sourceUrl": "https://withinhealth.com/locations/ca-san-bernardino",
+    "best": "San Bernardino/Riverside County patients who need PHP/IOP-level eating disorder support but cannot travel daily to a brick-and-mortar program.",
+    "notIdeal": "Patients who are medically unstable and need in-person monitoring or inpatient stabilization, or who lack a private/safe space for virtual sessions.",
+    "patient": "Call Within Health and ask about virtual PHP/IOP fit, insurance verification, and getting started.",
+    "staff": "Confirm insurance coverage, age, medical stability for a virtual-only program, and home safety/privacy for telehealth sessions.",
+    "specialtyTags": ["Eating disorder"],
+    "categories": [
+      "Online CA",
+      "IOP PHP"
+    ],
+    "alsoUnder": [
+      "IOP PHP"
+    ],
+    "serviceTypes": [
+      "PHP",
+      "IOP",
+      "Virtual"
+    ],
+    "deliveryModes": [
+      "Virtual CA"
+    ],
+    "serviceAreas": [
+      "California virtual"
+    ],
+    "populations": [
+      "Youth/teen",
+      "Adult"
+    ],
+    "payerTags": [
+      "Commercial"
+    ],
+    "routeTags": [
+      "Virtual PHP/IOP eating disorder program",
+      "Call to verify insurance, confirm age fit, and start intake"
+    ]
+  },
+  {
+    "id": "ie-behavioral-group-eating-disorder",
+    "name": "Inland Empire Behavioral Group — Eating Disorder Outpatient Care",
+    "type": "Local therapy",
+    "color": "gold",
+    "icon": "ED",
+    "route": "Individual outpatient eating disorder therapy, medication management, and nutrition support",
+    "fit": "Children through adults with anorexia, ARFID, bulimia, or binge-eating disorder needing routine outpatient (not IOP/PHP) care",
+    "action": "Call or email to confirm insurance, age fit, and current availability",
+    "contact": "(909) 429-3244 · iebehavioral@iebgroup.org",
+    "readiness": 76,
+    "review": "Web checked Jul 2026",
+    "records": "Insurance card, eating disorder/medical history, guardian info if minor, risk screen",
+    "city": "Riverside / Colton",
+    "scope": "Inland Empire",
+    "modality": "Individual therapy (CBT, Maudsley/family-based for younger patients), medication management, nutrition support, group therapy for BED",
+    "payer": "Verify insurance; not specified publicly",
+    "source": "Inland Empire Behavioral Group",
+    "sourceUrl": "https://iebehavioralgroup.com/our-services/eating-disorder/",
+    "best": "Patients who need a routine outpatient eating-disorder-specialized therapist/psychiatrist -- not a full IOP/PHP program -- for anorexia, ARFID, bulimia, or binge-eating disorder, including younger children where family (Maudsley) involvement is appropriate.",
+    "notIdeal": "Patients who are medically unstable or need IOP/PHP/residential-level structure; route to a program (e.g. RUHS ED-IOP, SB County EDC, Bright Road Recovery) instead.",
+    "patient": "Call or email IEBG and ask about eating disorder outpatient therapy intake, insurance, and current availability.",
+    "staff": "Confirm insurance/payer, age, current level-of-care need (this is outpatient, not IOP/PHP), and which Riverside or Colton office fits.",
+    "specialtyTags": ["Eating disorder"],
+    "categories": [
+      "Local therapy"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Therapy/counseling",
+      "Psychiatry/med support"
+    ],
+    "deliveryModes": [
+      "In-person",
+      "Telehealth"
+    ],
+    "serviceAreas": [
+      "Riverside",
+      "West Valley"
+    ],
+    "populations": [
+      "Youth/teen",
+      "Adult"
+    ],
+    "payerTags": [
+      "Verify payer"
+    ],
+    "routeTags": [
+      "Individual outpatient eating disorder therapy, medication management, and nutrition support",
+      "Call or email to confirm insurance, age fit, and current availability"
+    ]
+  },
+  {
+    "id": "nourished-with-kindness-rd-ca",
+    "name": "Nourished with Kindness — CA Eating Disorder Dietitians",
+    "type": "Online CA",
+    "color": "blue",
+    "icon": "RD",
+    "route": "Virtual registered-dietitian nutrition therapy for eating disorders",
+    "fit": "Patients needing an eating-disorder-specialized registered dietitian for individual or family nutrition counseling",
+    "action": "Confirm insurance/PPO coverage, age fit, and clinician availability",
+    "contact": "855-259-7243 · hello@nourishedwithkindness.com",
+    "readiness": 72,
+    "review": "Web checked Jul 2026",
+    "records": "Insurance card, eating disorder history, referring provider info if required",
+    "city": "California online",
+    "scope": "California only online",
+    "modality": "1:1 registered dietitian nutrition therapy, family sessions, intuitive eating/weight-inclusive approach",
+    "payer": "PPO (Aetna, Anthem, Blue Shield of CA, Cigna, UHC, Health Net, Tricare West); verify current panel",
+    "source": "Nourished with Kindness",
+    "sourceUrl": "https://nourishedwithkindness.com/",
+    "best": "Patients in active eating disorder treatment (therapy and/or a program) who need a specialized registered dietitian for ongoing nutrition therapy, without needing a full IOP/PHP program.",
+    "notIdeal": "Patients who need therapy or medical monitoring, not just nutrition counseling, or who need IOP/PHP/residential-level care.",
+    "patient": "Contact Nourished with Kindness and ask about eating disorder nutrition therapy, insurance verification, and getting matched with a dietitian.",
+    "staff": "Confirm PPO panel/insurance, whether the patient also has a therapist/medical provider (dietitian-only care should not stand alone for higher-acuity cases), and current availability.",
+    "specialtyTags": ["Eating disorder"],
+    "categories": [
+      "Online CA"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Nutrition/dietitian"
+    ],
+    "deliveryModes": [
+      "Virtual CA"
+    ],
+    "serviceAreas": [
+      "California virtual"
+    ],
+    "populations": [
+      "Youth/teen",
+      "Adult"
+    ],
+    "payerTags": [
+      "Commercial"
+    ],
+    "routeTags": [
+      "Virtual registered-dietitian nutrition therapy for eating disorders",
+      "Confirm insurance/PPO coverage, age fit, and clinician availability"
+    ]
+  },
+  {
+    "id": "neurochamp-riverside-testing",
+    "name": "NeuroChamp — Psychoeducational, ADHD, and Learning Testing",
+    "type": "Testing DD",
+    "color": "lavender",
+    "icon": "NC",
+    "route": "Psychoeducational / ADHD / learning-disability / autism evaluation",
+    "fit": "Children/adolescents (and virtual CA-wide) needing ADHD, dyslexia, learning-disability, or autism testing",
+    "action": "Confirm age, referral reason, payer, and in-person vs. virtual fit",
+    "contact": "(909) 255-6113",
+    "readiness": 78,
+    "review": "Web checked Jul 2026",
+    "records": "School records/IEP, developmental history, insurance, prior evaluations, guardian info",
+    "city": "Riverside",
+    "scope": "Inland Empire; virtual statewide",
+    "modality": "Psychoeducational evaluation, ADHD/anxiety evaluation, learning disability (dyslexia/dysgraphia/dyscalculia) testing, autism evaluation, IEE/IEP support",
+    "payer": "Verify insurance/self-pay",
+    "source": "NeuroChamp",
+    "sourceUrl": "https://www.theneurochamp.com/",
+    "best": "Children/teens needing a psychoeducational or ADHD/learning-disability evaluation, including IEP/504 documentation, with an in-person Riverside option or virtual CA-wide availability.",
+    "notIdeal": "Adult-only ADHD testing (confirm current age range directly) or urgent mental health crisis.",
+    "patient": "Guardian should call and ask about psychoeducational/ADHD evaluation intake, insurance, and wait time.",
+    "staff": "Confirm age range served, referral reason (school vs. clinical), payer, and in-person vs. virtual fit.",
+    "specialtyTags": ["ADHD / neuropsych testing"],
+    "categories": [
+      "Testing DD",
+      "Youth family"
+    ],
+    "alsoUnder": [
+      "Youth family"
+    ],
+    "serviceTypes": [
+      "Testing/DD",
+      "Youth/family"
+    ],
+    "deliveryModes": [
+      "In-person",
+      "Virtual CA"
+    ],
+    "serviceAreas": [
+      "Riverside",
+      "San Bernardino"
+    ],
+    "populations": [
+      "Youth/teen"
+    ],
+    "payerTags": [
+      "Verify payer"
+    ],
+    "routeTags": [
+      "Psychoeducational / ADHD / learning-disability / autism evaluation",
+      "Confirm age, referral reason, payer, and in-person vs. virtual fit"
+    ]
+  },
+  {
+    "id": "abundance-therapy-adhd-testing-riverside",
+    "name": "Abundance Therapy Center — ADHD Testing",
+    "type": "Testing DD",
+    "color": "lavender",
+    "icon": "AT",
+    "route": "Comprehensive ADHD psychological assessment",
+    "fit": "Children (6+), teens, and adults needing a comprehensive ADHD evaluation, including school (IEP/504) documentation",
+    "action": "Confirm age, insurance/pre-authorization, and current wait time",
+    "contact": "213-505-4307",
+    "readiness": 80,
+    "review": "Web checked Jul 2026",
+    "records": "Insurance card, developmental/school history, prior evaluations, symptom history",
+    "city": "Riverside",
+    "scope": "Inland Empire (also LA, Valencia, Anaheim offices)",
+    "modality": "Comprehensive ADHD assessment: cognitive testing, behavioral observation, developmental history, 2-3 appointments over several weeks",
+    "payer": "Most major insurance accepted; handles pre-authorization; sliding scale/payment plans available for uninsured",
+    "source": "Abundance Therapy Center",
+    "sourceUrl": "https://www.abundancetherapycenter.com/adhd-testing-riverside-county",
+    "best": "Children (6+), teens, and adults needing a comprehensive ADHD evaluation without a long wait (typically 2-3 weeks to first appointment), including bilingual/culturally responsive evaluation and school documentation.",
+    "notIdeal": "Patients needing same-day crisis care or an autism-specific/neuropsychological (non-ADHD) battery -- confirm scope directly.",
+    "patient": "Call and ask about ADHD testing intake, insurance/pre-authorization, and current appointment availability.",
+    "staff": "Confirm age, insurance/pre-authorization requirements, and whether the Riverside office (vs. LA/Valencia/Anaheim) is the right fit.",
+    "specialtyTags": ["ADHD / neuropsych testing", "LGBTQ+ affirming"],
+    "categories": [
+      "Testing DD"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Testing/DD"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Youth/teen",
+      "Adult"
+    ],
+    "payerTags": [
+      "Commercial",
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "Comprehensive ADHD psychological assessment",
+      "Confirm age, insurance/pre-authorization, and current wait time"
+    ]
+  },
+  {
+    "id": "nixon-psychological-institute-chino",
+    "name": "Nixon Psychological Institute — Chino",
+    "type": "Testing DD",
+    "color": "lavender",
+    "icon": "NP",
+    "route": "Psychological testing and evaluation (ADHD, learning, cognitive, autism)",
+    "fit": "Children (3+) through adults needing ADHD, cognitive, learning, or autism (ADOS-2) testing",
+    "action": "Confirm age, insurance, and current availability",
+    "contact": "(909) 248-3434",
+    "readiness": 74,
+    "review": "Web checked Jul 2026",
+    "records": "Insurance card, developmental/school history, prior evaluations, symptom history",
+    "city": "Chino",
+    "scope": "Inland Empire / West Valley",
+    "modality": "Psychological testing and evaluation for ADHD and other cognitive disorders, including ADOS-2 autism testing; psychotherapy also offered in-person or via video",
+    "payer": "Verify current insurance panel directly",
+    "source": "Nixon Psychological Institute",
+    "sourceUrl": "https://www.nixonpsychologicalinstitute.com/",
+    "best": "Children (3+), teens, and adults needing ADHD, cognitive, learning, or autism testing in the West Valley/Chino area, with a free 15-minute consultation to start.",
+    "notIdeal": "Urgent mental health crisis or patients needing IOP/PHP-level care.",
+    "patient": "Call and ask about the free consultation, testing intake, and insurance verification.",
+    "staff": "Confirm age, current insurance panel, referral reason, and wait time.",
+    "specialtyTags": ["ADHD / neuropsych testing"],
+    "categories": [
+      "Testing DD"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Testing/DD"
+    ],
+    "deliveryModes": [
+      "In-person",
+      "Telehealth"
+    ],
+    "serviceAreas": [
+      "West Valley"
+    ],
+    "populations": [
+      "Youth/teen",
+      "Adult"
+    ],
+    "payerTags": [
+      "Verify payer"
+    ],
+    "routeTags": [
+      "Psychological testing and evaluation (ADHD, learning, cognitive, autism)",
+      "Confirm age, insurance, and current availability"
+    ]
+  },
+  {
+    "id": "psi-helpline-perinatal",
+    "name": "Postpartum Support International (PSI) HelpLine",
+    "type": "County access",
+    "color": "gold",
+    "icon": "PP",
+    "route": "Perinatal mental health warmline and local referral",
+    "fit": "Pregnant/postpartum patients or families needing support, information, and local perinatal referrals",
+    "action": "Call or text; confirm this is a warmline (not a crisis line) and route true emergencies to 988 or 911",
+    "contact": "1-800-944-4773 (option 1 Spanish, 2 English) · text \"Help\" to 800-944-4773",
+    "readiness": 82,
+    "review": "Web checked Jul 2026",
+    "records": "Contact info, pregnancy/postpartum status, concern, risk screen",
+    "city": "National / California",
+    "scope": "National (routes to CA-specific coordinators)",
+    "modality": "Warmline: live support, information, and referral to local perinatal mental health resources",
+    "payer": "Free; not billed",
+    "source": "Postpartum Support International",
+    "sourceUrl": "https://postpartum.net/get-help/psi-helpline/",
+    "best": "Pregnant or postpartum patients (or their family) needing emotional support, information about perinatal mood and anxiety disorders (PMADs), or a warm handoff to a local specialist -- not an emergency.",
+    "notIdeal": "Suicidal crisis or medical emergency -- use 988 or 911 instead. Not a same-day clinical appointment line.",
+    "patient": "Call or text the PSI HelpLine; a real person will call back if no one answers live, usually same day.",
+    "staff": "Confirm this is a warmline, not crisis line; use for support/information/referral, and pair with 988 or the National Maternal Mental Health Hotline (833-852-6262) for true emergencies.",
+    "specialtyTags": ["Perinatal / postpartum"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Warmline",
+      "Support/referral"
+    ],
+    "deliveryModes": [
+      "Phone",
+      "Text"
+    ],
+    "serviceAreas": [
+      "California virtual",
+      "National"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "Perinatal mental health warmline and local referral",
+      "Call or text; confirm this is a warmline (not a crisis line) and route true emergencies to 988 or 911"
+    ]
+  },
+  {
+    "id": "ruhs-maternal-mental-health",
+    "name": "RUHS Maternal Mental Health / MOMS Perinatal Program",
+    "type": "County access",
+    "color": "mint",
+    "icon": "PP",
+    "route": "Riverside County perinatal mental health and substance-use program",
+    "fit": "Pregnant or parenting patients (postpartum, children under 5 accommodated) needing integrated mental health/SUD perinatal care",
+    "action": "Call the CARES Line or HeRCARe line to confirm program fit, Medi-Cal enrollment, and intake",
+    "contact": "CARES Line 800-499-3008 · HeRCARe (high-risk pregnancy linkage) 951-600-6667",
+    "readiness": 78,
+    "review": "Web checked Jul 2026",
+    "records": "Medi-Cal/insurance, pregnancy/postpartum status, substance use history if relevant, risk screen",
+    "city": "Riverside County",
+    "scope": "Riverside County",
+    "modality": "16-week intensive day treatment (MOMS Program) combining SUD treatment with mental health integration, case management, parenting groups; also maintains a maternal mental health resource directory (PMAD psychiatrists, PSI groups, peer support)",
+    "payer": "Medi-Cal/Medicaid; sliding scale for uninsured",
+    "source": "Riverside University Health System Behavioral Health",
+    "sourceUrl": "https://www.ruhealth.org/maternal-mental-health-resources",
+    "best": "Riverside County Medi-Cal patients who are pregnant or parenting and need perinatal mental health support, especially where substance use is also a factor.",
+    "notIdeal": "Patients outside Riverside County, or those needing only a brief warmline call (use PSI HelpLine first).",
+    "patient": "Call the CARES Line and ask about the MOMS Perinatal Program or maternal mental health resources.",
+    "staff": "Confirm Medi-Cal enrollment, pregnancy/postpartum status, and whether the full MOMS day-treatment program or a lighter-touch referral from the resource directory is the right fit.",
+    "specialtyTags": ["Perinatal / postpartum"],
+    "categories": [
+      "County access",
+      "SUD recovery"
+    ],
+    "alsoUnder": [
+      "SUD recovery"
+    ],
+    "serviceTypes": [
+      "County access",
+      "SUD recovery"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Medi-Cal"
+    ],
+    "routeTags": [
+      "Riverside County perinatal mental health and substance-use program",
+      "Call the CARES Line or HeRCARe line to confirm program fit, Medi-Cal enrollment, and intake"
+    ]
+  },
+  {
+    "id": "hodde-perinatal-psychiatry-montclair",
+    "name": "Dr. Ildiko Hodde, MD — Perinatal Psychiatry (Montclair)",
+    "type": "Local therapy",
+    "color": "gold",
+    "icon": "PP",
+    "route": "Individual outpatient perinatal/postpartum psychiatry",
+    "fit": "Pregnant or postpartum patients needing individual psychiatric medication management from a PMAD-specialized psychiatrist",
+    "action": "Call to confirm current insurance panel, telehealth availability, and current availability",
+    "contact": "(909) 621-2050",
+    "readiness": 66,
+    "review": "Web checked Jul 2026",
+    "records": "Insurance card, pregnancy/postpartum status, medication history, risk screen",
+    "city": "Montclair",
+    "scope": "West Valley / Inland Empire",
+    "modality": "Individual outpatient perinatal/postpartum psychiatry (medication management)",
+    "payer": "Not publicly confirmed -- verify by phone (affiliated with Kaiser Permanente Fontana per public listings)",
+    "source": "Independent psychiatry practice (cross-referenced via RUHS maternal mental health directory, Doximity, and Healthgrades)",
+    "sourceUrl": "https://www.ruhealth.org/maternal-mental-health-resources",
+    "best": "Pregnant or postpartum patients who need individual psychiatric medication management from a specialist in perinatal mood and anxiety disorders, close to the Inland Empire.",
+    "notIdeal": "Patients needing therapy/nutrition/case-management support rather than psychiatry, or urgent/crisis-level needs.",
+    "patient": "Call the office directly and ask about perinatal psychiatry intake and insurance verification.",
+    "staff": "This individual-provider listing has weaker source corroboration than program-level entries (address/phone cross-referenced across 3 public directories, not an official practice website) -- confirm current insurance panel and availability by phone before referring.",
+    "specialtyTags": ["Perinatal / postpartum"],
+    "categories": [
+      "Local therapy"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Psychiatry/med support"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "West Valley"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Verify payer"
+    ],
+    "routeTags": [
+      "Individual outpatient perinatal/postpartum psychiatry",
+      "Call to confirm current insurance panel, telehealth availability, and current availability"
+    ]
+  },
+  {
+    "id": "trevor-project-lgbtq-crisis",
+    "name": "The Trevor Project — LGBTQ+ Youth Crisis Line",
+    "type": "Crisis urgent",
+    "color": "rose",
+    "icon": "!",
+    "route": "LGBTQ+ youth crisis support (call/text/chat)",
+    "fit": "LGBTQ+ young people in crisis or emotional distress",
+    "action": "Offer as the specialized LGBTQ+ youth crisis line; use 988/911 for immediate danger regardless",
+    "contact": "1-866-488-7386 · text START to 678-678 · chat at thetrevorproject.org/get-help",
+    "readiness": 84,
+    "review": "Web checked Jul 2026",
+    "records": "None required for crisis contact",
+    "city": "National",
+    "scope": "National (available to CA callers)",
+    "modality": "24/7 crisis call, text, and chat specialized for LGBTQ+ young people",
+    "payer": "Free; not billed",
+    "source": "The Trevor Project",
+    "sourceUrl": "https://www.thetrevorproject.org/get-help/",
+    "best": "LGBTQ+ youth in crisis or distress who want support from counselors trained specifically in LGBTQ+ youth issues; this line operates independently of 988.",
+    "notIdeal": "Adults needing an LGBTQ+ affirming line (Trevor Project is youth-focused) -- use 988 or a local affirming provider instead.",
+    "patient": "Call, text, or chat any time; free and confidential.",
+    "staff": "988's dedicated LGBTQ+ \"press 3\" routing was discontinued in July 2025 and a federal relaunch is in progress as of mid-2026 with the Trevor Project's inclusion uncertain -- do not tell patients to press 3 on 988 without confirming current status. Trevor Project's own line above is independently operational regardless.",
+    "specialtyTags": ["LGBTQ+ affirming"],
+    "categories": [
+      "Crisis urgent",
+      "Youth family"
+    ],
+    "alsoUnder": [
+      "Youth family"
+    ],
+    "serviceTypes": [
+      "Crisis/safety",
+      "Youth/family"
+    ],
+    "deliveryModes": [
+      "Phone",
+      "Text",
+      "Virtual CA"
+    ],
+    "serviceAreas": [
+      "California virtual",
+      "National"
+    ],
+    "populations": [
+      "Youth/teen"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "LGBTQ+ youth crisis support (call/text/chat)",
+      "Offer as the specialized LGBTQ+ youth crisis line; use 988/911 for immediate danger regardless"
+    ]
+  },
+  {
+    "id": "truevolution-ie-lgbtq-center",
+    "name": "Inland Empire LGBTQ+ Center (TruEvolution) — Riverside",
+    "type": "Local therapy",
+    "color": "gold",
+    "icon": "Q",
+    "route": "LGBTQ+-affirming behavioral health and support groups",
+    "fit": "LGBTQ+ patients needing affirming groups, HIV support, or SUD recovery groups; individual therapy/psychiatry expanding",
+    "action": "Confirm which behavioral health services are currently live vs. still expanding before referring",
+    "contact": "(951) 888-1346 · toll-free (877) 890-1169 · text \"TruHealthClub\" to 51555",
+    "readiness": 70,
+    "review": "Web checked Jul 2026",
+    "records": "Contact info, concern, insurance if applicable",
+    "city": "Riverside",
+    "scope": "Inland Empire",
+    "modality": "\"Mind\" behavioral health program: HIV support groups (English/Spanish), substance-use/recovery groups, crisis stabilization; individual therapy, case management, psychiatry, and addiction medicine listed as expanding in 2026",
+    "payer": "Not publicly published -- call to verify",
+    "source": "TruEvolution",
+    "sourceUrl": "https://www.truevolution.org/support/mind",
+    "best": "LGBTQ+ patients in the Inland Empire who want an LGBTQ+-specific community center for groups and peer support, with clinical services expanding.",
+    "notIdeal": "Patients needing individual therapy or psychiatry right now -- call first to confirm those specific services are live, not just planned.",
+    "patient": "Call, text \"TruHealthClub\" to 51555, or use the TruHealth & Wellness Club intake and select \"Mind.\"",
+    "staff": "As of this review, individual therapy/case management/psychiatry/addiction medicine were listed as expanding in 2026 but not confirmed live -- verify current service scope by phone before referring for anything beyond groups.",
+    "specialtyTags": ["LGBTQ+ affirming"],
+    "categories": [
+      "Local therapy",
+      "SUD recovery"
+    ],
+    "alsoUnder": [
+      "SUD recovery"
+    ],
+    "serviceTypes": [
+      "Therapy/counseling",
+      "SUD recovery"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Verify payer"
+    ],
+    "routeTags": [
+      "LGBTQ+-affirming behavioral health and support groups",
+      "Confirm which behavioral health services are currently live vs. still expanding before referring"
+    ]
+  },
+  {
+    "id": "sbc-age-wise-older-adult",
+    "name": "San Bernardino County DBH — Age Wise Program",
+    "type": "County access",
+    "color": "mint",
+    "icon": "OA",
+    "route": "County older-adult behavioral health and wellness program",
+    "fit": "SB County adults 59+ (or with disabilities) needing therapy, case management, or basic-needs linkage",
+    "action": "Confirm county residence, age/disability status, and preferred delivery (in-home, telehealth, in-office)",
+    "contact": "(800) 451-5633",
+    "readiness": 80,
+    "review": "Web checked Jul 2026",
+    "records": "Demographics, insurance/Medi-Cal, concern, risk screen",
+    "city": "San Bernardino County",
+    "scope": "San Bernardino County",
+    "modality": "Non-traditional behavioral health/wellness program: therapy/counseling, case management, connection to basic-needs resources (food, utilities, housing); delivered in-home, via telehealth, or in-office",
+    "payer": "Medi-Cal/uninsured (county Mental Health Plan); Medicare acceptance not confirmed -- verify",
+    "source": "San Bernardino County Department of Behavioral Health",
+    "sourceUrl": "https://main.sbcounty.gov/2025/10/30/age-wise-program-supports-behavioral-health-and-wellness-for-older-adults-and-individuals-with-disabilities/",
+    "best": "San Bernardino County residents 59+ (or with disabilities) needing behavioral health support integrated with basic-needs case management.",
+    "notIdeal": "Patients outside San Bernardino County, or Medicare-only patients until payer is confirmed by phone.",
+    "patient": "Call and ask for the Age Wise Program for older adults.",
+    "staff": "Confirm county residence, age/disability eligibility, and Medicare vs. Medi-Cal payer status before referring.",
+    "specialtyTags": ["Older adult"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "County access"
+    ],
+    "deliveryModes": [
+      "In-person",
+      "Telehealth"
+    ],
+    "serviceAreas": [
+      "San Bernardino",
+      "Countywide"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Medi-Cal",
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "County older-adult behavioral health and wellness program",
+      "Confirm county residence, age/disability status, and preferred delivery (in-home, telehealth, in-office)"
+    ]
+  },
+  {
+    "id": "ruhs-older-adult-services",
+    "name": "RUHS Behavioral Health — Older Adult Services",
+    "type": "County access",
+    "color": "mint",
+    "icon": "OA",
+    "route": "Riverside County older-adult behavioral health program",
+    "fit": "Riverside County adults 60+ needing evaluation, medication management, therapy, or home-based care",
+    "action": "Confirm county residence, age, and Medi-Cal vs. Medicare payer status",
+    "contact": "CARES Line (800) 499-3008",
+    "readiness": 78,
+    "review": "Web checked Jul 2026",
+    "records": "Demographics, insurance/Medi-Cal, concern, risk screen",
+    "city": "Riverside County",
+    "scope": "Riverside County",
+    "modality": "Mental health evaluation, medication management, individual therapy, intensive case management, peer/group support, family/caregiver support, home-based care (S.M.A.R.T. teams), transportation assistance",
+    "payer": "Medi-Cal/Drug Medi-Cal ODS; Medicare not explicitly confirmed -- verify",
+    "source": "Riverside University Health System Behavioral Health",
+    "sourceUrl": "https://www.ruhealth.org/behavioral-health/older-adult-services",
+    "best": "Riverside County adults 60+ needing behavioral health care, especially where home-based outreach or caregiver support is needed.",
+    "notIdeal": "Patients outside Riverside County, or Medicare-only patients until payer is confirmed by phone.",
+    "patient": "Call the CARES Line and ask for Older Adult Services.",
+    "staff": "Confirm county residence, age 60+, and Medi-Cal vs. Medicare payer status before referring.",
+    "specialtyTags": ["Older adult"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "County access"
+    ],
+    "deliveryModes": [
+      "In-person",
+      "Telehealth"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Medi-Cal"
+    ],
+    "routeTags": [
+      "Riverside County older-adult behavioral health program",
+      "Confirm county residence, age, and Medi-Cal vs. Medicare payer status"
+    ]
+  },
+  {
+    "id": "alzheimers-assoc-socal-helpline",
+    "name": "Alzheimer's Association — Southern California Helpline",
+    "type": "County access",
+    "color": "mint",
+    "icon": "OA",
+    "route": "Dementia/caregiver crisis support and resource referral",
+    "fit": "Patients with Alzheimer's/dementia and their caregivers needing support or local resource referral",
+    "action": "Use for caregiver support and resource navigation, not direct treatment",
+    "contact": "(800) 272-3900",
+    "readiness": 76,
+    "review": "Web checked Jul 2026",
+    "records": "Contact info, relationship to patient, concern",
+    "city": "Rancho Cucamonga (chapter office; helpline is phone-based)",
+    "scope": "Southern California (LA, Riverside, San Bernardino, Kern, Tulare, Kings, Inyo counties)",
+    "modality": "24/7 helpline: crisis support, care consultation, and referral to local resources/support groups; informational, not a treatment provider",
+    "payer": "Free; not billed",
+    "source": "Alzheimer's Association Southland Chapter",
+    "sourceUrl": "https://www.alz.org/socal",
+    "best": "Patients with Alzheimer's/dementia or their caregivers who need crisis support, care planning guidance, or a warm handoff to local support groups.",
+    "notIdeal": "Direct psychiatric or medical treatment -- this is a support/referral line, not a clinical provider.",
+    "patient": "Call any time, 24/7, free and confidential, available in 200+ languages.",
+    "staff": "Use as a caregiver-support and resource-navigation adjunct alongside the patient's own behavioral health/medical care, not as a substitute for it.",
+    "specialtyTags": ["Older adult"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Support/referral"
+    ],
+    "deliveryModes": [
+      "Phone"
+    ],
+    "serviceAreas": [
+      "San Bernardino",
+      "Riverside"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "Dementia/caregiver crisis support and resource referral",
+      "Use for caregiver support and resource navigation, not direct treatment"
+    ]
+  },
+  {
+    "id": "veterans-crisis-line",
+    "name": "Veterans Crisis Line",
+    "type": "Crisis urgent",
+    "color": "rose",
+    "icon": "!",
+    "route": "Veteran/service-member/family crisis support",
+    "fit": "Veterans, service members, or their family/friends in crisis",
+    "action": "Offer immediately for any veteran in crisis; no VA enrollment required",
+    "contact": "Dial 988, then press 1 · text 838255 · chat at VeteransCrisisLine.net",
+    "readiness": 86,
+    "review": "Web checked Jul 2026",
+    "records": "None required for crisis contact",
+    "city": "National",
+    "scope": "National (available to CA callers)",
+    "modality": "24/7/365 confidential crisis call, text, and chat for veterans and their families",
+    "payer": "Free; not billed",
+    "source": "Veterans Crisis Line / VA",
+    "sourceUrl": "https://www.veteranscrisisline.net/",
+    "best": "Any veteran, service member, or their family/friend in crisis -- enrollment in VA health care is explicitly not required.",
+    "notIdeal": "Non-crisis routine mental health scheduling -- route to VA Loma Linda or a county veteran service office instead.",
+    "patient": "Dial 988 and press 1, text 838255, or use the online chat -- available any time.",
+    "staff": "No VA enrollment or eligibility check needed for crisis contact; confirm this before assuming a non-enrolled veteran can't get help.",
+    "specialtyTags": ["Veteran"],
+    "categories": [
+      "Crisis urgent"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Crisis/safety"
+    ],
+    "deliveryModes": [
+      "Phone",
+      "Text",
+      "Virtual CA"
+    ],
+    "serviceAreas": [
+      "California virtual",
+      "National"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "Veteran/service-member/family crisis support",
+      "Offer immediately for any veteran in crisis; no VA enrollment required"
+    ]
+  },
+  {
+    "id": "va-loma-linda-mental-health",
+    "name": "VA Loma Linda Healthcare System — Mental Health",
+    "type": "County access",
+    "color": "mint",
+    "icon": "V",
+    "route": "VA mental health / behavioral health care",
+    "fit": "VA-enrolled veterans needing psychiatry, psychology, SUD treatment, or same-day mental health access",
+    "action": "Call the main line to confirm current enrollment status and intake process; do not assume a specific extension",
+    "contact": "(909) 825-7084 · toll-free (800) 741-8387",
+    "readiness": 74,
+    "review": "Web checked Jul 2026",
+    "records": "VA enrollment status/eligibility, DD-214 if not yet enrolled, insurance if applicable, risk screen",
+    "city": "Loma Linda",
+    "scope": "Inland Empire",
+    "modality": "Psychiatry, psychology, SUD/addiction treatment (including residential rehab), homeless veteran support, military sexual trauma care; Mental Health Access Clinic offers same-day crisis intervention and med consults Mon-Fri 8am-4:30pm",
+    "payer": "VA health care (enrollment generally required for routine outpatient care; some services available without enrollment)",
+    "source": "U.S. Department of Veterans Affairs",
+    "sourceUrl": "https://www.va.gov/loma-linda-health-care/health-services/mental-health-care/",
+    "best": "Veterans who are VA-enrolled (or eligible and willing to enroll) needing psychiatry, psychology, or SUD treatment through VA Loma Linda.",
+    "notIdeal": "Veterans in immediate crisis (use the Veterans Crisis Line) or those needing help determining eligibility first (route to a county Veteran Service Office).",
+    "patient": "Call the main line and ask for mental health services; if not yet enrolled, ask about the enrollment process or use the Mental Health Access Clinic for same-day help.",
+    "staff": "Do not quote a specific mental-health extension without confirming by phone -- secondary directories list inconsistent numbers. Confirm current enrollment status and whether the patient needs the Mental Health Access Clinic (same-day) or standard outpatient intake.",
+    "specialtyTags": ["Veteran"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "County access",
+      "Psychiatry/med support",
+      "SUD recovery"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "East Valley"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Verify payer"
+    ],
+    "routeTags": [
+      "VA mental health / behavioral health care",
+      "Call the main line to confirm current enrollment status and intake process; do not assume a specific extension"
+    ]
+  },
+  {
+    "id": "sbc-veterans-affairs-office",
+    "name": "San Bernardino County Veterans Affairs (Veteran Service Office)",
+    "type": "County access",
+    "color": "mint",
+    "icon": "V",
+    "route": "VA claims and healthcare-eligibility navigation",
+    "fit": "SB County veterans who need help establishing VA health care eligibility/enrollment before accessing VA mental health care",
+    "action": "Use this as an eligibility/enrollment navigation step, not a direct clinical referral",
+    "contact": "(909) 382-3290",
+    "readiness": 70,
+    "review": "Web checked Jul 2026",
+    "records": "DD-214/discharge paperwork, VA claim history if any",
+    "city": "San Bernardino",
+    "scope": "San Bernardino County",
+    "modality": "Free, CDVA-certified Veteran Service Officer assistance with VA disability/pension claims, health care enrollment navigation, education/vocational, home loan, survivor/burial benefits",
+    "payer": "Free county service",
+    "source": "San Bernardino County Veterans Affairs",
+    "sourceUrl": "https://va.sbcounty.gov/contact-us/",
+    "best": "SB County veterans who are not yet VA-enrolled and need help establishing eligibility so they can then access VA Loma Linda mental health care.",
+    "notIdeal": "Direct clinical mental health treatment -- this office does not itemize behavioral health referral services; route clinical needs to VA Loma Linda or a county DBH route.",
+    "patient": "Call and ask about VA health care enrollment help; additional offices in Hesperia and Rancho Cucamonga.",
+    "staff": "Treat as a benefits/enrollment step, not a direct behavioral health referral -- pair with VA Loma Linda or DBH routing for actual clinical care.",
+    "specialtyTags": ["Veteran"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "County access"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "San Bernardino",
+      "Countywide"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "VA claims and healthcare-eligibility navigation",
+      "Use this as an eligibility/enrollment navigation step, not a direct clinical referral"
+    ]
+  },
+  {
+    "id": "riverside-county-veterans-services",
+    "name": "Riverside County Department of Veterans' Services",
+    "type": "County access",
+    "color": "mint",
+    "icon": "V",
+    "route": "VA claims and healthcare-eligibility navigation",
+    "fit": "Riverside County veterans who need help establishing VA health care eligibility/enrollment before accessing VA mental health care",
+    "action": "Use this as an eligibility/enrollment navigation step, not a direct clinical referral",
+    "contact": "(951) 955-3060",
+    "readiness": 68,
+    "review": "Web checked Jul 2026",
+    "records": "DD-214/discharge paperwork, VA claim history if any",
+    "city": "Riverside",
+    "scope": "Riverside County",
+    "modality": "Free, CDVA-certified claims/counseling assistance for VA benefits, including health care eligibility navigation",
+    "payer": "Free county service",
+    "source": "Riverside County Department of Veterans' Services",
+    "sourceUrl": "https://rivco.gov/community/veterans-services",
+    "best": "Riverside County veterans who are not yet VA-enrolled and need help establishing eligibility so they can access VA Loma Linda mental health care.",
+    "notIdeal": "Direct clinical mental health treatment, or an urgent need -- route clinical needs to VA Loma Linda, RUHS, or the Veterans Crisis Line.",
+    "patient": "Call and ask about VA health care enrollment help; additional offices in Hemet and Temecula.",
+    "staff": "Treat as a benefits/enrollment step, not a direct behavioral health referral. Contact number corroborated via secondary sources, not a direct site fetch -- confirm by phone if in doubt.",
+    "specialtyTags": ["Veteran"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "County access"
+    ],
+    "deliveryModes": [
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "VA claims and healthcare-eligibility navigation",
+      "Use this as an eligibility/enrollment navigation step, not a direct clinical referral"
+    ]
+  },
+  {
+    "id": "national-dv-hotline",
+    "name": "National Domestic Violence Hotline",
+    "type": "Crisis urgent",
+    "color": "rose",
+    "icon": "DV",
+    "route": "Domestic violence crisis support and safety planning",
+    "fit": "Patients experiencing domestic violence needing crisis support, safety planning, or local resource referral",
+    "action": "Offer as a confidential, free, 24/7 first contact for any DV concern",
+    "contact": "1-800-799-7233 (SAFE) · text START to 88788 · chat at thehotline.org",
+    "readiness": 84,
+    "review": "Web checked Jul 2026",
+    "records": "None required for crisis contact",
+    "city": "National",
+    "scope": "National (available to CA callers)",
+    "modality": "24/7/365 crisis intervention, safety planning, and referrals to local resources (shelters, legal aid, counseling) in 200+ languages",
+    "payer": "Free; not billed",
+    "source": "National Domestic Violence Hotline",
+    "sourceUrl": "https://www.thehotline.org/",
+    "best": "Anyone experiencing domestic violence needing confidential crisis support, safety planning, or a warm handoff to local DV resources.",
+    "notIdeal": "Immediate physical danger -- call 911 first, then use this line for follow-up support.",
+    "patient": "Call, text, or chat any time; free and confidential.",
+    "staff": "Use as a national first-contact line; pair with a local county DV/SA advocacy organization (e.g. Partners Against Violence for SB County, Alternatives to Domestic Violence for Riverside County) for ongoing local support.",
+    "specialtyTags": ["Domestic violence / sexual assault"],
+    "categories": [
+      "Crisis urgent"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Crisis/safety"
+    ],
+    "deliveryModes": [
+      "Phone",
+      "Text",
+      "Virtual CA"
+    ],
+    "serviceAreas": [
+      "California virtual",
+      "National"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "Domestic violence crisis support and safety planning",
+      "Offer as a confidential, free, 24/7 first contact for any DV concern"
+    ]
+  },
+  {
+    "id": "alternatives-to-dv-riverside",
+    "name": "Alternatives to Domestic Violence — Riverside County",
+    "type": "Crisis urgent",
+    "color": "rose",
+    "icon": "DV",
+    "route": "Riverside County domestic violence crisis line and advocacy",
+    "fit": "Riverside County patients experiencing domestic violence needing crisis support, shelter, or advocacy",
+    "action": "Confirm which crisis line applies (Riverside city area vs. rest of county) and current safety needs",
+    "contact": "Riverside city area: 951-683-0829 · rest of Riverside County: 800-339-7233 · admin: 951-425-8900",
+    "readiness": 76,
+    "review": "Web checked Jul 2026",
+    "records": "None required for crisis contact",
+    "city": "Riverside County",
+    "scope": "Riverside County",
+    "modality": "24-hour crisis line, safety assessment/planning, case management, individual/group counseling, emergency shelter access for eligible clients, restraining order assistance, court accompaniment, housing/relocation assistance",
+    "payer": "Free to DV victims",
+    "source": "Alternatives to Domestic Violence",
+    "sourceUrl": "https://www.alternativestodomesticviolence.org/contact",
+    "best": "Riverside County patients experiencing domestic violence needing crisis support, safety planning, shelter access, or court/legal advocacy -- the Riverside County counterpart to San Bernardino County's Partners Against Violence.",
+    "notIdeal": "San Bernardino County patients (use Partners Against Violence instead), or immediate physical danger (call 911 first).",
+    "patient": "Call the appropriate crisis line for your area; office address is not published for client safety -- call for directions to an appointment.",
+    "staff": "Confirm Riverside County residence and which of the two crisis-line numbers applies based on location.",
+    "specialtyTags": ["Domestic violence / sexual assault"],
+    "categories": [
+      "Crisis urgent"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "Crisis/safety"
+    ],
+    "deliveryModes": [
+      "Phone",
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "Riverside County domestic violence crisis line and advocacy",
+      "Confirm which crisis line applies (Riverside city area vs. rest of county) and current safety needs"
+    ]
+  },
+  {
+    "id": "riverside-homeconnect-ces",
+    "name": "Riverside County HomeConnect / Coordinated Entry System",
+    "type": "County access",
+    "color": "gold",
+    "icon": "H",
+    "route": "Riverside County homeless housing navigation and coordinated entry",
+    "fit": "Riverside County patients experiencing homelessness needing shelter, housing navigation, or supportive housing",
+    "action": "Confirm current housing status and connect to a housing navigator for assessment",
+    "contact": "1-800-498-8847 · after-hours 951-955-8278",
+    "readiness": 74,
+    "review": "Web checked Jul 2026",
+    "records": "Housing status, household composition, contact info",
+    "city": "Riverside County",
+    "scope": "Riverside County",
+    "modality": "County-wide coordinated entry access point for homeless housing programs; housing navigator/field worker assessment connecting to shelter, housing navigation, rapid re-housing, and permanent supportive housing (HHOPE Program enrollment pathway)",
+    "payer": "Free; no cost",
+    "source": "Riverside University Health System Behavioral Health (Riverside County Office of Homeless Services)",
+    "sourceUrl": "https://www.ruhealth.org/behavioral-health/housing",
+    "best": "Riverside County patients experiencing homelessness who need the single county-wide entry point into shelter, housing navigation, and supportive housing programs -- the Riverside County counterpart to San Bernardino's DBH InnROADs/HOST route.",
+    "notIdeal": "San Bernardino County patients (use the existing DBH InnROADs/HOST/Housing Support route instead) or immediate safety emergencies.",
+    "patient": "Call the HomeConnect line; a housing navigator will complete an assessment and connect you to available resources.",
+    "staff": "Confirm Riverside County residence; this is the coordinated-entry system, not a direct shelter line -- expect an intake assessment before placement.",
+    "specialtyTags": ["Homelessness / housing"],
+    "categories": [
+      "County access"
+    ],
+    "alsoUnder": [],
+    "serviceTypes": [
+      "County access"
+    ],
+    "deliveryModes": [
+      "Phone",
+      "In-person"
+    ],
+    "serviceAreas": [
+      "Riverside"
+    ],
+    "populations": [
+      "Adult"
+    ],
+    "payerTags": [
+      "Low-cost/self-pay"
+    ],
+    "routeTags": [
+      "Riverside County homeless housing navigation and coordinated entry",
+      "Confirm current housing status and connect to a housing navigator for assessment"
+    ]
   }
 ];
 
@@ -16206,11 +17639,247 @@ const categoryTiles = [
   {type:'Online CA', color:'blue', icon:'CA', help:'California-only online/self-schedule options'}
 ];
 
+const specialtyTiles = [
+  {type:'Eating disorder', color:'peach', icon:'ED', help:'Anorexia, bulimia, binge-eating, ARFID -- programs, specialists, dietitians'},
+  {type:'ADHD / neuropsych testing', color:'lavender', icon:'DD', help:'ADHD, learning-disability, and neuropsychological evaluation'},
+  {type:'Autism / developmental', color:'lavender', icon:'AU', help:'Autism and developmental-disability assessment and services'},
+  {type:'Perinatal / postpartum', color:'gold', icon:'PP', help:'Pregnancy and postpartum mood, anxiety, and related conditions'},
+  {type:'LGBTQ+ affirming', color:'blue', icon:'Q', help:'LGBTQ+-affirming therapy and crisis alternatives'},
+  {type:'Older adult', color:'mint', icon:'OA', help:'Senior/geriatric behavioral health and Medicare-specific routes'},
+  {type:'Veteran', color:'mint', icon:'V', help:'VA and veteran-specific eligibility routes'},
+  {type:'Domestic violence / sexual assault', color:'rose', icon:'DV', help:'DV/SA hotlines, advocacy, and confidential support'},
+  {type:'Homelessness / housing', color:'gold', icon:'H', help:'Housing navigation and coordinated entry'}
+];
+
+/* ==============================
+   Staff Directory -- internal administrative numbers.
+   Deliberately NOT part of resources[]/state.plan/OUTPUTS: this data is never
+   read by addResource(), the workbench "add to plan" flow, or any of the
+   seven patient/professional document templates, so it structurally cannot
+   end up in a patient-facing output. Staff-only lookup, nothing else.
+   ============================== */
+const staffDirectoryCategories = [
+  {type:'Welfare check / non-emergency', color:'rose', icon:'!', help:'Non-emergency law enforcement wellness checks'},
+  {type:'Transportation', color:'blue', icon:'T', help:'Non-emergency medical transport, NEMT brokers, paratransit'},
+  {type:'Interpreter / language line', color:'lavender', icon:'L', help:'Phone interpretation for patient calls'},
+  {type:'Mandated reporting', color:'gold', icon:'MR', help:'Adult/Child Protective Services lines for mandated reporters'},
+  {type:'Records / ROI', color:'mint', icon:'R', help:'Release-of-information and records requests -- add your practice\'s own numbers here'},
+  {type:'Other administrative', color:'peach', icon:'A', help:'Other internal/administrative numbers'}
+];
+
+const staffDirectory = [
+  {
+    id:'sbc-sheriff-nonemergency-valley',
+    name:'San Bernardino County Sheriff — Non-Emergency (Valley Region)',
+    category:'Welfare check / non-emergency',
+    contact:'(909) 387-8313',
+    scope:'San Bernardino County -- Valley region (Rancho Cucamonga, Yucaipa, Highland, Chino Hills, Grand Terrace, Loma Linda, and other Sheriff-contract/unincorporated valley areas)',
+    notes:'Use for a non-emergency welfare/wellness check request when a patient is a safety concern but it is not a 911-level emergency. Does not cover cities with their own police department (see San Bernardino PD and Riverside PD entries).',
+    sourceUrl:'https://wp.sbcounty.gov/sheriff/',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'sbc-sheriff-nonemergency-desert',
+    name:'San Bernardino County Sheriff — Non-Emergency (Desert Region)',
+    category:'Welfare check / non-emergency',
+    contact:'(760) 956-5001',
+    scope:'San Bernardino County -- Desert region (Victorville, Apple Valley, Hesperia, Adelanto, Twentynine Palms, Yucca Valley, Needles, Big Bear Lake, and other Sheriff-contract/unincorporated desert areas)',
+    notes:'Use for a non-emergency welfare/wellness check request in the High Desert / desert region. SB County Sheriff runs separate valley and desert non-emergency lines -- use whichever matches the patient\'s location.',
+    sourceUrl:'https://wp.sbcounty.gov/sheriff/',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'riverside-sheriff-nonemergency',
+    name:'Riverside County Sheriff — Non-Emergency (Countywide)',
+    category:'Welfare check / non-emergency',
+    contact:'(800) 950-2444 -- area lines: West-End (951) 776-1099, Moreno Valley (951) 247-8700, Temecula (951) 696-4357, Blythe (760) 921-7900',
+    scope:'Riverside County (Sheriff-contract and unincorporated areas)',
+    notes:'Countywide toll-free non-emergency dispatch; use the area-specific line if you know it, otherwise the toll-free number. Does not cover cities with their own police department (e.g. Riverside, Corona).',
+    sourceUrl:'https://www.riversidesheriff.org/428/Who-to-Call',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'riverside-pd-nonemergency',
+    name:'Riverside Police Department — Non-Emergency',
+    category:'Welfare check / non-emergency',
+    contact:'(951) 354-2007',
+    scope:'City of Riverside (independent PD, not covered by Riverside County Sheriff)',
+    notes:'24-hour dispatch line for welfare checks or non-emergency reports for patients located within Riverside city limits.',
+    sourceUrl:'https://www.riversideca.gov/rpd/about-contact',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'sb-pd-nonemergency',
+    name:'San Bernardino Police Department — Non-Emergency',
+    category:'Welfare check / non-emergency',
+    contact:'(909) 383-5311',
+    scope:'City of San Bernardino (independent PD, not covered by SB County Sheriff)',
+    notes:'24-hour line for welfare checks or non-emergency reports for patients located within San Bernardino city limits. Fontana and Ontario also have their own PDs -- their numbers were not verified for this directory yet.',
+    sourceUrl:'https://www.sanbernardino.gov/580/Report-a-Crime',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'iehp-nemt-transportation',
+    name:'IEHP — Non-Emergency Medical Transportation',
+    category:'Transportation',
+    contact:'1-800-440-4347 (select the transportation prompt) -- TTY 1-800-718-4347',
+    scope:'IEHP Medi-Cal / DualChoice members',
+    notes:'24/7. For members whose health condition prevents using regular transportation to a medical appointment. Requires a Physician Certification Statement (PCS) from the provider; request at least 5 calendar days before a routine appointment. Not available under IEHP Covered commercial plans.',
+    sourceUrl:'https://www.iehp.org/en/learning-center/understanding-insurance/transportation',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'molina-nemt-transportation',
+    name:'Molina Healthcare — NEMT Booking (American Logistics)',
+    category:'Transportation',
+    contact:'1-844-292-2688 (also bookable online at molina.americanlogistics.com) -- Molina Medi-Cal Member Services 1-888-665-4621 (TTY 711)',
+    scope:'Molina Healthcare of California Medi-Cal members',
+    notes:'24/7 booking line; schedule at least 3 business days ahead. American Logistics is Molina\'s dedicated third-party transportation manager statewide, including the Inland Empire.',
+    sourceUrl:'https://www.molinahealthcare.com/members/ca/en-us/hp/medicaid/medical/coverd/services/transport.aspx',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'omnitrans-access-paratransit',
+    name:'Omnitrans Access (ADA Paratransit) — San Bernardino County',
+    category:'Transportation',
+    contact:'West Valley (Chino, Chino Hills, Montclair, Ontario, Rancho Cucamonga, Upland): (800) 990-2404 -- East Valley (Bloomington, Colton, Fontana, Grand Terrace, Highland, Loma Linda, Mentone, Muscoy, Redlands, Rialto, San Bernardino, Yucaipa): (909) 383-1680 -- general customer service / ADA eligibility: (800) 966-6428',
+    scope:'San Bernardino County valley area',
+    notes:'Daily 8am-5pm including holidays. ADA-mandated shared-ride paratransit for riders whose disability prevents use of fixed-route Omnitrans buses. Use the region-specific number if known.',
+    sourceUrl:'https://www.omnitrans.org/services/access-ada/',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'rta-dial-a-ride-riverside',
+    name:'Riverside Transit Agency — Dial-A-Ride (ADA Priority Service)',
+    category:'Transportation',
+    contact:'(800) 795-7887',
+    scope:'Western Riverside County (within 3/4 mile of a regular RTA route)',
+    notes:'Origin-to-destination, advance-reservation paratransit for seniors and people with disabilities who cannot use lift-equipped fixed-route RTA buses. Number was search-corroborated, not directly confirmed on a fetched RTA page -- verify by phone before treating as fully confirmed.',
+    sourceUrl:'https://www.riversidetransit.com/',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'sbc-dbh-language-line',
+    name:'San Bernardino County DBH — Language Assistance Line',
+    category:'Interpreter / language line',
+    contact:'(888) 743-1478',
+    scope:'San Bernardino County',
+    notes:'IMPORTANT: this is DBH\'s own public intake/Access Unit line offering language help to callers reaching DBH -- it is NOT a dial-in interpreter service outside clinic staff can use to get an interpreter on their own patient calls. Use it when referring/connecting a patient TO DBH who needs language assistance to do so. For staff\'s own interpreter needs on outside calls, use LanguageLine Solutions below (or your practice\'s existing vendor).',
+    sourceUrl:'https://wp.sbcounty.gov/dbh/',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'ruhs-bh-language-line',
+    name:'RUHS Behavioral Health — Language Assistance (CARES Line)',
+    category:'Interpreter / language line',
+    contact:'(800) 499-3008 (TTY 711)',
+    scope:'Riverside County',
+    notes:'Same pattern as the SB County entry: this is RUHS-BH\'s own CARES/access line offering language help to callers reaching RUHS-BH -- not a dial-in interpreter service for outside staff\'s own calls. Use it when referring/connecting a patient TO RUHS-BH who needs language assistance to do so.',
+    sourceUrl:'https://www.ruhealth.org/behavioral-health',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'languageline-solutions',
+    name:'LanguageLine Solutions — Telephonic Interpreter (Client Services)',
+    category:'Interpreter / language line',
+    contact:'(800) 752-6096',
+    scope:'National (240+ languages)',
+    notes:'Paid, on-demand telephonic/video interpreter service, 24/7/365, widely used by healthcare providers. Requires an active account/Client ID -- check whether IPMG already has a LanguageLine (or CyraCom) account before calling; this is not free/walk-up access.',
+    sourceUrl:'https://www.languageline.com/contact-us',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'sbc-aps-mandated-reporting',
+    name:'San Bernardino County Adult Protective Services (APS)',
+    category:'Mandated reporting',
+    contact:'(877) 565-2020',
+    scope:'San Bernardino County',
+    notes:'24/7/365. Report suspected abuse, neglect, exploitation, or self-neglect of an elder (65+) or dependent adult. Mandated reporters include health practitioners, clergy, and care custodians.',
+    sourceUrl:'https://daas.sbcounty.gov/adult-protective-services',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'sbc-cps-mandated-reporting',
+    name:'San Bernardino County Child & Family Services (CPS)',
+    category:'Mandated reporting',
+    contact:'(800) 827-8724 -- local (909) 384-9233 -- mandated-reporter fax (909) 891-3545 or (909) 891-3560',
+    scope:'San Bernardino County',
+    notes:'24/7. Report suspected child abuse or neglect. Mandated reporters include teachers, clinicians/therapists, medical/mental-health professionals, and social workers.',
+    sourceUrl:'https://cfs.sbcounty.gov/how-to-report-child-abuse-2',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'riverside-aps-mandated-reporting',
+    name:'Riverside County Adult Protective Services (APS)',
+    category:'Mandated reporting',
+    contact:'(800) 491-7123',
+    scope:'Riverside County',
+    notes:'24/7/365. Report suspected abuse, neglect, or financial exploitation of an elder (60+) or dependent adult (18-59). Mandated reporters include health practitioners, care custodians, and clergy.',
+    sourceUrl:'https://rivcodpss.org/',
+    review:'Web checked Jul 2026'
+  },
+  {
+    id:'riverside-cps-mandated-reporting',
+    name:'Riverside County Child Abuse Hotline (DPSS Children\'s Services)',
+    category:'Mandated reporting',
+    contact:'(800) 442-4918',
+    scope:'Riverside County',
+    notes:'24/7/365. Report suspected child abuse or neglect. Mandated reporters include teachers, counselors/therapists, medical professionals, and law enforcement. Sourced directly from DPSS\'s own 2023 fact sheet; one secondary source lists an alternate number, (877) 922-4453, for the same hotline -- not independently confirmed, use the primary number above.',
+    sourceUrl:'https://rivcodpss.org/',
+    review:'Web checked Jul 2026'
+  }
+];
+
+function directoryFiltered(){
+  const q = String(state.directoryQuery||'').trim().toLowerCase();
+  let list = state.directoryCategory==='All' ? staffDirectory : staffDirectory.filter(d=>d.category===state.directoryCategory);
+  if(q) list = list.filter(d => `${d.name} ${d.category} ${d.notes} ${d.scope} ${d.contact}`.toLowerCase().includes(q));
+  return list;
+}
+function setDirectorySearch(value){ state.directoryQuery=value; commit({persist:false}); }
+function setDirectoryCategory(category){ state.directoryCategory=(state.directoryCategory===category?'All':category); commit(); }
+function directoryCategoryCount(category){ return staffDirectory.filter(d=>d.category===category).length; }
+function copyDirectoryContact(id){
+  const d = staffDirectory.find(x=>x.id===id); if(!d) return;
+  copyPlainTextToClipboard(`${d.name}: ${d.contact}`);
+}
+function exportDirectoryCSV(){
+  const headers=['name','category','contact','scope','notes','sourceUrl','review'];
+  const csv=[headers.join(','), ...staffDirectory.map(d=>headers.map(h=>`"${String(d[h]??'').replaceAll('"','""')}"`).join(','))].join('\n');
+  downloadText('ipmg_staff_directory.csv', csv, 'text/csv'); showToast('Staff directory exported');
+}
+function directoryCard(d){
+  const cat = staffDirectoryCategories.find(c=>c.type===d.category) || {color:'mint', icon:'A'};
+  const telHref = String(d.contact||'').match(/[0-9][0-9()\-.\s]{6,}/);
+  return `<article class="directory-card ${cat.color}"><div class="dc-accent"></div><div class="dc-body">
+    <div class="dc-head"><div class="dc-badge">${html(cat.icon||'A')}</div><div class="dc-headtext">
+      <h4>${html(d.name)}</h4>
+      <p class="dc-notes">${html(d.notes||'')}</p>
+    </div></div>
+    <div class="dc-meta"><div><span>Contact</span><b>${html(d.contact)}</b></div><div><span>Scope</span><b>${html(d.scope||'Verify')}</b></div><div><span>Reviewed</span><b>${html(d.review||'')}</b></div></div>
+    <div class="dc-foot"><div class="dc-source">${d.sourceUrl?`<a href="${escapeAttr(d.sourceUrl)}" target="_blank" rel="noreferrer">Source</a>`:''}</div><div class="dc-actions">${telHref?`<a class="dc-call" href="tel:${escapeAttr(telHref[0].replace(/[^0-9+]/g,''))}">Call</a>`:''}<button class="dc-copy" onclick="copyDirectoryContact('${d.id}')">Copy number</button></div></div>
+  </div></article>`;
+}
+function staffDirectoryView(){
+  const list = directoryFiltered();
+  return `<div class="directory-screen" data-ui="directory-view">
+    <div class="dc-page-head"><div><span class="eyebrow">Staff use only</span><h2>Staff Directory</h2><p>Internal administrative numbers -- welfare checks, transportation, interpreter lines, mandated reporting. This list is completely separate from the referral database: there is no way to add anything here to a patient plan or document.</p></div><button class="secondary-action" onclick="exportDirectoryCSV()">Export directory CSV</button></div>
+    <div class="panel dc-tools">
+      <div class="filter-strip"><div class="field-search">${svg('search')}<input value="${escapeAttr(state.directoryQuery)}" oninput="setDirectorySearch(this.value)" placeholder="Search staff directory" /></div></div>
+      <div class="v60-filter-pills specialty-pills"><span class="specialty-pills-label">Category</span>${staffDirectoryCategories.map(c=>`<button class="${state.directoryCategory===c.type?'active':''}" onclick="setDirectoryCategory('${c.type}')" title="${escapeAttr(c.help)}">${html(c.type)}<b>${directoryCategoryCount(c.type)}</b></button>`).join('')}</div>
+      <div class="result-bar"><b>${list.length}</b><span>staff directory entr${list.length===1?'y':'ies'}</span><em>${state.directoryCategory==='All'?'All categories':html(state.directoryCategory)}</em></div>
+    </div>
+    <div class="resource-list dc-list">${list.length ? list.map(directoryCard).join('') : `<div class="empty-results"><h3>No matches</h3><p>Clear search or category filter.</p><button onclick="state.directoryQuery=''; state.directoryCategory='All'; commit();">Clear filters</button></div>`}</div>
+  </div>`;
+}
+
 const screens = [
   {id:'dashboard', label:'Home', icon:'home'},
   {id:'workbench', label:'Build', icon:'catalog'},
   {id:'database', label:'Database', icon:'data'},
   {id:'print', label:'Review & Output', icon:'print'},
+  {id:'directory', label:'Staff Directory', icon:'phone'},
+  {id:'transition', label:'Transition of Care', icon:'clipboard'},
   {id:'settings', label:'Settings', icon:'settings'}
 ];
 
@@ -16219,6 +17888,7 @@ const APP_STORAGE_KEY = 'ipmg-referral-hub-v33-release-state';
 const DEFAULT_STATE = {
   view:'dashboard',
   filter:'All',
+  specialty:'All',
   query:'',
   plan:[],
   drawer:null,
@@ -16227,7 +17897,11 @@ const DEFAULT_STATE = {
   output:'Patient handout',
   patient:{name:'', dob:'', phone:'', insurance:'', reason:''},
   toast:'',
-  lastAdded:null
+  lastAdded:null,
+  directoryQuery:'',
+  directoryCategory:'All',
+  iehpTocOpen:false,
+  railExpanded:false
 };
 
 let state = loadState();
@@ -16271,7 +17945,8 @@ function loadState(){
       planOpen:false,
       assistOpen:false,
       toast:'',
-      lastAdded:null
+      lastAdded:null,
+      iehpTocOpen:false
     };
   }catch(err){
     console.warn('Saved state was reset:', err);
@@ -16280,7 +17955,7 @@ function loadState(){
 }
 function saveState(){
   try{
-    const {toast, drawer, planOpen, assistOpen, lastAdded, ...persisted} = state;
+    const {toast, drawer, planOpen, assistOpen, lastAdded, iehpTocOpen, ...persisted} = state;
     localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(persisted));
   }catch(err){ console.warn('Could not save Referral Hub state:', err); }
 }
@@ -16302,13 +17977,17 @@ function svg(name){
     spark:'M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z',
     bag:'M7 9V7a5 5 0 0 1 10 0v2m-12 0h14l-1 12H6L5 9z',
     send:'M4 12 20 4l-5 16-3-7-8-1z',
-    clipboard:'M9 5h6m-7 2H6v14h12V7h-2M9 3h6v4H9V3z'
+    clipboard:'M9 5h6m-7 2H6v14h12V7h-2M9 3h6v4H9V3z',
+    phone:'M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.5 21 3 13.5 3 4c0-.6.4-1 1-1h3.2c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8z',
+    chevron:'M9 6l6 6-6 6'
   };
   return `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="${paths[name] || paths.home}"/></svg>`;
 }
 
 function setView(view){ state.view=view; state.planOpen=false; state.assistOpen=false; state.drawer=null; commit(); scrollAppToTop(); }
+function toggleRail(){ state.railExpanded = !state.railExpanded; commit(); }
 function setFilter(filter){ state.filter=filter; commit(); }
+function setSpecialty(specialty){ state.specialty=(state.specialty===specialty?'All':specialty); commit(); }
 function setSearch(value){ state.query=value; commit({persist:false}); }
 function openDrawer(id){ state.drawer=id; state.planOpen=false; state.assistOpen=false; commit({persist:false}); }
 function closeDrawer(){ state.drawer=null; commit({persist:false}); }
@@ -16459,9 +18138,10 @@ function setPatientField(field, value, shouldRender=false){
   saveState();
   if(shouldRender) scheduleRender();
 }
-function patientField(field, label, placeholder=''){
+function patientField(field, label, placeholder='', opts={}){
   const value = (state.patient && state.patient[field]) || '';
-  return `<label class="patient-field"><span>${label}</span><input type="text" autocomplete="off" autocapitalize="none" spellcheck="false" data-patient-field="${field}" name="packet-${field}" value="${escapeAttr(value)}" placeholder="${escapeAttr(placeholder)}" oninput="setPatientField('${field}', this.value, false)" onblur="setPatientField('${field}', this.value, true)" /></label>`;
+  const mark = opts.required ? '<span class="iehp-toc-required-mark" title="Required for packet">*</span>' : '';
+  return `<label class="patient-field"><span>${label}${mark}</span><input type="text" autocomplete="off" autocapitalize="none" spellcheck="false" data-patient-field="${field}" name="packet-${field}" value="${escapeAttr(value)}" placeholder="${escapeAttr(placeholder)}" oninput="setPatientField('${field}', this.value, false)" onblur="setPatientField('${field}', this.value, true)" /></label>`;
 }
 function downloadText(filename, text, mime='text/plain'){
   const blob = new Blob([text], {type:mime});
@@ -16626,13 +18306,15 @@ function main(){
   if(state.view==='workbench') return workbench();
   if(state.view==='database') return database();
   if(state.view==='print') return printCenter();
+  if(state.view==='directory') return staffDirectoryView();
+  if(state.view==='transition') return iehpTocScreenView();
   return settings();
 }
 function render(){
   try{
     const app = $('#app');
     if(!app) return;
-    app.innerHTML = `<div class="app-shell" data-ui="app-shell" data-design-surface="application">${rail()}<div class="main-shell" data-ui="main-shell">${topbar()}<main class="workspace" data-ui="workspace">${main()}</main></div>${drawer()}${planDrawer()}${assistDrawer()}${toast()}${mobileTabs()}</div>`;
+    app.innerHTML = `<div class="app-shell ${state.railExpanded?'rail-expanded':''}" data-ui="app-shell" data-design-surface="application">${rail()}<div class="main-shell" data-ui="main-shell">${topbar()}<main class="workspace" data-ui="workspace">${main()}</main></div>${drawer()}${planDrawer()}${assistDrawer()}${iehpTocDrawer()}${toast()}${mobileTabs()}</div>`;
     fitV51PreviewSoon();
   }catch(err){
     console.error('Referral Hub render failed:', err);
@@ -16859,6 +18541,9 @@ function asList(value){ return Array.isArray(value) ? value.filter(Boolean) : (v
 function resourceCategories(r){ return asList(r.categories && r.categories.length ? r.categories : r.type); }
 function categoryMatch(r, category){ return category === 'All' || resourceCategories(r).includes(category); }
 function categoryCount(category){ return resources.filter(r=>categoryMatch(r, category)).length; }
+function resourceSpecialties(r){ return asList(r.specialtyTags); }
+function specialtyMatch(r, specialty){ return !specialty || specialty === 'All' || resourceSpecialties(r).includes(specialty); }
+function specialtyCount(specialty){ return resources.filter(r=>specialtyMatch(r, specialty)).length; }
 function chipList(items, kind='category', max=4){const clean=asList(items).filter(Boolean); if(!clean.length) return ''; return `<div class="facet-chip-row">${clean.slice(0,max).map(x=>`<span class="facet-chip ${kind}">${html(x)}</span>`).join('')}${clean.length>max?`<span class="facet-chip">+${clean.length-max}</span>`:''}</div>`;}
 function alsoUnder(r){const also=resourceCategories(r).filter(c=>c!==r.type); return also.length?`<div class="also-under-note"><b>Also shows under</b>${also.map(c=>`<span class="facet-chip category">${html(c)}</span>`).join('')}</div>`:'';}
 function routeTile(c){const count=categoryCount(c.type); return `<button class="route-tile ${c.color}" onclick="quickStart('${c.type}')"><span class="route-top"><span class="tile-icon">${c.icon}</span><em class="tile-stat">${count} options</em></span><span class="route-copy"><b>${c.type}</b><small>${c.help}</small></span></button>`;}
@@ -17069,6 +18754,7 @@ function exportCSV(){const headers=['id','orgName','programName','name','categor
    Patient handouts stay resource-first; packet mode owns patient details.
    ============================== */
 const DEFAULT_PACKET_STATE = {
+  collapsedSections:null,
   destinationNote:'',
   faxNumber:'',
   returnContact:'',
@@ -17631,9 +19317,24 @@ function ensurePacketState(){
     if(state.packet.testingConcerns?.[oldKey]) state.packet.letterConcerns.testing[newKey] = true;
   });
   Object.keys(DEFAULT_PACKET_STATE).forEach((k)=>{
-    if(!['components','testingConcerns','letterConcerns'].includes(k) && state.packet[k] === undefined) state.packet[k] = DEFAULT_PACKET_STATE[k];
+    if(!['components','testingConcerns','letterConcerns','collapsedSections'].includes(k) && state.packet[k] === undefined) state.packet[k] = DEFAULT_PACKET_STATE[k];
   });
+  if(!state.packet.collapsedSections || typeof state.packet.collapsedSections !== 'object') state.packet.collapsedSections = {};
   return state.packet;
+}
+function isSectionCollapsed(store, id){ return !!(store && store.collapsedSections && store.collapsedSections[id]); }
+function togglePacketSection(id){
+  const p = ensurePacketState();
+  p.collapsedSections[id] = !p.collapsedSections[id];
+  saveState(); scheduleRender();
+}
+window.togglePacketSection = togglePacketSection;
+function packetSectionShell(id, titleHtml, bodyHtml, opts={}){
+  const p = ensurePacketState();
+  const collapsed = isSectionCollapsed(p, id);
+  const chevron = `<svg class="iehp-toc-chevron${collapsed?' collapsed':''}" viewBox="0 0 24 24" width="16" height="16"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const toggleBtn = `<button type="button" class="iehp-toc-section-toggle" aria-expanded="${!collapsed}" onclick="togglePacketSection('${id}')">${chevron}${titleHtml}</button>`;
+  return `<section class="v44-builder-section${opts.soft?' soft':''}${opts.extraClass?' '+opts.extraClass:''}" data-ui="${escapeAttr(opts.dataUi||id+'-section')}"><div class="v44-section-title">${toggleBtn}${opts.trailing||''}</div>${collapsed?'':bodyHtml}</section>`;
 }
 function setPacketField(field, value, shouldRender=false){
   const packet = ensurePacketState();
@@ -17836,14 +19537,18 @@ function letterTemplateCard(){
   const ctx = paperContext();
   const template = resolveLetterTemplate(ctx);
   const cfg = templateConfig(template);
-  return `<div class="letter-template-card v41" data-ui="letter-builder">
-    <div class="letter-template-head"><div><h4>Letter focus</h4><p>${html(cfg.help)} Auto follows the selected resource; staff can override when needed.</p></div><span class="letter-template-badge">${html(cfg.badge)}</span></div>
-    <div class="v45-template-steps">
+  const p = ensurePacketState();
+  const collapsed = isSectionCollapsed(p, 'letter');
+  const chevron = `<svg class="iehp-toc-chevron${collapsed?' collapsed':''}" viewBox="0 0 24 24" width="16" height="16"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const body = collapsed ? '' : `<div class="v45-template-steps">
       <div class="v45-template-step" data-ui="template-request"><div class="v45-step-title"><b>Template and request</b><span>Controls the letter wording</span></div><div class="template-grid">${packetSelectFrom('letterTemplate','Letter template',LETTER_TEMPLATE_OPTIONS)}${packetSelectFrom(cfg.requestField,cfg.requestLabel,cfg.requestOptions)}</div></div>
       <div class="v45-template-step subtle" data-ui="template-reasons"><div class="v45-step-title"><b>Reasons to include</b><span>Shown as prose in the letter</span></div>${letterConcernControls(template)}</div>
       <div class="v45-template-step" data-ui="template-context"><div class="v45-step-title"><b>Optional context</b><span>Use only when helpful</span></div><div class="testing-note-grid">${packetTextarea(cfg.otherField,cfg.otherLabel,cfg.otherPlaceholder)}${packetTextarea(cfg.notesField,cfg.notesLabel,cfg.notesPlaceholder)}</div></div>
     </div>
-    <div class="letter-template-note"><b>Writing style:</b> Selected reasons are converted into complete referral sentences. Leave anything unknown blank.</div>
+    <div class="letter-template-note"><b>Writing style:</b> Selected reasons are converted into complete referral sentences. Leave anything unknown blank.</div>`;
+  return `<div class="letter-template-card v41" data-ui="letter-builder">
+    <div class="letter-template-head"><button type="button" class="iehp-toc-section-toggle" aria-expanded="${!collapsed}" onclick="togglePacketSection('letter')">${chevron}<div><h4>Letter focus</h4><p>${html(cfg.help)} Auto follows the selected resource; staff can override when needed.</p></div></button><span class="letter-template-badge">${html(cfg.badge)}</span></div>
+    ${body}
   </div>`;
 }
 
@@ -17936,10 +19641,14 @@ function packetComponentsList(){
   return `<div class="packet-component-grid">${rows.map(([key,label,help])=>`<label class="packet-check"><input type="checkbox" data-packet-component="${key}" ${packet.components[key]?'checked':''} onchange="togglePacketComponent('${key}', this.checked)" /><span><b>${html(label)}</b><small>${html(help)}</small></span></label>`).join('')}</div>`;
 }
 function patientContextCard(mode='packet'){
+  const required = mode === 'packet';
   const copy = mode === 'packet'
     ? 'Only needed for packets, fax covers, or formal referral letters.'
     : 'Optional internal context only. Patient handouts do not require this section.';
-  return `<section class="v44-builder-section soft patient-print-card" data-ui="patient-section"><div class="v44-section-title"><div><h3>Patient</h3><p>${copy}</p></div><button class="soft-link" onclick="state.patient={...DEFAULT_STATE.patient}; saveState(); render(); showToast('Patient fields cleared')">Clear</button></div><div class="v44-field-grid">${patientField('name','Patient name','Required for packet')}${patientField('dob','DOB','MM/DD/YYYY')}${patientField('phone','Phone','Callback number')}${patientField('insurance','Insurance / plan','IEHP, Kaiser, Medicare, etc.')}${patientField('reason','Reason / need','Therapy, IOP, testing, SUD, etc.')}</div></section>`;
+  const title = `<div><h3>Patient</h3><p>${copy}</p></div>`;
+  const trailing = `<button class="soft-link" onclick="state.patient={...DEFAULT_STATE.patient}; saveState(); render(); showToast('Patient fields cleared')">Clear</button>`;
+  const body = `<div class="v44-field-grid">${patientField('name','Patient name','Full name',{required})}${patientField('dob','DOB','MM/DD/YYYY',{required})}${patientField('phone','Phone','Callback number')}${patientField('insurance','Insurance / plan','IEHP, Kaiser, Medicare, etc.')}${patientField('reason','Reason / need','Therapy, IOP, testing, SUD, etc.')}</div>`;
+  return packetSectionShell('patient', title, body, {soft:true, extraClass:'patient-print-card', dataUi:'patient-section', trailing});
 }
 
 function quickHandoutCard(){
@@ -18373,6 +20082,7 @@ function printCenter(){
     </aside>
     <main class="v44-details-panel" data-ui="referral-details">
       <section class="v44-detail-hero" data-ui="details-hero"><div><span class="eyebrow">${html(meta.group)}</span><h2>${html(detailTitle)}</h2><p>${html(detailCopy)}</p></div><span class="v44-mode-pill">${html(state.output)}</span></section>
+      ${iehpTocBanner()}
       ${isPacketOutput() ? packetBuilderCard() : quickHandoutCard()}
       ${printReadinessCard()}
     </main>
@@ -18533,7 +20243,7 @@ function startNewRoute(){
 
 function resetAppState(){
   try{ localStorage.removeItem(APP_STORAGE_KEY); }catch(err){}
-  state = {...DEFAULT_STATE, patient:{...DEFAULT_STATE.patient}, packet:JSON.parse(JSON.stringify(DEFAULT_PACKET_STATE)), plan:[...DEFAULT_STATE.plan]};
+  state = {...DEFAULT_STATE, patient:{...DEFAULT_STATE.patient}, packet:JSON.parse(JSON.stringify(DEFAULT_PACKET_STATE)), plan:[...DEFAULT_STATE.plan], iehpToc:JSON.parse(JSON.stringify(DEFAULT_IEHP_TOC_STATE))};
   showToast('Reset to a clean plan');
   render();
   scrollAppToTop();
@@ -19034,16 +20744,9 @@ exportCSV = function exportCSV(){
    Final authoritative layer for accurate, useful clinical operations data.
    ============================== */
 const V57_REVIEW_DATE = 'Jun 28, 2026';
+const V59_ED_REVIEW_DATE = 'Jul 21, 2026';
 const V57_SCHEMA_VERSION = 'v57.verified-data';
-const V57_GAPS = [
-  'Perinatal / postpartum mental health: add verified PSI and local maternal mental health pathways before release.',
-  'LGBTQ+ affirming care: add verified local/California programs and crisis alternatives, with current 988 LGBTQ-routing caveat.',
-  'Older adult behavioral health: add county older adult routes and Medicare-specific outpatient options.',
-  'Veterans: add VA Loma Linda / Veterans Crisis Line / county veteran service routes with eligibility language.',
-  'Eating disorder treatment: add verified regional ED PHP/IOP/residential pathways and medical-stability exclusions.',
-  'Domestic violence / sexual assault: keep separate from routine therapy and verify hotline/confidentiality rules.',
-  'Homelessness/housing: keep housing navigation separate from mental health treatment and verify eligibility windows.'
-];
+const V57_GAPS = [];
 const V57_SOURCE_ANCHORS = {
   'sbc-dbh-access': {lastWebReviewedDate: V57_REVIEW_DATE, sourceEvidence:'Official SB County DBH page lists Access Unit (888) 743-1478 and county outpatient/service routing.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Use Access Unit as first route for SB County safety-net behavioral health linkage; confirm county/eligibility and urgency.'},
   'sbc-ccrt': {lastWebReviewedDate: V57_REVIEW_DATE, sourceEvidence:'Official SB County DBH page lists CCRT 24/7 call/text route for psychiatric emergency response.', verificationStatus:{label:'Official crisis route', tone:'p1'}, preferredFirstMove:'For psychiatric crisis that is not immediate 911/ER danger, use CCRT call/text route and confirm current location/callback.'},
@@ -19057,7 +20760,37 @@ const V57_SOURCE_ANCHORS = {
   'lightfully-thousand-oaks-php-iop': {lastWebReviewedDate: V57_REVIEW_DATE, sourceEvidence:'Official Lightfully location/admissions information reviewed; staff must confirm payer authorization, travel feasibility, and current availability.', verificationStatus:{label:'Official page reviewed', tone:'official'}},
   'lightfully-westwood-php-iop': {lastWebReviewedDate: V57_REVIEW_DATE, sourceEvidence:'Official Lightfully location/admissions information reviewed; staff must confirm payer authorization, travel feasibility, and current availability.', verificationStatus:{label:'Official page reviewed', tone:'official'}},
   'lightfully-encinitas-php-iop': {lastWebReviewedDate: V57_REVIEW_DATE, sourceEvidence:'Official Lightfully location/admissions information reviewed; staff must confirm payer authorization, travel feasibility, and current availability.', verificationStatus:{label:'Official page reviewed', tone:'official'}},
-  'lightfully-carlsbad-teen-php-iop': {lastWebReviewedDate: V57_REVIEW_DATE, sourceEvidence:'Official Lightfully location/admissions information reviewed; staff must confirm teen age range, guardian involvement, payer authorization, and travel feasibility.', verificationStatus:{label:'Official page reviewed', tone:'official'}}
+  'lightfully-carlsbad-teen-php-iop': {lastWebReviewedDate: V57_REVIEW_DATE, sourceEvidence:'Official Lightfully location/admissions information reviewed; staff must confirm teen age range, guardian involvement, payer authorization, and travel feasibility.', verificationStatus:{label:'Official page reviewed', tone:'official'}},
+  'ruhs-riverside-eating-disorder-iop': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official RUHS Behavioral Health page names the Mindful Body and Recovery Program (eating disorder IOP) at Perris Valley Community Health Center, (951) 210-1750, Medi-Cal.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'For Riverside County Medi-Cal patients with an eating disorder, call the CARES Line or the program directly to confirm intake and current availability.'},
+  'sbc-eating-disorder-collaborative': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official SB County DBH Eating Disorder Collaborative brochure lists (909) 387-7336, 780 E. Gilbert St, San Bernardino, MCP navigation (IEHP/Molina/Kaiser), and linkage to IOP/PHP/residential care.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'For SB County patients with a suspected or diagnosed eating disorder, call the EDC directly to start screening/assessment before searching for a standalone program.'},
+  'bright-road-recovery-claremont': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Bright Road Recovery site lists Claremont address, residential/PHP/IOP levels of care, and a named commercial insurance panel.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Call to confirm current age policy, in-network status for the specific plan, and medical clearance before referring.'},
+  'eating-recovery-center-irvine': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Eating Recovery Center Irvine page lists address, admissions line, and PHP/IOP levels of care for ages 12+.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Call ERC admissions to confirm age track, payer authorization, and travel feasibility for daily PHP/IOP programming.'},
+  'acute-denver-health-severe-malnutrition': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Denver Health / ACUTE.org page describes the only specialized inpatient medical-stabilization unit for severe eating disorders/malnutrition, ages 15+, contracted with most major insurance.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Use only when a patient is too medically unstable for PHP/IOP/residential care; have a physician arrange transfer, and send immediate emergencies to the nearest ER first.'},
+  'equip-virtual-fbt-ca': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Equip Health referral-info page describes virtual family-based treatment for eating disorders, ages 5+, with insurance/Medicaid varying by state.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Call Equip admissions to confirm current California insurance/Medicaid acceptance and family fit for FBT before referring.'},
+  'within-health-virtual-ed': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Within Health location page confirms fully virtual Enhanced IOP/PHP eating disorder care serving San Bernardino and Riverside patients.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Call Within Health to verify insurance and confirm the patient is medically stable enough for a virtual-only program.'},
+  'ie-behavioral-group-eating-disorder': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Inland Empire Behavioral Group eating disorder services page lists individual therapy, medication management, and nutrition support at Riverside and Colton addresses, phone (909) 429-3244.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Use for a routine outpatient eating-disorder-specialized therapist/psychiatrist; call to confirm insurance and current availability.'},
+  'nourished-with-kindness-rd-ca': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Nourished with Kindness site lists CA telehealth registered dietitian eating-disorder nutrition therapy and a named PPO panel.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Use to pair with an existing therapist/program for eating-disorder-specialized nutrition therapy; confirm PPO panel before referring.'},
+  'neurochamp-riverside-testing': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official NeuroChamp site lists psychoeducational/ADHD/learning/autism testing services, Riverside address, and phone (909) 255-6113.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Use for youth psychoeducational or ADHD/learning-disability testing; confirm age range and payer before referring.'},
+  'abundance-therapy-adhd-testing-riverside': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Abundance Therapy Center ADHD testing page lists Riverside address, phone 213-505-4307, insurance/pre-authorization handling, and 2-3 week typical wait.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Use for a comprehensive ADHD evaluation (ages 6+) with a shorter wait than many local options; confirm insurance/pre-authorization.'},
+  'nixon-psychological-institute-chino': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Independently corroborated (Yelp/Psychology Today/practice listings) address 12530 10th St Ste C, Chino, and phone (909) 248-3434; official site reviewed for services offered.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Use for ADHD/cognitive/learning/autism testing in the Chino/West Valley area; confirm current insurance panel by phone.'},
+  'octave-ca': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Octave provider-referral page (findoctave.com/referral-form) confirmed as a live external clinician referral form; also reachable at referrals@findoctave.com or fax 628-234-3048.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'For commercially insured CA patients, staff can submit a referral directly online instead of calling.'},
+  'talkiatry-ca': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Talkiatry referral page (talkiatry.com/refer-a-patient) confirmed as a live clinician referral portal; most patients scheduled within a week; ages 5-18 and adult psychiatry; in-network with major insurers.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Staff can submit a referral directly online for insurance-covered psychiatry/medication management instead of the patient self-scheduling.'},
+  'brightside-ca': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Brightside provider-referral portal (brightside.com/referral/, redirects to externalprovider.brightside.com) confirmed as a live clinician referral form, distinct from the consumer "refer a friend" page.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Staff can submit a referral directly online for anxiety/depression therapy or psychiatry instead of the patient self-scheduling.'},
+  'psi-helpline-perinatal': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Postpartum Support International HelpLine page confirms 1-800-944-4773, text option, and explicitly states it is a warmline, not a crisis line.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Offer as first-line support/information for any perinatal mood or anxiety concern; pair with 988 or the National Maternal Mental Health Hotline for true emergencies.'},
+  'ruhs-maternal-mental-health': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official RUHS maternal mental health and perinatal SUD program pages confirm the MOMS Program, CARES Line, and HeRCARe linkage number.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'For Riverside County Medi-Cal patients who are pregnant or parenting, call the CARES Line and ask about the MOMS Perinatal Program or maternal mental health resource directory.'},
+  'hodde-perinatal-psychiatry-montclair': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Address/phone cross-referenced across the RUHS maternal mental health directory, Doximity, and Healthgrades; no official practice website was independently fetched, and payer info is unconfirmed.', verificationStatus:{label:'Public page reviewed', tone:'public'}, preferredFirstMove:'Call directly to confirm current insurance panel and availability before referring -- weaker source corroboration than program-level entries.'},
+  'trevor-project-lgbtq-crisis': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Trevor Project page confirms 1-866-488-7386, text START to 678-678, and 24/7 chat, operating independently of 988.', verificationStatus:{label:'Official crisis route', tone:'p1'}, preferredFirstMove:'Offer directly for any LGBTQ+ youth in crisis; do not rely on 988 press-3 routing, whose status has changed and is unconfirmed as of this review.'},
+  'truevolution-ie-lgbtq-center': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official TruEvolution "Mind" program page confirms HIV support groups, SUD recovery groups, and crisis stabilization are live; individual therapy, case management, psychiatry, and addiction medicine are listed as expanding in 2026, not confirmed live.', verificationStatus:{label:'Staff verify', tone:'verify'}, preferredFirstMove:'Call to confirm which specific behavioral health services are currently operating before referring for anything beyond groups.'},
+  'sbc-age-wise-older-adult': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official San Bernardino County page confirms the Age Wise Program, (800) 451-5633, serving adults 59+ and individuals with disabilities.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Use for SB County older-adult behavioral health/wellness needs; confirm Medicare vs. Medi-Cal payer status by phone.'},
+  'ruhs-older-adult-services': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official RUHS Behavioral Health Older Adult Services page confirms CARES Line access and program scope for Riverside County adults 60+.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Use for Riverside County older-adult behavioral health needs; confirm Medicare vs. Medi-Cal payer status by phone.'},
+  'alzheimers-assoc-socal-helpline': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Alzheimer\'s Association Southland Chapter page confirms the 24/7 (800) 272-3900 helpline covering San Bernardino and Riverside counties.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Use as a caregiver-support and resource-navigation adjunct for dementia-related concerns, alongside the patient\'s own clinical care.'},
+  'veterans-crisis-line': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Veterans Crisis Line page and VA news release confirm the current "dial 988, then press 1" routing plus text 838255, explicitly stating VA enrollment is not required.', verificationStatus:{label:'Official crisis route', tone:'p1'}, preferredFirstMove:'Offer immediately for any veteran in crisis regardless of VA enrollment status.'},
+  'va-loma-linda-mental-health': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official va.gov Loma Linda mental health page confirms services offered and the Mental Health Access Clinic; a specific mental-health phone extension could not be confirmed on the official page and varies across secondary directories.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Call the main line to confirm current enrollment status and intake path; do not quote a specific extension without verifying by phone.'},
+  'sbc-veterans-affairs-office': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official San Bernardino County Veterans Affairs contact page confirms the main office address and (909) 382-3290, plus satellite offices.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Use for VA benefits/health-care-eligibility navigation, not as a direct clinical referral.'},
+  'riverside-county-veterans-services': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Riverside County\'s own veterans services page was reviewed, but the department\'s dedicated contact page (rivcoveterans.org) blocked automated fetching; phone number corroborated via independent secondary directories rather than a direct fetch.', verificationStatus:{label:'Staff verify', tone:'verify'}, preferredFirstMove:'Confirm the current phone number and office hours by phone before relying on it, since it was not independently confirmed on the primary site.'},
+  'national-dv-hotline': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official National Domestic Violence Hotline page confirms 1-800-799-7233, text START to 88788, and 24/7/365 confidential availability.', verificationStatus:{label:'Official crisis route', tone:'p1'}, preferredFirstMove:'Offer as a confidential national first-contact line for any domestic violence concern; pair with a local county DV/SA advocacy organization for ongoing support.'},
+  'alternatives-to-dv-riverside': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official Alternatives to Domestic Violence contact and programs pages confirm two area-specific 24-hour crisis lines and service scope for Riverside County.', verificationStatus:{label:'Official crisis route', tone:'p1'}, preferredFirstMove:'Use as the Riverside County counterpart to San Bernardino County\'s Partners Against Violence; confirm which of the two crisis-line numbers applies by patient location.'},
+  'riverside-homeconnect-ces': {lastWebReviewedDate: V59_ED_REVIEW_DATE, sourceEvidence:'Official RUHS Behavioral Health housing page confirms the HomeConnect/Coordinated Entry System phone numbers; the county\'s own CES page blocked automated fetching but the same number is independently corroborated by multiple secondary sources.', verificationStatus:{label:'Official page reviewed', tone:'official'}, preferredFirstMove:'Use as the single Riverside County entry point for homeless housing navigation, the counterpart to San Bernardino\'s DBH InnROADs/HOST route.'}
 };
 function v57Lower(x){ return String(x||'').toLowerCase(); }
 function v57UrlHost(url){ try{return new URL(url).hostname.replace(/^www\./,'');}catch(e){return '';} }
@@ -19401,9 +21134,15 @@ workbench = function(){
   const list=filtered();
   return `<div class="workbench-view mature-build" data-ui="workbench-view"><main class="work-main">${stepper()}<div class="section-head build-head"><div><span class="eyebrow">Build referral plan</span><h2>Find options and add the best primary route plus a backup.</h2><p>Search by patient need, payer, city, level of care, population, verification status, or staff shorthand.</p></div><button class="secondary-action" onclick="setView('database')">Open database</button></div>${startHere()}<div class="panel workbench-panel mature-resource-panel">${filters()}<div class="result-bar"><b>${list.length}</b><span>matching referral option${list.length===1?'':'s'}</span><em>${state.filter==='All'?'All categories':state.filter}</em></div><div class="resource-list">${list.length ? list.map(resourceCard).join('') : v58EmptySearchHtml()}</div></div></main>${planTray()}</div>`;
 };
+function easyOnlineReferralItems(){ return resources.filter(r=>r.referralSubmitUrl); }
+function easyOnlineReferralPanel(){
+  const items=easyOnlineReferralItems();
+  if(!items.length) return '';
+  return `<div class="panel v57-queue-panel easy-referral-panel"><h3>Easy online referrals</h3><p>These take a self-service referral submission online -- no phone tag required. Confirm insurance/fit first, then submit directly.</p><div class="v57-queue-list">${items.map(r=>`<div class="v57-queue-item mint"><b>${html(r.name)}</b><small>${html(r.referralSubmitNote || r.fit || '')}</small><div class="v57-queue-actions"><a class="secondary-action" href="${escapeAttr(r.referralSubmitUrl)}" target="_blank" rel="noreferrer">Submit referral online →</a><button onclick="openDrawer('${r.id}')">Details</button></div></div>`).join('')}</div></div>`;
+}
 database = function(){
   const audit=auditResources(); const list=filtered(); const stats=v57Stats();
-  return `<div class="database-view" data-ui="database-view"><main><div class="section-head"><div><h2>Verified resource database</h2><p>Search source status, payer, service type, city, queue priority, and staff confirmation needs.</p></div><div class="action-row"><button class="secondary-action" onclick="exportCSV()">Export master CSV</button><button class="secondary-action" onclick="exportVerificationQueue()">Export queue</button><button class="primary-action" onclick="showToast('Custom resource form is planned for the SQLite build')">Add resource</button></div></div><section class="db-tools panel">${filters()}<div class="v57-data-note"><b>Verification model</b><span>Official/public web review is not the same as human confirmation. Staff should mark phone-confirmed rows with date, initials, and notes before treating a route as operationally verified.</span></div><div class="v57-db-stats"><div class="v57-db-stat"><b>${stats.total}</b><span>resources</span></div><div class="v57-db-stat"><b>${stats.official}</b><span>official/crisis pages reviewed</span></div><div class="v57-db-stat"><b>${stats.staff}</b><span>staff-verify rows</span></div><div class="v57-db-stat"><b>${stats.p1}</b><span>P1 verification priorities</span></div></div><div class="coverage-strip">${categoryTiles.map(c=>`<span class="coverage-chip ${c.color}">${c.type}<b>${categoryCount(c.type)}</b></span>`).join('')}</div></section><section class="db-table panel"><div class="db-header v38"><span>Resource / source</span><span>First move</span><span>Delivery</span><span>Payer</span><span>Status</span><span></span></div>${list.length?list.map(dbRow).join(''):`<div class="empty-results"><h3>No database rows match</h3><p>Try status terms like “P1,” “staff verify,” “official,” or clinical terms like “teen IOP,” “Kaiser,” “SUD,” or “ADHD testing.”</p><div class="smart-empty-suggestions"><button onclick="smartSearchQuick('P1 verify')">P1 verify</button><button onclick="smartSearchQuick('official')">official</button><button onclick="smartSearchQuick('staff verify')">staff verify</button><button onclick="state.query=''; state.filter='All'; commit();">Clear all</button></div></div>`}</section></main><aside class="db-side">${v57QueueHtml(14)}<div class="panel v57-queue-panel"><h3>Known coverage gaps</h3><p>These should be researched and verified before being added as routine staff options.</p><div class="v57-gap-list">${V57_GAPS.map(g=>`<span>${html(g)}</span>`).join('')}</div></div></aside></div>`;
+  return `<div class="database-view" data-ui="database-view"><main><div class="section-head"><div><h2>Verified resource database</h2><p>Search source status, payer, service type, city, queue priority, and staff confirmation needs.</p></div><div class="action-row"><button class="secondary-action" onclick="exportCSV()">Export master CSV</button><button class="secondary-action" onclick="exportVerificationQueue()">Export queue</button><button class="primary-action" onclick="showToast('Custom resource form is planned for the SQLite build')">Add resource</button></div></div><section class="db-tools panel">${filters()}<div class="v57-data-note"><b>Verification model</b><span>Official/public web review is not the same as human confirmation. Staff should mark phone-confirmed rows with date, initials, and notes before treating a route as operationally verified.</span></div><div class="v57-db-stats"><div class="v57-db-stat"><b>${stats.total}</b><span>resources</span></div><div class="v57-db-stat"><b>${stats.official}</b><span>official/crisis pages reviewed</span></div><div class="v57-db-stat"><b>${stats.staff}</b><span>staff-verify rows</span></div><div class="v57-db-stat"><b>${stats.p1}</b><span>P1 verification priorities</span></div></div><div class="coverage-strip">${categoryTiles.map(c=>`<span class="coverage-chip ${c.color}">${c.type}<b>${categoryCount(c.type)}</b></span>`).join('')}</div></section><section class="db-table panel"><div class="db-header v38"><span>Resource / source</span><span>First move</span><span>Delivery</span><span>Payer</span><span>Status</span><span></span></div>${list.length?list.map(dbRow).join(''):`<div class="empty-results"><h3>No database rows match</h3><p>Try status terms like “P1,” “staff verify,” “official,” or clinical terms like “teen IOP,” “Kaiser,” “SUD,” or “ADHD testing.”</p><div class="smart-empty-suggestions"><button onclick="smartSearchQuick('P1 verify')">P1 verify</button><button onclick="smartSearchQuick('official')">official</button><button onclick="smartSearchQuick('staff verify')">staff verify</button><button onclick="state.query=''; state.filter='All'; commit();">Clear all</button></div></div>`}</section></main><aside class="db-side">${easyOnlineReferralPanel()}${v57QueueHtml(14)}<div class="panel v57-queue-panel"><h3>Known coverage gaps</h3><p>These should be researched and verified before being added as routine staff options.</p><div class="v57-gap-list">${V57_GAPS.length?V57_GAPS.map(g=>`<span>${html(g)}</span>`).join(''):'<span>No open coverage gaps flagged -- all previously identified specialty areas now have at least one resource.</span>'}</div></div></aside></div>`;
 };
 
 function v58RiskForSearch(r){
@@ -19425,6 +21164,426 @@ resources.forEach(r=>{ r.verificationRisk = v58RiskForSearch(r); });
 window.setSearch = setSearch;
 window.smartSearchQuick = v58SmartSearchQuick;
 window.filtered = filtered;
+
+/* ==============================================================
+   IEHP Adult Medi-Cal PHP/IOP Transition of Care
+   -----------------------------------------------------------------
+   Source #1: IEHP Provider Relations notice "CORRECTION: Discontinuation
+   of Behavioral Health Services -- PHP and IOP Coverage for Members
+   Over Age 21" (April 23, 2026). Effective May 1, 2026, IEHP no longer
+   covers PHP/IOP for Medi-Cal members over 21 (per DHCS APL 22-006,
+   these aren't a Health Plan covered benefit); providers refer those
+   members to County Behavioral Health instead, using the county's own
+   "Transition of Care Tool for Medi-Cal Mental Health Services" form
+   sent to DGBHCountyCareCoordination@iehp.org.
+   Source #2: DHCS 8765 B (01/2023), "Transition of Care Tool for
+   Medi-Cal Mental Health Services" -- the actual fillable form named in
+   source #1, supplied directly (public/assets/dhcs-8765b-transition-of-
+   care-tool.pdf). It has 56 real AcroForm fields across its 4 data pages
+   (page 1 is instructions only); IEHP_TOC_FORM_SCHEMA below preserves
+   its exact field names, labels, and grouping.
+
+   This adds one inline notice (never a hard stop) plus a short guided
+   form for that single case -- nothing else about the referral
+   workflow changes. Kept in independent pieces so any one can change
+   later without touching the others:
+     1. Eligibility -- iehpTocEligibility() and its checks below.
+     2. Form schema -- IEHP_TOC_FORM_SCHEMA, one entry per real PDF
+        field, grouped into the official form's own sections. Every
+        field carries its exact PDF field name so the schema doubles as
+        the field map; fields already answered elsewhere in the app
+        (patient name/DOB/phone, referring provider) read live from
+        there instead of asking twice.
+     3. PDF fill -- generateIehpTocPdf() loads the real template with
+        pdf-lib (vendored at public/vendor/pdf-lib.min.js, no CDN per
+        the app's CSP) and fills every field, producing the actual
+        completed official PDF, not a paraphrase of it.
+   ============================== */
+const IEHP_TOC_MIN_AGE = 21; // confirmed by the source notice: "Members Over Age 21", i.e. strictly over 21
+const IEHP_TOC_EFFECTIVE_DATE = new Date(2026, 4, 1); // May 1, 2026 per the source notice
+const IEHP_TOC_PDF_TEMPLATE_URL = 'assets/dhcs-8765b-transition-of-care-tool.pdf';
+const IEHP_TOC_ROUTING = {
+  formLocation: 'providerservices.iehp.org > Resources for Providers > Forms > BH ("Transition of Care Tool for Medi-Cal Mental Health Services")',
+  submitEmail: 'DGBHCountyCareCoordination@iehp.org',
+  providerCallCenter: '(909) 890-2054',
+  riversideCountyBH: 'RUHS-BH CARES (800) 499-3008',
+  sanBernardinoCountyBH: 'SB County DBH (888) 743-1478'
+};
+
+function iehpTocParseAge(dobStr){
+  const m = String(dobStr||'').trim().match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+  if(!m) return null;
+  let mm=parseInt(m[1],10), dd=parseInt(m[2],10), yy=parseInt(m[3],10);
+  if(yy<100) yy += yy<50 ? 2000 : 1900;
+  const dob = new Date(yy, mm-1, dd);
+  if(Number.isNaN(dob.getTime())) return null;
+  const today = new Date();
+  let age = today.getFullYear()-dob.getFullYear();
+  const hadBirthdayThisYear = today.getMonth()>dob.getMonth() || (today.getMonth()===dob.getMonth() && today.getDate()>=dob.getDate());
+  if(!hadBirthdayThisYear) age--;
+  return age;
+}
+function iehpTocIsIehpMediCal(insuranceStr){
+  const s = String(insuranceStr||'').toLowerCase();
+  if(!/iehp/.test(s)) return false;
+  // IEHP also underwrites a Medicare "DualChoice" product; this policy is
+  // Medi-Cal only, so an explicit Medicare-only mention doesn't qualify.
+  if(/medicare/.test(s) && !/medi[\s-]?cal/.test(s)) return false;
+  return true;
+}
+function iehpTocReferralIsIopPhp(resource){
+  if(!resource) return false;
+  if(resource.type==='IOP PHP') return true;
+  return Array.isArray(resource.categories) && resource.categories.includes('IOP PHP');
+}
+function iehpTocEligibility(){
+  const ctx = paperContext();
+  const age = iehpTocParseAge(state.patient && state.patient.dob);
+  const referralMatches = iehpTocReferralIsIopPhp(ctx.primary);
+  const isIehpMediCal = iehpTocIsIehpMediCal(state.patient && state.patient.insurance);
+  const isOverAge = age!==null && age>IEHP_TOC_MIN_AGE;
+  const isPolicyActive = Date.now() >= IEHP_TOC_EFFECTIVE_DATE.getTime();
+  return {referralMatches, isIehpMediCal, isOverAge, isPolicyActive, age, eligible: referralMatches && isIehpMediCal && isOverAge && isPolicyActive};
+}
+window.iehpTocEligibility = iehpTocEligibility;
+
+// One entry per real field on DHCS 8765 B. `_seeded` is an internal flag
+// (see iehpTocSeedDefaults) -- not a form answer, so it's excluded from
+// the summary/PDF output further down.
+const DEFAULT_IEHP_TOC_STATE = {
+  _seeded:false,
+  collapsedSections:null,
+  planType:'', submittingPlan:'', planContactName:'', planContactTitle:'', planContactPhone:'', planContactEmail:'', planAddress:'', planCity:'', planState:'', planZip:'',
+  beneficiaryPreferredName:'', beneficiaryAgreement:false, genderIdentity:'', otherGenderIdentity:'', pronouns:'', otherPronouns:'',
+  beneficiaryAddress:'', beneficiaryCity:'', beneficiaryState:'', beneficiaryZip:'', beneficiaryEmail:'', caregiverName:'', caregiverPhone:'', memberId:'',
+  diagnosis:'', supportingDocuments:'', culturalLinguisticRequests:'', presentingSymptoms:'', presentingSymptomsAttachment:false,
+  environmentalFactors:'', environmentalFactorsAttachment:false, behavioralHealthHistory:'', behavioralHealthHistoryAttachment:false,
+  medicalHistory:'', medicalHistoryAttachment:false, medicationsDosage:'', medicationsDosageAttachment:false,
+  serviceTransitionOfCare:false, serviceAdditionOfServices:false, servicesRequestedDescription:'', destination:'',
+  mcpName:'', mcpFax:'', mcpPhone:'', mcpTollFree:'', mcpTTY:'', cmhpName:'', cmhpFax:'', cmhpPhone:'', cmhpTollFree:'', cmhpTTY:''
+};
+function ensureIehpTocState(){
+  if(!state.iehpToc || typeof state.iehpToc!=='object') state.iehpToc = {...DEFAULT_IEHP_TOC_STATE};
+  Object.keys(DEFAULT_IEHP_TOC_STATE).forEach(k=>{ if(k==='collapsedSections') return; if(state.iehpToc[k]===undefined) state.iehpToc[k]=DEFAULT_IEHP_TOC_STATE[k]; });
+  if(!state.iehpToc.collapsedSections || typeof state.iehpToc.collapsedSections!=='object') state.iehpToc.collapsedSections = {};
+  return state.iehpToc;
+}
+function toggleIehpTocSection(id){
+  const t = ensureIehpTocState();
+  t.collapsedSections[id] = !t.collapsedSections[id];
+  saveState(); scheduleRender();
+}
+window.toggleIehpTocSection = toggleIehpTocSection;
+function setIehpTocField(field, value, shouldRender=false){
+  const t = ensureIehpTocState();
+  if(field in t){ t[field]=value; saveState(); if(shouldRender) scheduleRender(); }
+}
+// Runs once ever per browser (tracked by `_seeded`), the first time the
+// form opens -- fills in the parts of this workflow that are always true
+// (referring from the MCP side, destination is the county, transition of
+// care not addition-of-services) plus practice-level contact info already
+// entered elsewhere, so returning to a blank field later (e.g. someone
+// deliberately clears it) is never silently overwritten again.
+function iehpTocSeedDefaults(){
+  const t = ensureIehpTocState();
+  if(t._seeded) return false;
+  t._seeded = true;
+  if(!t.planType) t.planType = 'Managed Care Plan';
+  if(!t.destination) t.destination = 'County Mental Health Plan';
+  if(!t.serviceTransitionOfCare) t.serviceTransitionOfCare = true;
+  if(!t.submittingPlan) t.submittingPlan = 'IEHP';
+  if(!t.planState) t.planState = 'CA';
+  if(!t.beneficiaryState) t.beneficiaryState = 'CA';
+  if(!t.planContactName && state.packet && state.packet.preparedByName) t.planContactName = state.packet.preparedByName;
+  if(!t.planContactTitle && state.packet && state.packet.preparedByCredentials) t.planContactTitle = state.packet.preparedByCredentials;
+  if(!t.planContactPhone && state.packet && state.packet.returnContact) t.planContactPhone = state.packet.returnContact;
+  if(!t.presentingSymptoms && state.patient && state.patient.reason) t.presentingSymptoms = state.patient.reason;
+  if(!t.servicesRequestedDescription){ const p = paperContext().primary; if(p) t.servicesRequestedDescription = p.name; }
+  return true;
+}
+function openIehpTocForm(){ ensureIehpTocState(); if(iehpTocSeedDefaults()) saveState(); state.iehpTocOpen=true; commit({persist:false}); }
+function closeIehpTocForm(){ state.iehpTocOpen=false; commit({persist:false}); }
+window.setIehpTocField = setIehpTocField;
+window.openIehpTocForm = openIehpTocForm;
+window.closeIehpTocForm = closeIehpTocForm;
+
+// Field factory: `pdfField` is the exact DHCS 8765 B AcroForm field name
+// (verbatim, including its typos like "Beneficary") so this same entry
+// works as both the UI row and the PDF fill instruction. `value` reads
+// live app state for read-only rows; everything else reads/writes
+// state.iehpToc[id] via ensureIehpTocState().
+function iehpTocField(id, pdfField, label, opts={}){
+  return {
+    id, pdfField, label,
+    type: opts.type || 'text',
+    options: opts.options || null,
+    optionLabels: opts.optionLabels || null,
+    placeholder: opts.placeholder || '',
+    help: opts.help || '',
+    conditional: opts.conditional || null,
+    value: opts.value || (()=>ensureIehpTocState()[id])
+  };
+}
+function iehpTocNote(text, conditional=null){ return {id:null, pdfField:null, label:'', type:'note', text, conditional, value:()=>''}; }
+const IEHP_TOC_FORM_SCHEMA = [
+  {id:'referring-plan', section:'Referring plan information', fields:[
+    iehpTocField('planType','Plan','Submitting plan type',{type:'radio', options:['Managed Care Plan','County Mental Health Plan'], help:"IPMG submits this on IEHP's behalf as the Managed Care Plan -- leave this as Managed Care Plan unless told otherwise."}),
+    iehpTocField('submittingPlan','Submitting Plan','Submitting plan',{help:"The health plan's name (usually IEHP), not your practice name."}),
+    iehpTocField('planContactName','Plan Contact Name','Plan contact name',{help:'You, or whoever staff should call back with questions about this submission.'}),
+    iehpTocField('planContactTitle','Plan Contact Title','Plan contact title'),
+    iehpTocField('planContactPhone','Phone Number','Plan contact phone'),
+    iehpTocField('planContactEmail','Email','Plan contact email'),
+    iehpTocField('planAddress','Address','Plan address'),
+    iehpTocField('planCity','City','Plan city'),
+    iehpTocField('planState','State','Plan state (2-letter)'),
+    iehpTocField('planZip','Zip Code','Plan ZIP code')
+  ]},
+  {id:'beneficiary', section:'Beneficiary information', fields:[
+    iehpTocField('beneficiaryName','Beneficiarys Name','Beneficiary name',{type:'readonly', value:()=>(state.patient && state.patient.name) || ''}),
+    iehpTocField('beneficiaryPreferredName','Beneficiarys Preferred Name','Beneficiary preferred name'),
+    iehpTocField('beneficiaryDob','Date of Birth','Date of birth',{type:'readonly', value:()=>(state.patient && state.patient.dob) || ''}),
+    iehpTocField('beneficiaryAgreement','Beneficiary or Legal','Beneficiary or Legal Representative is in agreement with referral or transition of care',{type:'checkbox', help:'Check only if the patient (or their legal representative) has actually agreed to this -- leave unchecked if that conversation hasn’t happened yet.'}),
+    iehpTocField('genderIdentity','Gender Identity','Gender identity',{type:'radio', options:['Male','Female','Transgender Male','Transgender Female','Non-Binary','Other'], help:'Optional -- only if already known or the patient is comfortable sharing it.'}),
+    iehpTocField('otherGenderIdentity','Other Gender Identity','If Other, please specify',{conditional:()=>ensureIehpTocState().genderIdentity==='Other'}),
+    iehpTocField('pronouns','Pronouns','Pronouns',{type:'radio', options:['He/him','She/her','They/them','Other'], optionLabels:{'He/him':'He/Him','She/her':'She/Her','They/them':'They/Them','Other':'Other'}, help:'Optional -- same as above.'}),
+    iehpTocField('otherPronouns','Other Pronouns','If Other, please specify',{conditional:()=>ensureIehpTocState().pronouns==='Other'}),
+    iehpTocField('beneficiaryAddress','Beneficary Address','Beneficiary address'),
+    iehpTocField('beneficiaryCity','Beneficary City','Beneficiary city'),
+    iehpTocField('beneficiaryState','BeneState','Beneficiary state (2-letter)'),
+    iehpTocField('beneficiaryZip','Beneficary Zip','Beneficiary ZIP code'),
+    iehpTocField('beneficiaryPhone','Beneficary phone Number','Beneficiary phone',{type:'readonly', value:()=>(state.patient && state.patient.phone) || ''}),
+    iehpTocField('beneficiaryEmail','Beneficary Email','Beneficiary email'),
+    iehpTocField('caregiverName','Caregiver/Guardian','Caregiver / guardian name',{help:'Leave blank if the beneficiary doesn’t have one.'}),
+    iehpTocField('caregiverPhone','Caregiver/Guardian phone','Caregiver / guardian phone'),
+    iehpTocField('memberId','Medi-Cal Number (CIN)/SSN:','Medi-Cal Number (CIN) / SSN',{placeholder:'9-digit CIN', help:"The 9-digit Client Index Number (CIN) on the beneficiary's Medi-Cal card -- use SSN only if the CIN isn't available."})
+  ]},
+  {id:'clinical', section:'Clinical information', fields:[
+    iehpTocField('diagnosis','Behavioral Health Diagnosis or Diagnoses if known','Behavioral health diagnosis or diagnoses, if known',{type:'textarea', help:'Fine to leave blank if the diagnosis is still being worked up.'}),
+    iehpTocField('supportingDocuments','Supporting Clinical Documents Included','Supporting clinical documents included',{type:'textarea', help:'List what you’re attaching or sending separately, e.g. recent progress note, discharge summary, records checklist.'}),
+    iehpTocField('culturalLinguisticRequests','Cultural and Linguistic Requests','Cultural and linguistic requests',{type:'textarea', help:'Preferred language, interpreter needs, or other cultural considerations for care.'}),
+    iehpTocField('presentingSymptoms','Current Presenting Symptoms/Behaviors (including substance use if appropriate):','Current presenting symptoms/behaviors (including substance use if appropriate)',{type:'textarea'}),
+    iehpTocField('presentingSymptomsAttachment','APA-CPSB','Additional pages attached',{type:'checkbox'}),
+    iehpTocField('environmentalFactors','CurrentEnvironmentalFactors','Current environmental factors (caregiver relationships, living environment, education)',{type:'textarea'}),
+    iehpTocField('environmentalFactorsAttachment','APA-CEF','Additional pages attached',{type:'checkbox'}),
+    iehpTocField('behavioralHealthHistory','BriefBehavioralHealthHistory','Brief behavioral health history (psychosocial stressors, traumatic experiences)',{type:'textarea'}),
+    iehpTocField('behavioralHealthHistoryAttachment','APA-BBHH','Additional pages attached',{type:'checkbox'}),
+    iehpTocField('medicalHistory','BriefMedicalHistory','Brief medical history',{type:'textarea'}),
+    iehpTocField('medicalHistoryAttachment','APA-BMH','Additional pages attached',{type:'checkbox'}),
+    iehpTocField('medicationsDosage','CurrentMedicationsDosage','Current medications/dosage',{type:'textarea'}),
+    iehpTocField('medicationsDosageAttachment','APA-CMD','Additional pages attached',{type:'checkbox'})
+  ]},
+  {id:'services-destination', section:'Services requested + destination', fields:[
+    iehpTocField('referringProvider','Referring ProviderCurrent Care Team','Referring provider / current care team',{type:'readonly', value:()=>[state.packet && state.packet.providerName, state.packet && state.packet.providerCredentials].filter(Boolean).join(', ')}),
+    iehpTocField('referringProviderPhone','RPCCTPhone','Referring provider / current care team phone',{type:'readonly', value:()=>(state.packet && state.packet.returnContact) || ''}),
+    iehpTocNote('What’s the difference? <b>Transition of Care</b> means services the beneficiary already has are moving to the new plan or county. <b>Addition of Services</b> means new services are being added alongside what they already have. For an IEHP adult PHP/IOP referral, that’s almost always Transition of Care.'),
+    iehpTocField('serviceTransitionOfCare','Transition of Care','Transition of care',{type:'checkbox'}),
+    iehpTocField('serviceAdditionOfServices','Addition of Services','Addition of service(s)',{type:'checkbox'}),
+    iehpTocField('servicesRequestedDescription','What services is the beneficiary being referred for','What service(s) is the beneficiary being referred for?',{type:'textarea', help:'e.g. PHP, IOP, or the specific program name.'}),
+    iehpTocField('destination','Destination','Transition of care or service referral destination',{type:'radio', options:['Managed Care Plan','County Mental Health Plan'], help:"Where this referral is going. For an IEHP adult PHP/IOP transition, that's almost always County Mental Health Plan -- only the matching contact block below needs to be filled in."}),
+    iehpTocNote('Managed Care Plan contact info.', ()=>ensureIehpTocState().destination==='Managed Care Plan'),
+    iehpTocField('mcpName','MCP','Managed Care Plan name',{conditional:()=>ensureIehpTocState().destination==='Managed Care Plan'}),
+    iehpTocField('mcpFax','MCP Fax','Managed Care Plan fax',{conditional:()=>ensureIehpTocState().destination==='Managed Care Plan'}),
+    iehpTocField('mcpPhone','MCP Phone','Managed Care Plan phone',{conditional:()=>ensureIehpTocState().destination==='Managed Care Plan'}),
+    iehpTocField('mcpTollFree','MCP Toll Free','Managed Care Plan toll free',{conditional:()=>ensureIehpTocState().destination==='Managed Care Plan'}),
+    iehpTocField('mcpTTY','MCP TTY','Managed Care Plan TTY',{conditional:()=>ensureIehpTocState().destination==='Managed Care Plan'}),
+    iehpTocNote('County Mental Health Plan contact info. Use the Quick fill buttons at the top of this form for the two local counties.', ()=>ensureIehpTocState().destination==='County Mental Health Plan'),
+    iehpTocField('cmhpName','CMHP','County Mental Health Plan name',{conditional:()=>ensureIehpTocState().destination==='County Mental Health Plan'}),
+    iehpTocField('cmhpFax','CMHP Fax','County Mental Health Plan fax',{conditional:()=>ensureIehpTocState().destination==='County Mental Health Plan'}),
+    iehpTocField('cmhpPhone','CMHP Phone','County Mental Health Plan phone',{conditional:()=>ensureIehpTocState().destination==='County Mental Health Plan'}),
+    iehpTocField('cmhpTollFree','CMHP Toll Free','County Mental Health Plan toll free',{conditional:()=>ensureIehpTocState().destination==='County Mental Health Plan'}),
+    iehpTocField('cmhpTTY','CMHP TTY','County Mental Health Plan TTY',{conditional:()=>ensureIehpTocState().destination==='County Mental Health Plan'})
+  ]}
+];
+function iehpTocAllFields(){ return IEHP_TOC_FORM_SCHEMA.flatMap(sec=>sec.fields); }
+
+// Not derived from the DHCS 8765B PDF itself -- its AcroForm has no Required
+// field flags, asterisks, or "required"/"mandatory" text anywhere. This is a
+// practical list of what's actually needed to route the referral, cross
+// checked against printSpecificChecks()'s existing packet-required fields.
+const IEHP_TOC_REQUIRED_FIELDS = new Set(['planType','submittingPlan','planContactName','planContactPhone','beneficiaryName','beneficiaryDob','beneficiaryAgreement','memberId','presentingSymptoms','referringProvider','servicesRequestedDescription','destination']);
+function iehpTocFieldIsRequired(field){
+  if(IEHP_TOC_REQUIRED_FIELDS.has(field.id)) return true;
+  const t = ensureIehpTocState();
+  if((field.id==='mcpName'||field.id==='mcpPhone') && t.destination==='Managed Care Plan') return true;
+  if((field.id==='cmhpName'||field.id==='cmhpPhone') && t.destination==='County Mental Health Plan') return true;
+  return false;
+}
+function iehpTocFieldIsFilled(field){
+  const v = field.value();
+  return field.type==='checkbox' ? !!v : !!(v && String(v).trim());
+}
+
+function iehpTocFillCounty(county){
+  const t = ensureIehpTocState();
+  if(county==='riverside'){ t.cmhpName='RUHS-BH CARES'; t.cmhpPhone='(800) 499-3008'; }
+  else if(county==='sanbernardino'){ t.cmhpName='San Bernardino County DBH'; t.cmhpPhone='(888) 743-1478'; }
+  t.destination = 'County Mental Health Plan';
+  saveState(); scheduleRender(); showToast('County contact filled in -- confirm fax/toll-free/TTY before sending');
+}
+window.iehpTocFillCounty = iehpTocFillCounty;
+
+function iehpTocFillPlanContact(){
+  const t = ensureIehpTocState();
+  const p = ensurePacketState();
+  const name = p.preparedByName || p.providerName || '';
+  const title = p.preparedByCredentials || p.providerCredentials || '';
+  if(name) t.planContactName = name;
+  if(title) t.planContactTitle = title;
+  if(p.returnContact) t.planContactPhone = p.returnContact;
+  if(!t.submittingPlan) t.submittingPlan = 'IEHP';
+  saveState(); scheduleRender(); showToast('Plan contact filled from staff/provider info');
+}
+window.iehpTocFillPlanContact = iehpTocFillPlanContact;
+
+function iehpTocBanner(){
+  const elig = iehpTocEligibility();
+  if(!elig.eligible) return '';
+  return `<div class="iehp-toc-banner" data-ui="iehp-toc-banner" role="note">
+    <div class="iehp-toc-banner-top"><div class="iehp-toc-banner-icon">${svg('clipboard')}</div><div class="iehp-toc-banner-copy"><b>IEHP Transition of Care needed</b><span>This adult Medi-Cal PHP/IOP referral needs IEHP's Transition of Care hand-off before intake. Most of the details below are already filled in from this referral.</span></div></div>
+    <button class="iehp-toc-banner-btn" onclick="openIehpTocForm()">Complete Transition Form</button>
+  </div>`;
+}
+
+function iehpTocFieldRow(field){
+  if(field.conditional && !field.conditional()) return '';
+  if(field.type==='note') return `<div class="iehp-toc-note">${field.text}</div>`;
+  const help = field.help ? `<small class="iehp-toc-help">${html(field.help)}</small>` : '';
+  const mark = iehpTocFieldIsRequired(field) ? '<span class="iehp-toc-required-mark" title="Required for DHCS submission">*</span>' : '';
+  if(field.type==='readonly') return `<div class="iehp-toc-field readonly"><span>${html(field.label)}${mark}</span><b>${html(field.value() || '—')}</b></div>`;
+  if(field.type==='checkbox') return `<label class="packet-check iehp-toc-check"><input type="checkbox" ${field.value()?'checked':''} onchange="setIehpTocField('${field.id}', this.checked, true)" /><span><b>${html(field.label)}${mark}</b>${field.help ? `<small>${html(field.help)}</small>` : ''}</span></label>`;
+  if(field.type==='radio') return `<div class="iehp-toc-radio-field"><span>${html(field.label)}${mark}</span><div class="iehp-toc-radio-group">${field.options.map(opt=>{
+    const active = field.value()===opt;
+    const optLabel = (field.optionLabels && field.optionLabels[opt]) || opt;
+    return `<button type="button" class="${active?'active':''}" onclick="setIehpTocField('${field.id}', '${escapeAttr(opt)}', true)">${html(optLabel)}</button>`;
+  }).join('')}</div>${help}</div>`;
+  if(field.type==='textarea') return `<label class="patient-field iehp-toc-input iehp-toc-full"><span>${html(field.label)}${mark}</span><textarea placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)">${html(field.value()||'')}</textarea>${help}</label>`;
+  return `<label class="patient-field iehp-toc-input"><span>${html(field.label)}${mark}</span><input type="text" value="${escapeAttr(field.value()||'')}" placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)" />${help}</label>`;
+}
+function iehpTocSummaryText(){
+  const r = IEHP_TOC_ROUTING;
+  const lines = [];
+  IEHP_TOC_FORM_SCHEMA.forEach(sec=>{
+    lines.push(`\n${sec.section.toUpperCase()}`);
+    sec.fields.forEach(f=>{
+      if(f.type==='note') return;
+      if(f.conditional && !f.conditional()) return;
+      const v = f.value();
+      const display = typeof v === 'boolean' ? (v ? 'Yes' : 'No') : (v || 'Not provided');
+      lines.push(`${f.label}: ${display}`);
+    });
+  });
+  return `IEHP Transition of Care -- Referral Summary\nPrepared ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}\n${lines.join('\n')}\n\nComplete IEHP's official form, available at ${r.formLocation}, and send both to ${r.submitEmail}. Provider questions: ${r.providerCallCenter}.`;
+}
+function copyIehpTocSummary(){ copyPlainTextToClipboard(iehpTocSummaryText()); }
+window.copyIehpTocSummary = copyIehpTocSummary;
+
+function downloadBlob(filename, blob){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 500);
+}
+window.downloadBlob = downloadBlob;
+
+async function generateIehpTocPdf(){
+  if(typeof PDFLib==='undefined'){ showToast('PDF library did not load -- try Copy summary instead'); return; }
+  showToast('Preparing completed PDF…');
+  try{
+    const res = await fetch(IEHP_TOC_PDF_TEMPLATE_URL);
+    if(!res.ok) throw new Error('template fetch failed: ' + res.status);
+    const bytes = await res.arrayBuffer();
+    const pdfDoc = await PDFLib.PDFDocument.load(bytes);
+    const form = pdfDoc.getForm();
+    const skipped = [];
+    iehpTocAllFields().forEach(field=>{
+      if(field.type==='note' || !field.pdfField) return;
+      if(field.conditional && !field.conditional()) return;
+      const value = field.value();
+      try{
+        if(field.type==='checkbox'){
+          const cb = form.getCheckBox(field.pdfField);
+          if(value) cb.check(); else cb.uncheck();
+        } else if(field.type==='radio'){
+          if(value) form.getRadioGroup(field.pdfField).select(value);
+        } else if(value){
+          form.getTextField(field.pdfField).setText(String(value));
+        }
+      }catch(err){ skipped.push(field.pdfField); console.warn('IEHP TOC PDF: could not set field', field.pdfField, err); }
+    });
+    const filled = await pdfDoc.save();
+    downloadBlob('iehp-transition-of-care-tool.pdf', new Blob([filled], {type:'application/pdf'}));
+    showToast(skipped.length ? `PDF downloaded (${skipped.length} field${skipped.length===1?'':'s'} needs manual entry)` : 'Completed PDF downloaded');
+  }catch(err){
+    console.error('IEHP TOC PDF generation failed:', err);
+    showToast('Could not generate the PDF -- try Copy summary instead');
+  }
+}
+window.generateIehpTocPdf = generateIehpTocPdf;
+
+function iehpTocPresetsCard(){
+  return `<div class="iehp-toc-presets"><b>Quick fill</b><span>Riverside and San Bernardino county contacts, one click. Confirm fax/toll-free/TTY before sending.</span>
+    <div class="iehp-toc-preset-buttons">
+      <button type="button" onclick="iehpTocFillCounty('riverside')">Riverside County (RUHS-BH)</button>
+      <button type="button" onclick="iehpTocFillCounty('sanbernardino')">San Bernardino County (DBH)</button>
+    </div>
+  </div>`;
+}
+function iehpTocRoutingCard(){
+  const r = IEHP_TOC_ROUTING;
+  return `<div class="iehp-toc-routing"><b>Where this goes</b>
+    <div class="iehp-toc-routing-row"><span>Official form</span><em>${html(r.formLocation)}</em></div>
+    <div class="iehp-toc-routing-row"><span>Send completed form to</span><em><a href="mailto:${escapeAttr(r.submitEmail)}">${html(r.submitEmail)}</a></em></div>
+    <div class="iehp-toc-routing-row"><span>Provider questions</span><em>${html(r.providerCallCenter)}</em></div>
+    <div class="iehp-toc-routing-row"><span>Riverside County BH</span><em>${html(r.riversideCountyBH)}</em></div>
+    <div class="iehp-toc-routing-row"><span>San Bernardino County BH</span><em>${html(r.sanBernardinoCountyBH)}</em></div>
+  </div>`;
+}
+// Shared by both entry points: the inline drawer (opened from the eligibility
+// banner once a referral is already detected as needing this) and the
+// standalone screen (for staff who already know they need the form and want
+// to jump straight to it, no referral plan required first).
+function iehpTocReadinessStrip(){
+  const missing = iehpTocAllFields().filter(f=>f.id && (!f.conditional || f.conditional()) && iehpTocFieldIsRequired(f) && !iehpTocFieldIsFilled(f));
+  if(!missing.length) return `<div class="iehp-toc-readiness ready"><b>All required fields are filled in</b><span>Review the rest, then download the completed PDF.</span></div>`;
+  return `<div class="iehp-toc-readiness needs"><b>${missing.length} required field${missing.length===1?'':'s'} still needed</b><ul>${missing.map(f=>`<li>! ${html(f.label)}</li>`).join('')}</ul></div>`;
+}
+function iehpTocFormBody(){
+  ensureIehpTocState();
+  if(iehpTocSeedDefaults()) saveState();
+  const t = ensureIehpTocState();
+  const sectionsHtml = IEHP_TOC_FORM_SCHEMA.map(sec=>{
+    const collapsed = !!t.collapsedSections[sec.id];
+    const visibleFields = sec.fields.filter(f=>f.id && (!f.conditional || f.conditional()));
+    const reqCount = visibleFields.filter(iehpTocFieldIsRequired).length;
+    const reqLeft = visibleFields.filter(f=>iehpTocFieldIsRequired(f) && !iehpTocFieldIsFilled(f)).length;
+    const badge = reqCount ? `<span class="iehp-toc-section-badge${reqLeft?'':' done'}">${reqLeft ? reqLeft+' required left' : 'All required done'}</span>` : '';
+    const quickFill = sec.id==='referring-plan' && !collapsed ? `<button type="button" class="iehp-toc-mini-fill" onclick="iehpTocFillPlanContact()">Use my info</button>` : '';
+    return `<div class="iehp-toc-section">
+      <div class="iehp-toc-section-head">
+        <button type="button" class="iehp-toc-section-toggle" aria-expanded="${!collapsed}" onclick="toggleIehpTocSection('${sec.id}')">
+          <svg class="iehp-toc-chevron${collapsed?' collapsed':''}" viewBox="0 0 24 24" width="16" height="16"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h4>${html(sec.section)}</h4>
+        </button><div class="iehp-toc-section-trailing">${quickFill}${badge}</div>
+      </div>
+      ${collapsed ? '' : `<div class="iehp-toc-grid">${sec.fields.map(iehpTocFieldRow).join('')}</div>`}
+    </div>`;
+  }).join('');
+  const legend = `<p class="iehp-toc-legend"><span class="iehp-toc-required-mark">*</span> Required for DHCS submission. Everything else is optional or situational.</p>`;
+  return `${iehpTocPresetsCard()}${legend}${sectionsHtml}${iehpTocReadinessStrip()}${iehpTocRoutingCard()}<div class="iehp-toc-actions"><button class="dark" onclick="generateIehpTocPdf()">Download completed PDF</button><button onclick="copyIehpTocSummary()">Copy summary text</button></div>`;
+}
+function iehpTocDrawer(){
+  if(!state.iehpTocOpen) return '';
+  return `<aside class="drawer iehp-toc-drawer open" aria-label="IEHP Transition of Care">
+    <div class="drawer-head"><div><span class="eyebrow">IEHP Transition of Care</span><h3>DHCS 8765 B -- Transition of Care Tool</h3><p>Most fields are filled in from this referral. Add the rest below, then download the completed official PDF to send alongside it.</p></div><button onclick="closeIehpTocForm()">×</button></div>
+    <div class="drawer-body iehp-toc-body">${iehpTocFormBody()}</div>
+  </aside>`;
+}
+function iehpTocScreenView(){
+  return `<div class="iehp-toc-screen directory-screen" data-ui="transition-view">
+    <div class="dc-page-head"><div><span class="eyebrow">Provider tool</span><h2>Transition of Care</h2><p>DHCS 8765 B -- Transition of Care Tool for Medi-Cal Mental Health Services. Fill this out any time, whether or not a referral plan is built yet, and download the real completed official PDF ready to send to IEHP.</p></div></div>
+    <div class="panel iehp-toc-body">${iehpTocFormBody()}</div>
+  </div>`;
+}
 
 render();
 scrollAppToTop();
@@ -19483,10 +21642,10 @@ scrollAppToTop();
 
   rail = function(){
     const helpText = 'Search, add a primary and backup, then use Review & Output.';
-    return `<aside class="rail v60-rail">
-      <button class="brand-mark" onclick="setView('dashboard')" aria-label="Home"><span class="ipmg-app-leaf" aria-hidden="true"><i></i><i></i><i></i></span></button>
-      <nav class="rail-nav">${screens.map(s=>`<button class="rail-btn ${state.view===s.id?'active':''}" onclick="setView('${s.id}')" data-label="${html(s.label)}" title="${html(s.label)}">${svg(s.icon)}</button>`).join('')}</nav>
-      <div class="rail-footer"><button class="rail-btn small" title="Help" onclick="showToast('${helpText}')">?</button></div>
+    return `<aside class="rail v60-rail ${state.railExpanded?'expanded':''}">
+      <button class="brand-mark" onclick="setView('dashboard')" aria-label="Home"><span class="ipmg-app-leaf" aria-hidden="true"><i></i><i></i><i></i></span><span class="rail-brand-text">IPMG Referral Hub</span></button>
+      <nav class="rail-nav">${screens.map(s=>`<button class="rail-btn ${state.view===s.id?'active':''}" onclick="setView('${s.id}')" data-label="${html(s.label)}" title="${html(s.label)}">${svg(s.icon)}<span class="rail-label">${html(s.label)}</span></button>`).join('')}</nav>
+      <div class="rail-footer"><button class="rail-btn small rail-expand-toggle" title="${state.railExpanded?'Collapse sidebar':'Expand sidebar'}" aria-label="${state.railExpanded?'Collapse sidebar':'Expand sidebar'}" onclick="toggleRail()">${svg('chevron')}</button><button class="rail-btn small" title="Help" onclick="showToast('${helpText}')">?</button></div>
     </aside>`;
   };
 
@@ -19494,7 +21653,7 @@ scrollAppToTop();
     const title = screens.find(s=>s.id===state.view)?.label || 'Referral Hub';
     const count = state.plan.length;
     const status = planStatus();
-    const helper = state.view==='dashboard' ? 'Start a referral plan' : state.view==='workbench' ? 'Find primary + backup' : state.view==='print' ? 'Create handoff output' : state.view==='database' ? 'Maintain resource quality' : 'App preferences';
+    const helper = state.view==='dashboard' ? 'Start a referral plan' : state.view==='workbench' ? 'Find primary + backup' : state.view==='print' ? 'Create handoff output' : state.view==='database' ? 'Maintain resource quality' : state.view==='directory' ? 'Never for patient output' : state.view==='transition' ? 'DHCS 8765 B, any time' : 'App preferences';
     return `<header class="topbar mature-topbar v60-topbar">
       <div class="page-title"><span class="kicker">IPMG Referral Hub</span><h1>${html(title)}</h1><small>${html(helper)}</small></div>
       <div class="v60-command-search">${svg('search')}<input value="${escapeAttr(state.query)}" oninput="setSearch(this.value)" placeholder="Search therapy, IOP, Kaiser, teen, ADHD testing, SB crisis…" /></div>
@@ -19564,6 +21723,7 @@ scrollAppToTop();
     return `<div class="v60-filter-shell">
       <div class="v60-filter-row"><div class="field-search">${svg('search')}<input value="${escapeAttr(state.query)}" oninput="setSearch(this.value)" placeholder="Search need, payer, city, level of care, or staff shorthand" /></div></div>
       <div class="v60-filter-pills">${cats.map(c=>`<button class="${state.filter===c?'active':''}" onclick="setFilter('${c}')">${html(c)}</button>`).join('')}</div>
+      <div class="v60-filter-pills specialty-pills"><span class="specialty-pills-label">Specialty</span>${specialtyTiles.map(c=>`<button class="${state.specialty===c.type?'active':''}" onclick="setSpecialty('${c.type}')" title="${escapeAttr(c.help)}">${html(c.type)}<b>${specialtyCount(c.type)}</b></button>`).join('')}</div>
       <div class="v60-quick-row"><b>Quick search</b>${v60Quick.map(q=>`<button class="v60-quick-chip" onclick="smartSearchQuick(${JSON.stringify(q).replace(/"/g,'&quot;')})">${html(q)}</button>`).join('')}</div>
       ${typeof v58SearchSummary === 'function' ? v58SearchSummary() : ''}
     </div>`;
@@ -19806,6 +21966,7 @@ scrollAppToTop();
   window.addResource = addResource;
   window.removeResource = removeResource;
   window.setView = setView;
+  window.toggleRail = toggleRail;
   window.showToast = showToast;
   window.__IPMG_REFERRAL_HUB_V61__ = V61_VERSION;
   render();
@@ -19938,8 +22099,9 @@ body.v64-panel-open{overflow:hidden!important}
     const population=v64Join(r.populations);
     const delivery=v64Join(r.deliveryModes,r.modality,r.accessRoutes);
     const status=v64Join(r.verificationRisk?.level,r.verificationRisk?.label,r.verificationStatus?.label,r.verificationStatus?.tone,r.review,r.dataConfidence?.label,r.clinicalSource?.label);
-    const general=v64Join(name,category,service,payer,area,population,delivery,status,r.best,r.fit,r.firstMove,r.patientInstruction,r.route,r.action,r.contact,r.patient,r.staff,r.notIdeal,r.records,r.source);
-    return {name,category,service,payer,area,population,delivery,status,general};
+    const specialty=v64Join(r.specialtyTags);
+    const general=v64Join(name,category,service,payer,area,population,delivery,status,specialty,r.best,r.fit,r.firstMove,r.patientInstruction,r.route,r.action,r.contact,r.patient,r.staff,r.notIdeal,r.records,r.source);
+    return {name,category,service,payer,area,population,delivery,status,specialty,general};
   }
 
   function v64Query(raw){
@@ -19962,7 +22124,14 @@ body.v64-panel-open{overflow:hidden!important}
       autism:/\b(autism|developmental|regional center|dd)\b/.test(q),
       youth:/\b(teen|youth|child|adolescent|tay|young adult)\b/.test(q),
       virtual:/\b(virtual|online|telehealth|teletherapy)\b/.test(q),
-      county:/\b(county|dbh|access line)\b/.test(q)
+      county:/\b(county|dbh|access line)\b/.test(q),
+      eating:/\b(eating disorder\w*|anorexia|bulimia|binge eating|arfid)\b/.test(q),
+      perinatal:/\b(perinatal|postpartum|prenatal|pregnan\w*|pmad|maternal mental)\b/.test(q),
+      lgbtq:/\b(lgbtq\w*|lgbt|gay|lesbian|transgender|trans|queer|gender affirming|gender identity)\b/.test(q),
+      olderAdult:/\b(older adult\w*|senior|elderly|geriatric|aging|dementia|alzheimer\w*)\b/.test(q),
+      veteran:/\b(veteran\w*|military|va medical|armed forces)\b/.test(q),
+      dv:/\b(domestic violence|intimate partner|sexual assault|abuse survivor|ipv)\b/.test(q),
+      homeless:/\b(homeless\w*|unhoused|shelter|housing navigation|coordinated entry)\b/.test(q)
     };
     let free=q;
     const removals=[
@@ -19975,7 +22144,14 @@ body.v64-panel-open{overflow:hidden!important}
       /\b(testing|evaluation|neuropsych\w*|psychological assessment|diagnostic clarification)\b/g,
       /\b(adhd|autism|developmental|regional center|dd)\b/g,
       /\b(teen|youth|child|adolescent|tay|young adult)\b/g,
-      /\b(virtual|online|telehealth|teletherapy|county|dbh|access line|verify|official|staff)\b/g
+      /\b(virtual|online|telehealth|teletherapy|county|dbh|access line|verify|official|staff)\b/g,
+      /\b(eating disorder\w*|anorexia|bulimia|binge eating|arfid)\b/g,
+      /\b(perinatal|postpartum|prenatal|pregnan\w*|pmad|maternal mental)\b/g,
+      /\b(lgbtq\w*|lgbt|gay|lesbian|transgender|trans|queer|gender affirming|gender identity)\b/g,
+      /\b(older adult\w*|senior|elderly|geriatric|aging|dementia|alzheimer\w*)\b/g,
+      /\b(veteran\w*|military|va medical|armed forces)\b/g,
+      /\b(domestic violence|intimate partner|sexual assault|abuse survivor|ipv)\b/g,
+      /\b(homeless\w*|unhoused|shelter|housing navigation|coordinated entry)\b/g
     ];
     removals.forEach(rx=>{free=free.replace(rx,' ')});
     const freeTokens=v64Norm(free).split(' ').filter(t=>t.length>1);
@@ -19994,9 +22170,17 @@ body.v64-panel-open{overflow:hidden!important}
     const virtual = /\b(virtual|online|telehealth|teletherapy)\b/.test(`${f.delivery} ${name}`);
     const county = primary==='county access' || /\b(county|dbh|access line)\b/.test(`${name} ${f.service}`);
     const adhdPositive=v64Join(r.name,r.best,r.fit,r.programName,r.serviceTypes);
-    const adhd = /\badhd\b/.test(adhdPositive) && !(/adhd only/.test(v64Norm(r.notIdeal)) && !/\badhd\b/.test(v64Join(r.name,r.best,r.fit))); 
+    const adhd = /\badhd\b/.test(adhdPositive) && !(/adhd only/.test(v64Norm(r.notIdeal)) && !/\badhd\b/.test(v64Join(r.name,r.best,r.fit)));
     const autism = /\b(autism|developmental|regional center)\b/.test(f.general) || f.service.includes('testing dd');
-    return {crisis,therapy,higher,sud,testing,youth,virtual,county,adhd,autism};
+    const specialty = v64Join(r.specialtyTags);
+    const eating = specialty.includes('eating disorder') || /\b(eating disorder\w*|anorexia|bulimia|binge eating|arfid)\b/.test(f.general);
+    const perinatal = specialty.includes('perinatal') || /\b(perinatal|postpartum|prenatal|pmad|maternal mental)\b/.test(f.general);
+    const lgbtq = specialty.includes('lgbtq') || /\b(lgbtq\w*|lgbt affirming|transgender|gender affirming|gender identity)\b/.test(f.general);
+    const olderAdult = specialty.includes('older adult') || /\b(older adult\w*|senior behavioral|geriatric|age wise|dementia|alzheimer\w*)\b/.test(f.general);
+    const veteran = specialty.includes('veteran') || /\bveteran\w*\b/.test(f.general);
+    const dv = specialty.includes('domestic violence') || /\b(domestic violence|sexual assault|intimate partner)\b/.test(f.general);
+    const homeless = specialty.includes('homelessness') || /\b(homeless\w*|coordinated entry|supportive housing)\b/.test(f.general);
+    return {crisis,therapy,higher,sud,testing,youth,virtual,county,adhd,autism,eating,perinatal,lgbtq,olderAdult,veteran,dv,homeless};
   }
 
   function v64LocationMatch(f,loc){
@@ -20011,19 +22195,36 @@ body.v64-panel-open{overflow:hidden!important}
   }
   function v64StatusMatch(f,status){ return !status || new RegExp(`\\b${status}\\b`).test(f.status); }
 
-  function v64MatchScore(r,s){
+  function v64MatchScore(r,s,mode){
     const f=v64Fields(r); const e=v64Evidence(r,f,s); const i=s.intents;
     if(!v64LocationMatch(f,s.location) || !v64PayerMatch(f,s.payer) || !v64StatusMatch(f,s.status)) return null;
-    if(i.crisis && !e.crisis) return null;
-    if(i.therapy && !e.therapy && !(s.payer && f.name.includes(s.payer) && /\b(behavioral health|mental health)\b/.test(f.name))) return null;
-    if(i.higher && !e.higher) return null;
-    if(i.sud && !e.sud) return null;
-    if(i.testing && !e.testing) return null;
-    if(i.adhd && !e.adhd) return null;
-    if(i.autism && !e.autism) return null;
-    if(i.youth && !e.youth) return null;
-    if(i.virtual && !e.virtual) return null;
-    if(i.county && !e.county) return null;
+    const intentKeys=Object.keys(i).filter(k=>i[k]);
+    if(mode==='or' && intentKeys.length){
+      // Relaxed fallback: strict AND-of-intents found nothing (common with compound
+      // queries like "eating disorder testing" or "crisis eating disorder", where no
+      // single resource satisfies every detected intent). Require at least one
+      // detected intent to actually match instead of all of them, so a reasonable
+      // compound query surfaces the closest resources instead of dead-ending.
+      if(!intentKeys.some(k=>e[k])) return null;
+    } else {
+      if(i.crisis && !e.crisis) return null;
+      if(i.therapy && !e.therapy && !(s.payer && f.name.includes(s.payer) && /\b(behavioral health|mental health)\b/.test(f.name))) return null;
+      if(i.higher && !e.higher) return null;
+      if(i.sud && !e.sud) return null;
+      if(i.testing && !e.testing) return null;
+      if(i.adhd && !e.adhd) return null;
+      if(i.autism && !e.autism) return null;
+      if(i.youth && !e.youth) return null;
+      if(i.virtual && !e.virtual) return null;
+      if(i.county && !e.county) return null;
+      if(i.eating && !e.eating) return null;
+      if(i.perinatal && !e.perinatal) return null;
+      if(i.lgbtq && !e.lgbtq) return null;
+      if(i.olderAdult && !e.olderAdult) return null;
+      if(i.veteran && !e.veteran) return null;
+      if(i.dv && !e.dv) return null;
+      if(i.homeless && !e.homeless) return null;
+    }
     if(s.freeTokens.some(t=>!f.general.includes(t))) return null;
 
     let score=0;
@@ -20046,15 +22247,26 @@ body.v64-panel-open{overflow:hidden!important}
     return score;
   }
 
-  filtered = function(){
-    const base = state.filter==='All' ? resources : resources.filter(r=>categoryMatch(r,state.filter));
-    const raw=String(state.query||'').trim();
-    if(!raw) return base;
-    const spec=v64Query(raw);
-    return base.map((r,index)=>({r,index,score:v64MatchScore(r,spec)}))
+  function v64Rank(list,spec,mode){
+    return list.map((r,index)=>({r,index,score:v64MatchScore(r,spec,mode)}))
       .filter(x=>x.score!==null)
       .sort((a,b)=>b.score-a.score || a.index-b.index)
       .map(x=>x.r);
+  }
+  filtered = function(){
+    let base = state.filter==='All' ? resources : resources.filter(r=>categoryMatch(r,state.filter));
+    if(state.specialty && state.specialty!=='All') base = base.filter(r=>specialtyMatch(r,state.specialty));
+    const raw=String(state.query||'').trim();
+    if(!raw) return base;
+    const spec=v64Query(raw);
+    const strictResults = v64Rank(base,spec,'and');
+    if(strictResults.length) return strictResults;
+    // Strict intent-AND matching found nothing (common with compound queries like
+    // "eating disorder testing" where no single resource satisfies every detected
+    // intent) -- fall back to requiring at least one detected intent to match
+    // (still bound by free-token/location/payer/status) so a reasonable compound
+    // query never dead-ends at zero results, without matching everything.
+    return v64Rank(base,spec,'or');
   };
   window.filtered=filtered;
 
@@ -20139,7 +22351,7 @@ body.v64-panel-open{overflow:hidden!important}
 
   function v64CloseAll(){
     const back=state.drawer?v64ReturnDescriptor('details',state.drawer):state.assistOpen?v64ReturnDescriptor('assist'):v64ReturnDescriptor('plan');
-    state.drawer=null;state.assistOpen=false;state.planOpen=false;commit({persist:false});v64RestoreTarget(back);
+    state.drawer=null;state.assistOpen=false;state.planOpen=false;state.iehpTocOpen=false;commit({persist:false});v64RestoreTarget(back);
   }
   window.v64CloseAll=v64CloseAll;
 
@@ -20845,14 +23057,17 @@ html body .v60-need-tile.rose .v60-need-icon{font-size:15px!important;}
   function v66Field(field,label,placeholder='',options={}){
     const p=ensurePacketState();
     const type=options.type||'text';
-    const required=options.required?'<em>Required for letters</em>':'';
+    const required=options.required?'<span class="iehp-toc-required-mark" title="Required for letters">*</span>':'';
     const help=options.help?`<small class="v66-field-help">${html(options.help)}</small>`:'';
     const autocomplete=options.autocomplete||'off';
     return `<label class="patient-field ${options.className||''}"><span>${html(label)}${required}</span><input type="${escapeAttr(type)}" autocomplete="${escapeAttr(autocomplete)}" data-packet-field="${escapeAttr(field)}" value="${escapeAttr(p[field]||'')}" placeholder="${escapeAttr(placeholder)}" oninput="setPacketField('${field}',this.value,false)" onblur="setPacketField('${field}',this.value,true)" />${help}</label>`;
   }
   function v66IdentityCard(mode='packet'){
     const formal=mode==='packet';
-    return `<section class="v44-builder-section v66-identity-card" data-ui="document-identity-section"><div class="v44-section-title"><div><h3>${formal?'Sender & provider':'Documentation details'}</h3><p>${formal?'These values populate the referral letter, packet, and fax cover so no name or credential line is left as a manual blank.':'Optional charting details for the staff worksheet and Tebra note.'}</p></div><span>${formal?'Print fields':'Internal fields'}</span></div><div class="v66-identity-grid"><div class="v66-field-group"><div class="v66-field-group-head"><div><b>Referring provider</b><small>Printed on formal referral letters and packet cover information.</small></div><span class="v66-optional-pill">${formal?'Letter fields':'Optional'}</span></div>${v66Field('providerName','Provider name','First and last name',{required:formal,autocomplete:'name'})}${v66Field('providerCredentials','Provider credentials','MD, DO, NP, PA-C, LCSW, etc.',{required:formal})}</div><div class="v66-field-group"><div class="v66-field-group-head"><div><b>Prepared by</b><small>Staff member completing or sending the referral workflow.</small></div><span class="v66-optional-pill">Staff</span></div>${v66Field('preparedByName','Staff name','First and last name',{autocomplete:'name'})}${v66Field('preparedByCredentials','Staff title / credentials','Office Manager, MA, LVN, etc.')}</div>${v66Field('documentDate','Document date','',{type:'date',className:'v66-date-field',help:'Used on the referral letter and internal output metadata.'})}</div></section>`;
+    const title=`<div><h3>${formal?'Sender & provider':'Documentation details'}</h3><p>${formal?'These values populate the referral letter, packet, and fax cover so no name or credential line is left as a manual blank.':'Optional charting details for the staff worksheet and Tebra note.'}</p></div>`;
+    const trailing=`<span>${formal?'Print fields':'Internal fields'}</span>`;
+    const body=`<div class="v66-identity-grid"><div class="v66-field-group"><div class="v66-field-group-head"><div><b>Referring provider</b><small>Printed on formal referral letters and packet cover information.</small></div><span class="v66-optional-pill">${formal?'Letter fields':'Optional'}</span></div>${v66Field('providerName','Provider name','First and last name',{required:formal,autocomplete:'name'})}${v66Field('providerCredentials','Provider credentials','MD, DO, NP, PA-C, LCSW, etc.',{required:formal})}</div><div class="v66-field-group"><div class="v66-field-group-head"><div><b>Prepared by</b><small>Staff member completing or sending the referral workflow.</small></div><span class="v66-optional-pill">Staff</span></div>${v66Field('preparedByName','Staff name','First and last name',{autocomplete:'name'})}${v66Field('preparedByCredentials','Staff title / credentials','Office Manager, MA, LVN, etc.')}</div>${v66Field('documentDate','Document date','',{type:'date',className:'v66-date-field',help:'Used on the referral letter and internal output metadata.'})}</div>`;
+    return packetSectionShell('identity', title, body, {extraClass:'v66-identity-card', dataUi:'document-identity-section', trailing});
   }
   window.v66IdentityCard=v66IdentityCard;
 
@@ -20865,18 +23080,20 @@ html body .v60-need-tile.rose .v60-need-icon{font-size:15px!important;}
   packetBuilderCard=function(){
     const ctx=paperContext();
     const requiredOpen=printSpecificChecks().filter(c=>c.required&&!c.ok);
-    return `<section class="packet-builder-card v44-builder-card" data-ui="packet-builder">
-      ${patientContextCard('packet')}
-      ${v66IdentityCard('packet')}
-      <section class="v44-builder-section" data-ui="destination-section"><div class="v44-section-title"><div><h3>Destination</h3><p>For fax, portal upload, or formal intake review.</p></div><span>${html(ctx.primary.name)}</span></div><div class="v44-field-grid three">
+    const destinationTitle=`<div><h3>Destination</h3><p>For fax, portal upload, or formal intake review.</p></div>`;
+    const destinationBody=`<div class="v44-field-grid three">
         ${packetField('destinationNote','Destination note','Fax, portal, attention line, or intake team')}
         ${packetField('faxNumber','Fax number','Fill when faxing')}
         ${packetField('returnContact','Return contact','Clinic callback / fax')}
         ${packetField('totalPages','Total pages','Fill before sending')}
         ${packetSelect('urgency','Urgency',['Routine','Time-sensitive','Urgent clinical review'])}
-      </div></section>
+      </div>`;
+    return `<section class="packet-builder-card v44-builder-card" data-ui="packet-builder">
+      ${patientContextCard('packet')}
+      ${v66IdentityCard('packet')}
+      ${packetSectionShell('destination', destinationTitle, destinationBody, {dataUi:'destination-section', trailing:`<span>${html(ctx.primary.name)}</span>`})}
       ${letterTemplateCard()}
-      <section class="v44-builder-section" data-ui="packet-contents"><div class="v44-section-title"><div><h3>Packet contents</h3><p>Check what is included or what staff should gather before sending.</p></div></div>${packetComponentsList()}</section>
+      ${packetSectionShell('contents', `<div><h3>Packet contents</h3><p>Check what is included or what staff should gather before sending.</p></div>`, packetComponentsList(), {dataUi:'packet-contents'})}
       <div class="packet-readiness ${requiredOpen.length?'needs':'ready'}"><b>${requiredOpen.length?`${requiredOpen.length} required detail${requiredOpen.length===1?'':'s'} needed`:'Packet basics ready'}</b><span>${requiredOpen[0]?.text||'Review contents, confirm destination requirements, then print.'}</span></div>
     </section>`;
   };
@@ -21475,6 +23692,100 @@ html body .review-output-view .v44-output-rail .doc-card.active b,html body .rev
   .v68-deploy-status{display:none!important;}
   .v44-preview-panel{position:static!important;max-height:none!important;overflow:visible!important;}
 }
+</style>
+
+<style id="iehp-toc-css">
+.iehp-toc-banner{display:grid;gap:12px;padding:16px 18px;border-radius:20px;background:var(--gold);border:1px solid var(--gold-b);color:var(--gold-ink);margin-bottom:16px}
+.iehp-toc-banner-top{display:flex;align-items:flex-start;gap:12px}
+.iehp-toc-banner-icon{width:34px;height:34px;flex:0 0 auto;border-radius:12px;background:#fff;display:grid;place-items:center;color:var(--gold-ink)}
+.iehp-toc-banner-icon svg{width:18px;height:18px}
+.iehp-toc-banner-copy{min-width:0;display:grid;gap:3px}
+.iehp-toc-banner-copy b{font-size:14.5px}
+.iehp-toc-banner-copy span{font-size:13px;line-height:1.4;opacity:.92}
+.iehp-toc-banner-btn{justify-self:start;height:38px;padding:0 16px;border-radius:999px;border:1px solid var(--gold-ink);background:#fff;color:var(--gold-ink);font-size:13px;font-weight:800;white-space:nowrap;cursor:pointer}
+.iehp-toc-banner-btn:hover{background:var(--gold-ink);color:#fff}
+@media(max-width:640px){.iehp-toc-banner-btn{width:100%}}
+.iehp-toc-body{display:grid;gap:14px}
+.iehp-toc-grid{display:grid;gap:16px}
+.iehp-toc-field{display:grid;gap:3px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.iehp-toc-field span{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:850}
+.iehp-toc-field b{font-size:13px;color:var(--text);font-weight:650;word-break:break-word}
+.iehp-toc-routing{border:1px solid var(--gold-b);background:linear-gradient(180deg,#fffefa,#fffdf4);border-radius:16px;padding:12px 14px;display:grid;gap:9px}
+.iehp-toc-routing b{font-size:13px}
+.iehp-toc-routing-row{display:grid;gap:2px;font-size:12.5px}
+.iehp-toc-routing-row span{color:var(--muted)}
+.iehp-toc-routing-row em{color:var(--text);font-style:normal;font-weight:650}
+.iehp-toc-routing-row a{color:inherit}
+.iehp-toc-actions{display:flex;gap:10px;flex-wrap:wrap;position:sticky;bottom:0;background:#fff;padding-top:6px}
+.iehp-toc-actions button{flex:1 1 auto;height:42px;border-radius:999px}
+.iehp-toc-presets{border:1px solid var(--line-strong,#bfd3dd);background:var(--soft);border-radius:16px;padding:12px 14px;display:grid;gap:8px}
+.iehp-toc-presets b{font-size:13px}
+.iehp-toc-presets>span{font-size:12px;color:var(--muted);line-height:1.35}
+.iehp-toc-preset-buttons{display:flex;flex-wrap:wrap;gap:8px}
+.iehp-toc-preset-buttons button{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line-strong,#bfd3dd);background:#fff;font-size:12.5px;font-weight:800;color:var(--text);cursor:pointer;transition:background-color .12s,border-color .12s,transform .12s}
+.iehp-toc-preset-buttons button:hover{background:#fff;border-color:var(--gold-ink,#8a6a2e);color:var(--gold-ink,#8a6a2e);transform:translateY(-1px)}
+.iehp-toc-preset-buttons button:active{transform:translateY(0)}
+.iehp-toc-section{display:grid;gap:12px;background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:14px 16px}
+.iehp-toc-section h4{margin:6px 0 -2px;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:850}
+.iehp-toc-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.iehp-toc-section-toggle{display:flex;align-items:center;gap:8px;background:none;border:none;padding:2px 0;cursor:pointer;color:inherit;min-width:0}
+.iehp-toc-section-toggle h4{margin:0}
+.iehp-toc-section-toggle:hover h4{color:var(--text)}
+.iehp-toc-chevron{flex:0 0 auto;color:var(--muted);transition:transform .15s ease}
+.iehp-toc-chevron.collapsed{transform:rotate(-90deg)}
+.iehp-toc-section-trailing{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.iehp-toc-section-badge{flex:0 0 auto;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;background:var(--gold);color:var(--gold-ink);white-space:nowrap}
+.iehp-toc-section-badge.done{background:#fff;color:var(--muted)}
+.iehp-toc-mini-fill{height:28px;padding:0 12px;border-radius:999px;border:1px solid var(--line-strong,#bfd3dd);background:#fff;font-size:11.5px;font-weight:800;color:var(--text);cursor:pointer;white-space:nowrap;transition:border-color .12s,color .12s}
+.iehp-toc-mini-fill:hover{border-color:var(--gold-ink,#8a6a2e);color:var(--gold-ink,#8a6a2e)}
+.iehp-toc-required-mark{color:var(--gold-ink,#8a6a2e);font-weight:900;margin-left:3px}
+.iehp-toc-legend{margin:-6px 0 0;font-size:12px;color:var(--muted)}
+.iehp-toc-readiness{border-radius:14px;padding:10px 14px;display:grid;gap:6px;font-size:12.5px}
+.iehp-toc-readiness.needs{border:1px solid var(--gold-b);background:linear-gradient(180deg,#fffefa,#fffdf4)}
+.iehp-toc-readiness.ready{border:1px solid var(--line);background:var(--soft)}
+.iehp-toc-readiness b{font-size:13px}
+.iehp-toc-readiness span{color:var(--muted)}
+.iehp-toc-readiness ul{margin:0;padding:0;list-style:none;display:grid;gap:3px 16px;color:var(--muted)}
+@media(min-width:640px){.iehp-toc-readiness ul{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.iehp-toc-input.iehp-toc-full{grid-column:1/-1}
+/* A legacy .patient-field:nth-child(5){grid-column:1/-1} rule (written for
+   an unrelated 5-field patient form elsewhere in the app) silently grabs
+   whichever short text field happens to land 5th in our grid -- neutralize
+   it here since .patient-field is a shared, position-dependent class we
+   don't own the numbering of. */
+.iehp-toc-grid > .patient-field.iehp-toc-input:not(.iehp-toc-full){grid-column:auto!important;max-width:none!important}
+.iehp-toc-radio-field{display:grid;gap:6px;grid-column:1/-1}
+.iehp-toc-radio-field>span{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:850}
+.iehp-toc-radio-group{display:flex;flex-wrap:wrap;gap:8px}
+.iehp-toc-radio-group button{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:700;color:var(--muted);cursor:pointer;transition:background-color .12s,border-color .12s,color .12s}
+.iehp-toc-radio-group button:hover:not(.active){background:var(--soft);border-color:var(--line-strong,#bfd3dd);color:var(--text)}
+.iehp-toc-radio-group button.active{background:var(--gold-ink,#8a6a2e);border-color:var(--gold-ink,#8a6a2e);color:#fff}
+.iehp-toc-radio-group button.active:hover{background:#77592a}
+.iehp-toc-check{margin:0;grid-column:1/-1}
+.iehp-toc-help{display:block;font-size:11.5px;color:var(--muted);line-height:1.35;margin-top:5px;font-weight:500;text-transform:none;letter-spacing:0}
+.packet-check.iehp-toc-check small.iehp-toc-help{margin-top:2px}
+.iehp-toc-note{grid-column:1/-1;border:1px dashed var(--line-strong,#bfd3dd);background:#fff;border-radius:14px;padding:10px 12px;font-size:12.5px;color:var(--muted);line-height:1.4}
+.iehp-toc-note b{color:var(--text);font-weight:750}
+.iehp-toc-screen{max-width:900px}
+@media(min-width:760px){.iehp-toc-screen .iehp-toc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Expandable rail nav -- collapsed (icon-only) is the existing default;
+   .expanded widens it and reveals text labels next to each icon. */
+.app-shell.rail-expanded{grid-template-columns:228px minmax(0,1fr)!important}
+.rail{transition:width .16s ease}
+.rail.expanded{width:228px!important;align-items:stretch!important;padding:16px 14px!important}
+.rail .rail-label{display:none}
+.rail.expanded .rail-label{display:inline;margin-left:10px;font-size:13px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rail.expanded .rail-btn{width:100%!important;height:40px!important;border-radius:11px!important;justify-content:flex-start!important;padding:0 10px!important;display:flex!important;align-items:center!important}
+.rail.expanded .rail-btn::after{display:none!important}
+.rail-brand-text{display:none}
+.rail.expanded .rail-brand-text{display:inline;margin-left:9px;font-weight:850;font-size:13px;white-space:nowrap;color:var(--text)}
+.rail.expanded .brand-mark{display:flex!important;align-items:center!important;width:100%!important;padding:0 6px!important;justify-content:flex-start!important}
+.rail-expand-toggle svg{transition:transform .15s ease}
+.rail.expanded .rail-expand-toggle svg{transform:rotate(180deg)}
+.rail.expanded .rail-footer{width:100%;display:flex;gap:8px}
+.rail.expanded .rail-footer .rail-btn.small{width:auto!important;flex:1 1 auto;justify-content:center!important;display:flex!important}
+@media(max-width:760px){.app-shell.rail-expanded{grid-template-columns:1fr!important}}
 </style>
 
 <script id="v68-cloudflare-release-polish-js">

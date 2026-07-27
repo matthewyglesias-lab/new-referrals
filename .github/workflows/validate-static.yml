@@ -1,0 +1,150 @@
+name: Validate static release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate required deployment files
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(
+            public/index.html
+            public/_headers
+            public/_redirects
+            public/favicon.svg
+            public/manifest.webmanifest
+            public/robots.txt
+            public/vendor/pdf-lib.min.js
+            public/assets/dhcs-8765b-transition-of-care-tool.pdf
+          )
+          for file in "${required[@]}"; do
+            test -s "$file" || { echo "Missing or empty: $file"; exit 1; }
+          done
+
+      - name: Validate application shell and routing
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -qi '<!doctype html' public/index.html
+          grep -qi '<title' public/index.html
+          grep -q '/\* /index.html 200' public/_redirects
+          grep -q 'Content-Security-Policy:' public/_headers
+          grep -q 'Strict-Transport-Security:' public/_headers
+          grep -q 'Disallow: /' public/robots.txt
+
+      - name: Validate vendored PDF-fill assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          head -c 5 public/assets/dhcs-8765b-transition-of-care-tool.pdf | grep -q '%PDF-' || { echo "dhcs-8765b-transition-of-care-tool.pdf is not a valid PDF"; exit 1; }
+          grep -q 'PDFLib' public/vendor/pdf-lib.min.js || { echo "pdf-lib.min.js does not look like the pdf-lib bundle"; exit 1; }
+          grep -q 'vendor/pdf-lib.min.js' public/index.html || { echo "index.html does not load vendor/pdf-lib.min.js"; exit 1; }
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check inline script blocks parse
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -e "
+          const fs = require('fs');
+          const { execFileSync } = require('child_process');
+          const html = fs.readFileSync('public/index.html', 'utf8');
+          const blocks = [...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1]);
+          if (!blocks.length) { console.error('No inline <script> blocks found.'); process.exit(1); }
+          blocks.forEach((block, i) => {
+            if (!block.trim()) return;
+            const tmp = '/tmp/_inline_script_' + i + '.js';
+            fs.writeFileSync(tmp, block);
+            execFileSync('node', ['--check', tmp], { stdio: 'inherit' });
+          });
+          console.log(blocks.length + ' inline script block(s) parsed successfully.');
+          "
+
+      - name: Validate referral resource data integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -e "
+          const fs = require('fs');
+          const html = fs.readFileSync('public/index.html', 'utf8');
+          const start = html.indexOf('const resources = [');
+          const end = html.indexOf('\n' + 'const categoryTiles');
+          if (start === -1 || end === -1) { console.error('Could not locate the resources array in public/index.html.'); process.exit(1); }
+          const resources = eval(html.slice(start, end).replace('const resources = ', ''));
+          const validColors = new Set(['mint','blue','lavender','peach','rose','gold']);
+          const required = ['id','name','type','color','icon','route','fit','action','contact','sourceUrl','best','notIdeal','patient','staff'];
+          const problems = [];
+          const seenIds = new Set();
+          resources.forEach((r) => {
+            required.forEach((k) => { if (r[k] === undefined || r[k] === null || r[k] === '') problems.push(r.id + ': missing/empty \"' + k + '\"'); });
+            if (!validColors.has(r.color)) problems.push(r.id + ': invalid color \"' + r.color + '\"');
+            if (r.sourceUrl && !/^https?:\/\//.test(r.sourceUrl)) problems.push(r.id + ': malformed sourceUrl \"' + r.sourceUrl + '\"');
+            if (!Array.isArray(r.categories) || !r.categories.length) problems.push(r.id + ': missing categories');
+            if (seenIds.has(r.id)) problems.push(r.id + ': duplicate id');
+            seenIds.add(r.id);
+          });
+          console.log(resources.length + ' referral resources checked.');
+          if (problems.length) {
+            problems.forEach((p) => console.error(' - ' + p));
+            process.exit(1);
+          }
+          console.log('No data-integrity problems found.');
+          "
+
+      - name: Validate staff directory data integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -e "
+          const fs = require('fs');
+          const html = fs.readFileSync('public/index.html', 'utf8');
+          const catStart = html.indexOf('const staffDirectoryCategories = [');
+          const catEnd = html.indexOf('\n' + 'const staffDirectory = [');
+          const start = html.indexOf('const staffDirectory = [');
+          const end = html.indexOf('\n' + 'function directoryFiltered');
+          if (catStart === -1 || catEnd === -1 || start === -1 || end === -1) { console.error('Could not locate staffDirectory/staffDirectoryCategories in public/index.html.'); process.exit(1); }
+          const categories = eval(html.slice(catStart, catEnd).replace('const staffDirectoryCategories = ', ''));
+          const directory = eval(html.slice(start, end).replace('const staffDirectory = ', ''));
+          const validCategories = new Set(categories.map((c) => c.type));
+          const required = ['id','name','category','contact'];
+          const problems = [];
+          const seenIds = new Set();
+          directory.forEach((d) => {
+            required.forEach((k) => { if (d[k] === undefined || d[k] === null || d[k] === '') problems.push(d.id + ': missing/empty \"' + k + '\"'); });
+            if (d.category && !validCategories.has(d.category)) problems.push(d.id + ': category \"' + d.category + '\" not in staffDirectoryCategories');
+            if (seenIds.has(d.id)) problems.push(d.id + ': duplicate id');
+            seenIds.add(d.id);
+          });
+          console.log(directory.length + ' staff directory entries checked.');
+          if (problems.length) {
+            problems.forEach((p) => console.error(' - ' + p));
+            process.exit(1);
+          }
+          console.log('No staff directory data-integrity problems found.');
+          "
+
+      - name: Reject common accidental secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          if grep -RInE --exclude-dir=.git --exclude-dir=.github --exclude='*.md' \
+            '(BEGIN (RSA|OPENSSH|EC|DSA) PRIVATE KEY|AWS_SECRET_ACCESS_KEY|CLOUDFLARE_API_TOKEN|GITHUB_TOKEN=)' .; then
+            echo 'Possible secret detected.'
+            exit 1
+          fi
