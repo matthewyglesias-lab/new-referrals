@@ -18138,9 +18138,10 @@ function setPatientField(field, value, shouldRender=false){
   saveState();
   if(shouldRender) scheduleRender();
 }
-function patientField(field, label, placeholder=''){
+function patientField(field, label, placeholder='', opts={}){
   const value = (state.patient && state.patient[field]) || '';
-  return `<label class="patient-field"><span>${label}</span><input type="text" autocomplete="off" autocapitalize="none" spellcheck="false" data-patient-field="${field}" name="packet-${field}" value="${escapeAttr(value)}" placeholder="${escapeAttr(placeholder)}" oninput="setPatientField('${field}', this.value, false)" onblur="setPatientField('${field}', this.value, true)" /></label>`;
+  const mark = opts.required ? '<span class="iehp-toc-required-mark" title="Required for packet">*</span>' : '';
+  return `<label class="patient-field"><span>${label}${mark}</span><input type="text" autocomplete="off" autocapitalize="none" spellcheck="false" data-patient-field="${field}" name="packet-${field}" value="${escapeAttr(value)}" placeholder="${escapeAttr(placeholder)}" oninput="setPatientField('${field}', this.value, false)" onblur="setPatientField('${field}', this.value, true)" /></label>`;
 }
 function downloadText(filename, text, mime='text/plain'){
   const blob = new Blob([text], {type:mime});
@@ -18753,6 +18754,7 @@ function exportCSV(){const headers=['id','orgName','programName','name','categor
    Patient handouts stay resource-first; packet mode owns patient details.
    ============================== */
 const DEFAULT_PACKET_STATE = {
+  collapsedSections:null,
   destinationNote:'',
   faxNumber:'',
   returnContact:'',
@@ -19315,9 +19317,24 @@ function ensurePacketState(){
     if(state.packet.testingConcerns?.[oldKey]) state.packet.letterConcerns.testing[newKey] = true;
   });
   Object.keys(DEFAULT_PACKET_STATE).forEach((k)=>{
-    if(!['components','testingConcerns','letterConcerns'].includes(k) && state.packet[k] === undefined) state.packet[k] = DEFAULT_PACKET_STATE[k];
+    if(!['components','testingConcerns','letterConcerns','collapsedSections'].includes(k) && state.packet[k] === undefined) state.packet[k] = DEFAULT_PACKET_STATE[k];
   });
+  if(!state.packet.collapsedSections || typeof state.packet.collapsedSections !== 'object') state.packet.collapsedSections = {};
   return state.packet;
+}
+function isSectionCollapsed(store, id){ return !!(store && store.collapsedSections && store.collapsedSections[id]); }
+function togglePacketSection(id){
+  const p = ensurePacketState();
+  p.collapsedSections[id] = !p.collapsedSections[id];
+  saveState(); scheduleRender();
+}
+window.togglePacketSection = togglePacketSection;
+function packetSectionShell(id, titleHtml, bodyHtml, opts={}){
+  const p = ensurePacketState();
+  const collapsed = isSectionCollapsed(p, id);
+  const chevron = `<svg class="iehp-toc-chevron${collapsed?' collapsed':''}" viewBox="0 0 24 24" width="16" height="16"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const toggleBtn = `<button type="button" class="iehp-toc-section-toggle" aria-expanded="${!collapsed}" onclick="togglePacketSection('${id}')">${chevron}${titleHtml}</button>`;
+  return `<section class="v44-builder-section${opts.soft?' soft':''}${opts.extraClass?' '+opts.extraClass:''}" data-ui="${escapeAttr(opts.dataUi||id+'-section')}"><div class="v44-section-title">${toggleBtn}${opts.trailing||''}</div>${collapsed?'':bodyHtml}</section>`;
 }
 function setPacketField(field, value, shouldRender=false){
   const packet = ensurePacketState();
@@ -19520,14 +19537,18 @@ function letterTemplateCard(){
   const ctx = paperContext();
   const template = resolveLetterTemplate(ctx);
   const cfg = templateConfig(template);
-  return `<div class="letter-template-card v41" data-ui="letter-builder">
-    <div class="letter-template-head"><div><h4>Letter focus</h4><p>${html(cfg.help)} Auto follows the selected resource; staff can override when needed.</p></div><span class="letter-template-badge">${html(cfg.badge)}</span></div>
-    <div class="v45-template-steps">
+  const p = ensurePacketState();
+  const collapsed = isSectionCollapsed(p, 'letter');
+  const chevron = `<svg class="iehp-toc-chevron${collapsed?' collapsed':''}" viewBox="0 0 24 24" width="16" height="16"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const body = collapsed ? '' : `<div class="v45-template-steps">
       <div class="v45-template-step" data-ui="template-request"><div class="v45-step-title"><b>Template and request</b><span>Controls the letter wording</span></div><div class="template-grid">${packetSelectFrom('letterTemplate','Letter template',LETTER_TEMPLATE_OPTIONS)}${packetSelectFrom(cfg.requestField,cfg.requestLabel,cfg.requestOptions)}</div></div>
       <div class="v45-template-step subtle" data-ui="template-reasons"><div class="v45-step-title"><b>Reasons to include</b><span>Shown as prose in the letter</span></div>${letterConcernControls(template)}</div>
       <div class="v45-template-step" data-ui="template-context"><div class="v45-step-title"><b>Optional context</b><span>Use only when helpful</span></div><div class="testing-note-grid">${packetTextarea(cfg.otherField,cfg.otherLabel,cfg.otherPlaceholder)}${packetTextarea(cfg.notesField,cfg.notesLabel,cfg.notesPlaceholder)}</div></div>
     </div>
-    <div class="letter-template-note"><b>Writing style:</b> Selected reasons are converted into complete referral sentences. Leave anything unknown blank.</div>
+    <div class="letter-template-note"><b>Writing style:</b> Selected reasons are converted into complete referral sentences. Leave anything unknown blank.</div>`;
+  return `<div class="letter-template-card v41" data-ui="letter-builder">
+    <div class="letter-template-head"><button type="button" class="iehp-toc-section-toggle" aria-expanded="${!collapsed}" onclick="togglePacketSection('letter')">${chevron}<div><h4>Letter focus</h4><p>${html(cfg.help)} Auto follows the selected resource; staff can override when needed.</p></div></button><span class="letter-template-badge">${html(cfg.badge)}</span></div>
+    ${body}
   </div>`;
 }
 
@@ -19620,10 +19641,14 @@ function packetComponentsList(){
   return `<div class="packet-component-grid">${rows.map(([key,label,help])=>`<label class="packet-check"><input type="checkbox" data-packet-component="${key}" ${packet.components[key]?'checked':''} onchange="togglePacketComponent('${key}', this.checked)" /><span><b>${html(label)}</b><small>${html(help)}</small></span></label>`).join('')}</div>`;
 }
 function patientContextCard(mode='packet'){
+  const required = mode === 'packet';
   const copy = mode === 'packet'
     ? 'Only needed for packets, fax covers, or formal referral letters.'
     : 'Optional internal context only. Patient handouts do not require this section.';
-  return `<section class="v44-builder-section soft patient-print-card" data-ui="patient-section"><div class="v44-section-title"><div><h3>Patient</h3><p>${copy}</p></div><button class="soft-link" onclick="state.patient={...DEFAULT_STATE.patient}; saveState(); render(); showToast('Patient fields cleared')">Clear</button></div><div class="v44-field-grid">${patientField('name','Patient name','Required for packet')}${patientField('dob','DOB','MM/DD/YYYY')}${patientField('phone','Phone','Callback number')}${patientField('insurance','Insurance / plan','IEHP, Kaiser, Medicare, etc.')}${patientField('reason','Reason / need','Therapy, IOP, testing, SUD, etc.')}</div></section>`;
+  const title = `<div><h3>Patient</h3><p>${copy}</p></div>`;
+  const trailing = `<button class="soft-link" onclick="state.patient={...DEFAULT_STATE.patient}; saveState(); render(); showToast('Patient fields cleared')">Clear</button>`;
+  const body = `<div class="v44-field-grid">${patientField('name','Patient name','Full name',{required})}${patientField('dob','DOB','MM/DD/YYYY',{required})}${patientField('phone','Phone','Callback number')}${patientField('insurance','Insurance / plan','IEHP, Kaiser, Medicare, etc.')}${patientField('reason','Reason / need','Therapy, IOP, testing, SUD, etc.')}</div>`;
+  return packetSectionShell('patient', title, body, {soft:true, extraClass:'patient-print-card', dataUi:'patient-section', trailing});
 }
 
 function quickHandoutCard(){
@@ -21227,6 +21252,7 @@ window.iehpTocEligibility = iehpTocEligibility;
 // the summary/PDF output further down.
 const DEFAULT_IEHP_TOC_STATE = {
   _seeded:false,
+  collapsedSections:null,
   planType:'', submittingPlan:'', planContactName:'', planContactTitle:'', planContactPhone:'', planContactEmail:'', planAddress:'', planCity:'', planState:'', planZip:'',
   beneficiaryPreferredName:'', beneficiaryAgreement:false, genderIdentity:'', otherGenderIdentity:'', pronouns:'', otherPronouns:'',
   beneficiaryAddress:'', beneficiaryCity:'', beneficiaryState:'', beneficiaryZip:'', beneficiaryEmail:'', caregiverName:'', caregiverPhone:'', memberId:'',
@@ -21238,9 +21264,16 @@ const DEFAULT_IEHP_TOC_STATE = {
 };
 function ensureIehpTocState(){
   if(!state.iehpToc || typeof state.iehpToc!=='object') state.iehpToc = {...DEFAULT_IEHP_TOC_STATE};
-  Object.keys(DEFAULT_IEHP_TOC_STATE).forEach(k=>{ if(state.iehpToc[k]===undefined) state.iehpToc[k]=DEFAULT_IEHP_TOC_STATE[k]; });
+  Object.keys(DEFAULT_IEHP_TOC_STATE).forEach(k=>{ if(k==='collapsedSections') return; if(state.iehpToc[k]===undefined) state.iehpToc[k]=DEFAULT_IEHP_TOC_STATE[k]; });
+  if(!state.iehpToc.collapsedSections || typeof state.iehpToc.collapsedSections!=='object') state.iehpToc.collapsedSections = {};
   return state.iehpToc;
 }
+function toggleIehpTocSection(id){
+  const t = ensureIehpTocState();
+  t.collapsedSections[id] = !t.collapsedSections[id];
+  saveState(); scheduleRender();
+}
+window.toggleIehpTocSection = toggleIehpTocSection;
 function setIehpTocField(field, value, shouldRender=false){
   const t = ensureIehpTocState();
   if(field in t){ t[field]=value; saveState(); if(shouldRender) scheduleRender(); }
@@ -21292,7 +21325,7 @@ function iehpTocField(id, pdfField, label, opts={}){
 }
 function iehpTocNote(text){ return {id:null, pdfField:null, label:'', type:'note', text, conditional:null, value:()=>''}; }
 const IEHP_TOC_FORM_SCHEMA = [
-  {section:'Referring plan information', fields:[
+  {id:'referring-plan', section:'Referring plan information', fields:[
     iehpTocField('planType','Plan','Submitting plan type',{type:'radio', options:['Managed Care Plan','County Mental Health Plan'], help:"IPMG submits this on IEHP's behalf as the Managed Care Plan -- leave this as Managed Care Plan unless told otherwise."}),
     iehpTocField('submittingPlan','Submitting Plan','Submitting plan',{help:"The health plan's name (usually IEHP), not your practice name."}),
     iehpTocField('planContactName','Plan Contact Name','Plan contact name',{help:'You, or whoever staff should call back with questions about this submission.'}),
@@ -21304,7 +21337,7 @@ const IEHP_TOC_FORM_SCHEMA = [
     iehpTocField('planState','State','Plan state (2-letter)'),
     iehpTocField('planZip','Zip Code','Plan ZIP code')
   ]},
-  {section:'Beneficiary information', fields:[
+  {id:'beneficiary', section:'Beneficiary information', fields:[
     iehpTocField('beneficiaryName','Beneficiarys Name','Beneficiary name',{type:'readonly', value:()=>(state.patient && state.patient.name) || ''}),
     iehpTocField('beneficiaryPreferredName','Beneficiarys Preferred Name','Beneficiary preferred name'),
     iehpTocField('beneficiaryDob','Date of Birth','Date of birth',{type:'readonly', value:()=>(state.patient && state.patient.dob) || ''}),
@@ -21323,7 +21356,7 @@ const IEHP_TOC_FORM_SCHEMA = [
     iehpTocField('caregiverPhone','Caregiver/Guardian phone','Caregiver / guardian phone'),
     iehpTocField('memberId','Medi-Cal Number (CIN)/SSN:','Medi-Cal Number (CIN) / SSN',{placeholder:'9-digit CIN', help:"The 9-digit Client Index Number (CIN) on the beneficiary's Medi-Cal card -- use SSN only if the CIN isn't available."})
   ]},
-  {section:'Clinical information', fields:[
+  {id:'clinical', section:'Clinical information', fields:[
     iehpTocField('diagnosis','Behavioral Health Diagnosis or Diagnoses if known','Behavioral health diagnosis or diagnoses, if known',{type:'textarea', help:'Fine to leave blank if the diagnosis is still being worked up.'}),
     iehpTocField('supportingDocuments','Supporting Clinical Documents Included','Supporting clinical documents included',{type:'textarea', help:'List what you’re attaching or sending separately, e.g. recent progress note, discharge summary, records checklist.'}),
     iehpTocField('culturalLinguisticRequests','Cultural and Linguistic Requests','Cultural and linguistic requests',{type:'textarea', help:'Preferred language, interpreter needs, or other cultural considerations for care.'}),
@@ -21338,7 +21371,7 @@ const IEHP_TOC_FORM_SCHEMA = [
     iehpTocField('medicationsDosage','CurrentMedicationsDosage','Current medications/dosage',{type:'textarea'}),
     iehpTocField('medicationsDosageAttachment','APA-CMD','Additional pages attached',{type:'checkbox'})
   ]},
-  {section:'Services requested + destination', fields:[
+  {id:'services-destination', section:'Services requested + destination', fields:[
     iehpTocField('referringProvider','Referring ProviderCurrent Care Team','Referring provider / current care team',{type:'readonly', value:()=>[state.packet && state.packet.providerName, state.packet && state.packet.providerCredentials].filter(Boolean).join(', ')}),
     iehpTocField('referringProviderPhone','RPCCTPhone','Referring provider / current care team phone',{type:'readonly', value:()=>(state.packet && state.packet.returnContact) || ''}),
     iehpTocNote('What’s the difference? <b>Transition of Care</b> means services the beneficiary already has are moving to the new plan or county. <b>Addition of Services</b> means new services are being added alongside what they already have. For an IEHP adult PHP/IOP referral, that’s almost always Transition of Care.'),
@@ -21362,6 +21395,23 @@ const IEHP_TOC_FORM_SCHEMA = [
 ];
 function iehpTocAllFields(){ return IEHP_TOC_FORM_SCHEMA.flatMap(sec=>sec.fields); }
 
+// Not derived from the DHCS 8765B PDF itself -- its AcroForm has no Required
+// field flags, asterisks, or "required"/"mandatory" text anywhere. This is a
+// practical list of what's actually needed to route the referral, cross
+// checked against printSpecificChecks()'s existing packet-required fields.
+const IEHP_TOC_REQUIRED_FIELDS = new Set(['planType','submittingPlan','planContactName','planContactPhone','beneficiaryName','beneficiaryDob','beneficiaryAgreement','memberId','presentingSymptoms','referringProvider','servicesRequestedDescription','destination']);
+function iehpTocFieldIsRequired(field){
+  if(IEHP_TOC_REQUIRED_FIELDS.has(field.id)) return true;
+  const t = ensureIehpTocState();
+  if((field.id==='mcpName'||field.id==='mcpPhone') && t.destination==='Managed Care Plan') return true;
+  if((field.id==='cmhpName'||field.id==='cmhpPhone') && t.destination==='County Mental Health Plan') return true;
+  return false;
+}
+function iehpTocFieldIsFilled(field){
+  const v = field.value();
+  return field.type==='checkbox' ? !!v : !!(v && String(v).trim());
+}
+
 function iehpTocFillCounty(county){
   const t = ensureIehpTocState();
   if(county==='riverside'){ t.cmhpName='RUHS-BH CARES'; t.cmhpPhone='(800) 499-3008'; }
@@ -21384,15 +21434,16 @@ function iehpTocFieldRow(field){
   if(field.conditional && !field.conditional()) return '';
   if(field.type==='note') return `<div class="iehp-toc-note">${field.text}</div>`;
   const help = field.help ? `<small class="iehp-toc-help">${html(field.help)}</small>` : '';
-  if(field.type==='readonly') return `<div class="iehp-toc-field readonly"><span>${html(field.label)}</span><b>${html(field.value() || '—')}</b></div>`;
-  if(field.type==='checkbox') return `<label class="packet-check iehp-toc-check"><input type="checkbox" ${field.value()?'checked':''} onchange="setIehpTocField('${field.id}', this.checked, true)" /><span><b>${html(field.label)}</b>${field.help ? `<small>${html(field.help)}</small>` : ''}</span></label>`;
-  if(field.type==='radio') return `<div class="iehp-toc-radio-field"><span>${html(field.label)}</span><div class="iehp-toc-radio-group">${field.options.map(opt=>{
+  const mark = iehpTocFieldIsRequired(field) ? '<span class="iehp-toc-required-mark" title="Required for DHCS submission">*</span>' : '';
+  if(field.type==='readonly') return `<div class="iehp-toc-field readonly"><span>${html(field.label)}${mark}</span><b>${html(field.value() || '—')}</b></div>`;
+  if(field.type==='checkbox') return `<label class="packet-check iehp-toc-check"><input type="checkbox" ${field.value()?'checked':''} onchange="setIehpTocField('${field.id}', this.checked, true)" /><span><b>${html(field.label)}${mark}</b>${field.help ? `<small>${html(field.help)}</small>` : ''}</span></label>`;
+  if(field.type==='radio') return `<div class="iehp-toc-radio-field"><span>${html(field.label)}${mark}</span><div class="iehp-toc-radio-group">${field.options.map(opt=>{
     const active = field.value()===opt;
     const optLabel = (field.optionLabels && field.optionLabels[opt]) || opt;
     return `<button type="button" class="${active?'active':''}" onclick="setIehpTocField('${field.id}', '${escapeAttr(opt)}', true)">${html(optLabel)}</button>`;
   }).join('')}</div>${help}</div>`;
-  if(field.type==='textarea') return `<label class="patient-field iehp-toc-input iehp-toc-full"><span>${html(field.label)}</span><textarea placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)">${html(field.value()||'')}</textarea>${help}</label>`;
-  return `<label class="patient-field iehp-toc-input"><span>${html(field.label)}</span><input type="text" value="${escapeAttr(field.value()||'')}" placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)" />${help}</label>`;
+  if(field.type==='textarea') return `<label class="patient-field iehp-toc-input iehp-toc-full"><span>${html(field.label)}${mark}</span><textarea placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)">${html(field.value()||'')}</textarea>${help}</label>`;
+  return `<label class="patient-field iehp-toc-input"><span>${html(field.label)}${mark}</span><input type="text" value="${escapeAttr(field.value()||'')}" placeholder="${escapeAttr(field.placeholder||'')}" oninput="setIehpTocField('${field.id}', this.value, false)" onblur="setIehpTocField('${field.id}', this.value, true)" />${help}</label>`;
 }
 function iehpTocSummaryText(){
   const r = IEHP_TOC_ROUTING;
@@ -21477,11 +21528,33 @@ function iehpTocRoutingCard(){
 // banner once a referral is already detected as needing this) and the
 // standalone screen (for staff who already know they need the form and want
 // to jump straight to it, no referral plan required first).
+function iehpTocReadinessStrip(){
+  const missing = iehpTocAllFields().filter(f=>f.id && (!f.conditional || f.conditional()) && iehpTocFieldIsRequired(f) && !iehpTocFieldIsFilled(f));
+  if(!missing.length) return `<div class="iehp-toc-readiness ready"><b>All required fields are filled in</b><span>Review the rest, then download the completed PDF.</span></div>`;
+  return `<div class="iehp-toc-readiness needs"><b>${missing.length} required field${missing.length===1?'':'s'} still needed</b><ul>${missing.map(f=>`<li>! ${html(f.label)}</li>`).join('')}</ul></div>`;
+}
 function iehpTocFormBody(){
   ensureIehpTocState();
   if(iehpTocSeedDefaults()) saveState();
-  const sectionsHtml = IEHP_TOC_FORM_SCHEMA.map(sec=>`<div class="iehp-toc-section"><h4>${html(sec.section)}</h4><div class="iehp-toc-grid">${sec.fields.map(iehpTocFieldRow).join('')}</div></div>`).join('');
-  return `${iehpTocPresetsCard()}${sectionsHtml}${iehpTocRoutingCard()}<div class="iehp-toc-actions"><button class="dark" onclick="generateIehpTocPdf()">Download completed PDF</button><button onclick="copyIehpTocSummary()">Copy summary text</button></div>`;
+  const t = ensureIehpTocState();
+  const sectionsHtml = IEHP_TOC_FORM_SCHEMA.map(sec=>{
+    const collapsed = !!t.collapsedSections[sec.id];
+    const visibleFields = sec.fields.filter(f=>f.id && (!f.conditional || f.conditional()));
+    const reqCount = visibleFields.filter(iehpTocFieldIsRequired).length;
+    const reqLeft = visibleFields.filter(f=>iehpTocFieldIsRequired(f) && !iehpTocFieldIsFilled(f)).length;
+    const badge = reqCount ? `<span class="iehp-toc-section-badge${reqLeft?'':' done'}">${reqLeft ? reqLeft+' required left' : 'All required done'}</span>` : '';
+    return `<div class="iehp-toc-section">
+      <div class="iehp-toc-section-head">
+        <button type="button" class="iehp-toc-section-toggle" aria-expanded="${!collapsed}" onclick="toggleIehpTocSection('${sec.id}')">
+          <svg class="iehp-toc-chevron${collapsed?' collapsed':''}" viewBox="0 0 24 24" width="16" height="16"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h4>${html(sec.section)}</h4>
+        </button>${badge}
+      </div>
+      ${collapsed ? '' : `<div class="iehp-toc-grid">${sec.fields.map(iehpTocFieldRow).join('')}</div>`}
+    </div>`;
+  }).join('');
+  const legend = `<p class="iehp-toc-legend"><span class="iehp-toc-required-mark">*</span> Required for DHCS submission. Everything else is optional or situational.</p>`;
+  return `${iehpTocPresetsCard()}${legend}${sectionsHtml}${iehpTocReadinessStrip()}${iehpTocRoutingCard()}<div class="iehp-toc-actions"><button class="dark" onclick="generateIehpTocPdf()">Download completed PDF</button><button onclick="copyIehpTocSummary()">Copy summary text</button></div>`;
 }
 function iehpTocDrawer(){
   if(!state.iehpTocOpen) return '';
@@ -22969,14 +23042,17 @@ html body .v60-need-tile.rose .v60-need-icon{font-size:15px!important;}
   function v66Field(field,label,placeholder='',options={}){
     const p=ensurePacketState();
     const type=options.type||'text';
-    const required=options.required?'<em>Required for letters</em>':'';
+    const required=options.required?'<span class="iehp-toc-required-mark" title="Required for letters">*</span>':'';
     const help=options.help?`<small class="v66-field-help">${html(options.help)}</small>`:'';
     const autocomplete=options.autocomplete||'off';
     return `<label class="patient-field ${options.className||''}"><span>${html(label)}${required}</span><input type="${escapeAttr(type)}" autocomplete="${escapeAttr(autocomplete)}" data-packet-field="${escapeAttr(field)}" value="${escapeAttr(p[field]||'')}" placeholder="${escapeAttr(placeholder)}" oninput="setPacketField('${field}',this.value,false)" onblur="setPacketField('${field}',this.value,true)" />${help}</label>`;
   }
   function v66IdentityCard(mode='packet'){
     const formal=mode==='packet';
-    return `<section class="v44-builder-section v66-identity-card" data-ui="document-identity-section"><div class="v44-section-title"><div><h3>${formal?'Sender & provider':'Documentation details'}</h3><p>${formal?'These values populate the referral letter, packet, and fax cover so no name or credential line is left as a manual blank.':'Optional charting details for the staff worksheet and Tebra note.'}</p></div><span>${formal?'Print fields':'Internal fields'}</span></div><div class="v66-identity-grid"><div class="v66-field-group"><div class="v66-field-group-head"><div><b>Referring provider</b><small>Printed on formal referral letters and packet cover information.</small></div><span class="v66-optional-pill">${formal?'Letter fields':'Optional'}</span></div>${v66Field('providerName','Provider name','First and last name',{required:formal,autocomplete:'name'})}${v66Field('providerCredentials','Provider credentials','MD, DO, NP, PA-C, LCSW, etc.',{required:formal})}</div><div class="v66-field-group"><div class="v66-field-group-head"><div><b>Prepared by</b><small>Staff member completing or sending the referral workflow.</small></div><span class="v66-optional-pill">Staff</span></div>${v66Field('preparedByName','Staff name','First and last name',{autocomplete:'name'})}${v66Field('preparedByCredentials','Staff title / credentials','Office Manager, MA, LVN, etc.')}</div>${v66Field('documentDate','Document date','',{type:'date',className:'v66-date-field',help:'Used on the referral letter and internal output metadata.'})}</div></section>`;
+    const title=`<div><h3>${formal?'Sender & provider':'Documentation details'}</h3><p>${formal?'These values populate the referral letter, packet, and fax cover so no name or credential line is left as a manual blank.':'Optional charting details for the staff worksheet and Tebra note.'}</p></div>`;
+    const trailing=`<span>${formal?'Print fields':'Internal fields'}</span>`;
+    const body=`<div class="v66-identity-grid"><div class="v66-field-group"><div class="v66-field-group-head"><div><b>Referring provider</b><small>Printed on formal referral letters and packet cover information.</small></div><span class="v66-optional-pill">${formal?'Letter fields':'Optional'}</span></div>${v66Field('providerName','Provider name','First and last name',{required:formal,autocomplete:'name'})}${v66Field('providerCredentials','Provider credentials','MD, DO, NP, PA-C, LCSW, etc.',{required:formal})}</div><div class="v66-field-group"><div class="v66-field-group-head"><div><b>Prepared by</b><small>Staff member completing or sending the referral workflow.</small></div><span class="v66-optional-pill">Staff</span></div>${v66Field('preparedByName','Staff name','First and last name',{autocomplete:'name'})}${v66Field('preparedByCredentials','Staff title / credentials','Office Manager, MA, LVN, etc.')}</div>${v66Field('documentDate','Document date','',{type:'date',className:'v66-date-field',help:'Used on the referral letter and internal output metadata.'})}</div>`;
+    return packetSectionShell('identity', title, body, {extraClass:'v66-identity-card', dataUi:'document-identity-section', trailing});
   }
   window.v66IdentityCard=v66IdentityCard;
 
@@ -22989,18 +23065,20 @@ html body .v60-need-tile.rose .v60-need-icon{font-size:15px!important;}
   packetBuilderCard=function(){
     const ctx=paperContext();
     const requiredOpen=printSpecificChecks().filter(c=>c.required&&!c.ok);
-    return `<section class="packet-builder-card v44-builder-card" data-ui="packet-builder">
-      ${patientContextCard('packet')}
-      ${v66IdentityCard('packet')}
-      <section class="v44-builder-section" data-ui="destination-section"><div class="v44-section-title"><div><h3>Destination</h3><p>For fax, portal upload, or formal intake review.</p></div><span>${html(ctx.primary.name)}</span></div><div class="v44-field-grid three">
+    const destinationTitle=`<div><h3>Destination</h3><p>For fax, portal upload, or formal intake review.</p></div>`;
+    const destinationBody=`<div class="v44-field-grid three">
         ${packetField('destinationNote','Destination note','Fax, portal, attention line, or intake team')}
         ${packetField('faxNumber','Fax number','Fill when faxing')}
         ${packetField('returnContact','Return contact','Clinic callback / fax')}
         ${packetField('totalPages','Total pages','Fill before sending')}
         ${packetSelect('urgency','Urgency',['Routine','Time-sensitive','Urgent clinical review'])}
-      </div></section>
+      </div>`;
+    return `<section class="packet-builder-card v44-builder-card" data-ui="packet-builder">
+      ${patientContextCard('packet')}
+      ${v66IdentityCard('packet')}
+      ${packetSectionShell('destination', destinationTitle, destinationBody, {dataUi:'destination-section', trailing:`<span>${html(ctx.primary.name)}</span>`})}
       ${letterTemplateCard()}
-      <section class="v44-builder-section" data-ui="packet-contents"><div class="v44-section-title"><div><h3>Packet contents</h3><p>Check what is included or what staff should gather before sending.</p></div></div>${packetComponentsList()}</section>
+      ${packetSectionShell('contents', `<div><h3>Packet contents</h3><p>Check what is included or what staff should gather before sending.</p></div>`, packetComponentsList(), {dataUi:'packet-contents'})}
       <div class="packet-readiness ${requiredOpen.length?'needs':'ready'}"><b>${requiredOpen.length?`${requiredOpen.length} required detail${requiredOpen.length===1?'':'s'} needed`:'Packet basics ready'}</b><span>${requiredOpen[0]?.text||'Review contents, confirm destination requirements, then print.'}</span></div>
     </section>`;
   };
@@ -23634,6 +23712,22 @@ html body .review-output-view .v44-output-rail .doc-card.active b,html body .rev
 .iehp-toc-preset-buttons button:active{transform:translateY(0)}
 .iehp-toc-section{display:grid;gap:10px}
 .iehp-toc-section h4{margin:6px 0 -2px;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:850}
+.iehp-toc-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.iehp-toc-section-toggle{display:flex;align-items:center;gap:8px;background:none;border:none;padding:2px 0;cursor:pointer;color:inherit;min-width:0}
+.iehp-toc-section-toggle h4{margin:0}
+.iehp-toc-section-toggle:hover h4{color:var(--text)}
+.iehp-toc-chevron{flex:0 0 auto;color:var(--muted);transition:transform .15s ease}
+.iehp-toc-chevron.collapsed{transform:rotate(-90deg)}
+.iehp-toc-section-badge{flex:0 0 auto;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;background:var(--gold);color:var(--gold-ink);white-space:nowrap}
+.iehp-toc-section-badge.done{background:var(--soft);color:var(--muted)}
+.iehp-toc-required-mark{color:var(--gold-ink,#8a6a2e);font-weight:900;margin-left:3px}
+.iehp-toc-legend{margin:-6px 0 0;font-size:12px;color:var(--muted)}
+.iehp-toc-readiness{border-radius:14px;padding:10px 14px;display:grid;gap:6px;font-size:12.5px}
+.iehp-toc-readiness.needs{border:1px solid var(--gold-b);background:linear-gradient(180deg,#fffefa,#fffdf4)}
+.iehp-toc-readiness.ready{border:1px solid var(--line);background:var(--soft)}
+.iehp-toc-readiness b{font-size:13px}
+.iehp-toc-readiness span{color:var(--muted)}
+.iehp-toc-readiness ul{margin:0;padding:0;list-style:none;display:grid;gap:3px;color:var(--muted)}
 .iehp-toc-input.iehp-toc-full{grid-column:1/-1}
 /* A legacy .patient-field:nth-child(5){grid-column:1/-1} rule (written for
    an unrelated 5-field patient form elsewhere in the app) silently grabs
